@@ -1,0 +1,7 @@
+spring: 
+  application: 
+    name: upload
+  cloud: 
+    config: 
+      uri: ${CONFIG_SERVER.URI:http://localhost:8888/}
+    

@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.swarm</groupId>
+    <artifactId>com.swarm</artifactId>
+    <version>3.0.0</version>
+  </parent>
+  <artifactId>com.swarm.wechat</artifactId>
+  <name>wechat</name>
+  <description>微信接口维护服务</description>
+  <dependencies>
+		<dependency>
+			<groupId>com.swarm</groupId>
+			<artifactId>com.swarm.base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.whvcse</groupId>
+			<artifactId>easy-captcha</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		    <!-- <exclusions>
+		        <exclusion>
+		            <groupId>com.sun.jersey</groupId>
+		            <artifactId>jersey-client</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>com.sun.jersey</groupId>
+		            <artifactId>jersey-core</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>com.sun.jersey.contribs</groupId>
+		            <artifactId>jersey-apache-client4</artifactId>
+		        </exclusion>
+		    </exclusions> -->
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency> -->
+	</dependencies>
+</project>

@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.swarm</groupId>
+    <artifactId>com.swarm</artifactId>
+    <version>3.0.0</version>
+  </parent>
+  <artifactId>com.swarm.eureka</artifactId>
+  <name>eurekaserver</name>
+  <description>eureka注册中心</description>
+  <dependencies>
+  	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-config</artifactId>
+	</dependency>
+  	<dependency>
+  		<groupId>org.springframework.cloud</groupId>
+  		<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+  	</dependency>
+  </dependencies>
+</project>

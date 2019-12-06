@@ -1,0 +1,87 @@
+server: 
+  port: 6001
+eureka: 
+  instance: 
+    instanceId:  ${spring.application.name}:${server.port}:${random.value}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+zuul: 
+  retryable: true
+  addProxyHeaders: false
+  sensitiveHeaders: Cookie,Set-Cookie,Authorization
+  forceOriginalQueryStringEncoding: true
+  ribbon:
+    eager-load:
+      enabled: true
+feign:
+  hystrix: 
+    enabled: true
+  compression: 
+    request: 
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+spring:
+  profiles: 
+    active: default
+  jpa:
+    generate-ddl: true
+    open-in-view: true
+    show-sql: true
+    hibernate: 
+      ddl-auto: update
+      naming: 
+        physical-strategy: com.swarm.base.CustomPhysicalNamingStrategy  
+  datasource:
+    url: jdbc:mysql://localhost:3306/swarm?useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      initial-size: 2
+      max-active: 100
+      min-idle: 2
+      validation-query: select 1
+      test-on-borrow: true
+      aop-patterns: com.swarm.base.service.*,com.swarm.zuul.service.*
+      filters: stat,log4j2
+      stat: 
+        mergeSql: true
+        slowSqlMillis: 1500
+        logSlowSql: true
+      web-stat-filter: 
+        enabled: true
+        url-pattern: /*
+        profile-enable: true
+      stat-view-servlet: 
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        allow: localhost,127.0.0.1,192.168.1.1/24
+        login-username: root
+        login-password: 123456
+  servlet: 
+    multipart: 
+      max-file-size: 5MB
+    contentnegotiation: 
+      favor-path-extension: true
+    pathmatch: 
+      use-suffix-pattern: true
+  jackson: 
+    serialization: 
+      indent_output: true
+    date-format: yyyy-MM-dd HH:mm:ss
+  session: 
+    store-type: redis
+    timeout: 30m
+  redis: 
+    host: 192.168.59.128
+    port: 6379
+file: 
+  upload: 
+    dir: ./upload/
+# 微信小程序测试号信息
+wechat: 
+  AppID: wx0f24634c36349a31
+  AppSecret: 54e9400ac28780a2dafdd0f9ca58ac6f
