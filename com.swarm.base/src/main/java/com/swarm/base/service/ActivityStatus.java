@@ -1,4 +1,4 @@
-package com.swarm.base.entity;
+package com.swarm.base.service;
 
 /**
  * 活动节点
@@ -6,7 +6,7 @@ package com.swarm.base.entity;
  *
  */
 public enum ActivityStatus {
-	PENDING_PAYMENT("待付款"),PENDING_Ship("待发货"),REFUNDING("退款中"),PENDING_CONFIRM("待确认");
+	PENDING_PAYMENT("待付款"),PENDING_SHIP("待发货"),PENDING_REFUNDING("退款中"),PENDING_CONFIRM("待确认"),CANCELLED("已取消"),CONFIRMED("已确认"),REFUNDED("已退款");
 	
 	private String name;
 	
