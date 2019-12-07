@@ -1,6 +1,7 @@
 package com.swarm.base.entity;
 
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +24,10 @@ import lombok.extern.log4j.Log4j2;
 @MappedSuperclass
 @Getter
 @Setter
+@Log4j2
 public abstract class BaseEntity implements Serializable{
+	
+	private static String IPADDRESS = null;
 	
 	/**
 	 * 
@@ -82,6 +86,18 @@ public abstract class BaseEntity implements Serializable{
 		String uuidStr = UUID.randomUUID().toString();
 		uuidStr = uuidStr.replace("-", "");
 		return Integer.toHexString(uuidStr.hashCode());
+	}
+	
+	public static String getIPAddress() {
+		if(IPADDRESS==null) {
+			try {				
+				IPADDRESS = java.net.InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				log.error("获取本机IP地址异常！",e);
+				throw new RuntimeException(e);
+			}
+		}
+		return IPADDRESS;
 	}
 	
 }

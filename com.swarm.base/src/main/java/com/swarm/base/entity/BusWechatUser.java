@@ -1,13 +1,14 @@
 package com.swarm.base.entity;
 
-import java.net.UnknownHostException;
-import java.util.UUID;
+import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
 
 /**
  * 微信用户
@@ -17,7 +18,6 @@ import lombok.extern.log4j.Log4j2;
 @Entity
 @Getter
 @Setter
-@Log4j2
 public class BusWechatUser extends BaseEntity {
 
 	/**
@@ -64,6 +64,25 @@ public class BusWechatUser extends BaseEntity {
 	 * 微信用户头像地址
 	 */
 	private String avatarUrl;
+	
+	/**
+	 * 账户余额
+	 */
+	@Column(scale = 2)
+	private BigDecimal balance;
+	
+	
+	/**
+	 * 父级用户，即：老用户分享拉入的用户
+	 */
+	@ManyToOne
+	@JoinColumn
+	private BusWechatUser parentUser;
+	
+	/**
+	 * 商家用户ID，分表分库字段
+	 */
+	private Integer busUserId;
 	
 	/**
 	 * 生成随机昵称

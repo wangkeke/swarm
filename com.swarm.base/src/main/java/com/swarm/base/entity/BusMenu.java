@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 首页菜单管理
+ * 商家首页菜单管理，这些菜单从sysmenu表中复制而来
  * @author Administrator
  *
  */
@@ -30,6 +30,12 @@ public class BusMenu extends BaseEntity {
 	 * 图标路径，100px*100px
 	 */
 	private String icon;
+	
+	/**
+	 * 菜单key唯一标识例如：menu_shop_rule_1
+	 */
+	@Column(unique = true)
+	private String key;
 	
 	/**
 	 * 是否展示

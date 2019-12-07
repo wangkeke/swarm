@@ -22,9 +22,12 @@ public class BusStoreInfo extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 2173798622806698148L;
 	
+	/**
+	 * 商铺类型
+	 */
 	@ManyToOne(optional = false)
 	@JoinColumn
-	private SysShopType shopType;
+	private SysDict shopType;
 	
 	/**
 	 * 商铺名称

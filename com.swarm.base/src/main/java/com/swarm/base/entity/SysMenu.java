@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class SysShopMenu extends BaseEntity {
+public class SysMenu extends BaseEntity {
 
 	/**
 	 * 
@@ -30,6 +30,12 @@ public class SysShopMenu extends BaseEntity {
 	 * 图标路径，100px*100px
 	 */
 	private String icon;
+	
+	/**
+	 * 菜单key唯一标识例如：menu_shop_rule_1
+	 */
+	@Column(unique = true)
+	private String key;
 	
 	/**
 	 * 请求URL

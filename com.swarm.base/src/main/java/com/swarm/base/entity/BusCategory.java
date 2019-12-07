@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 商品分类
+ * 商品分类，
  * @author Administrator
  *
  */

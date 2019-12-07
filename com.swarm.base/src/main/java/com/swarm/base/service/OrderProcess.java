@@ -1,10 +1,13 @@
 package com.swarm.base.service;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 订单流程
  * @author Administrator
  *
  */
+@Component
 public class OrderProcess extends Process {
 	
 	/**
