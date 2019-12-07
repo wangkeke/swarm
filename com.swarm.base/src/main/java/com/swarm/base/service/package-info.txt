@@ -1,0 +1,5 @@
+activity，process 简单的业务流程结构描述类
+Activity*.java 流程节点描述类
+OrderProcess.java 订单流程
+WithdrawalProcess.java 提现流程
+CashbackProcess.java 返现流程
