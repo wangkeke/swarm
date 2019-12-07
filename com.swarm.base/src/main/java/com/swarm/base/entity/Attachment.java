@@ -68,4 +68,9 @@ public class Attachment extends BaseEntity {
 	@JoinColumn
 	private BusUser creator;
 	
+	/**
+	 * 商家用户ID，分表分库字段
+	 */
+	private Integer busUserId;
+	
 }

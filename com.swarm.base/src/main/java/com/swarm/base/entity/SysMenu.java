@@ -43,6 +43,11 @@ public class SysMenu extends BaseEntity {
 	private String url;
 	
 	/**
+	 * 菜单描述
+	 */
+	private String desc;
+	
+	/**
 	 * 排序，从小到大
 	 */
 	@Column(name = "`sort`")

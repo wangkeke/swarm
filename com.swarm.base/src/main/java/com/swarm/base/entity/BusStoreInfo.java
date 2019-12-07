@@ -27,12 +27,12 @@ public class BusStoreInfo extends BaseEntity {
 	 */
 	@ManyToOne(optional = false)
 	@JoinColumn
-	private SysDict shopType;
+	private SysDict storeType;
 	
 	/**
 	 * 商铺名称
 	 */
-	private String shopName;
+	private String storeName;
 	
 	/**
 	 * 上传的logo路径(200px*200px)
@@ -53,6 +53,7 @@ public class BusStoreInfo extends BaseEntity {
 	 * 微信号
 	 */
 	private String wechat;
+	
 	
 	/**
 	 * 提供的服务

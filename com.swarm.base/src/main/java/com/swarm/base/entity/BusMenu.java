@@ -38,6 +38,11 @@ public class BusMenu extends BaseEntity {
 	private String key;
 	
 	/**
+	 * 菜单描述
+	 */
+	private String desc;
+	
+	/**
 	 * 是否展示
 	 */
 	private boolean show;
