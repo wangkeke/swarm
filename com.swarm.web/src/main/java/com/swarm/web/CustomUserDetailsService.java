@@ -1,4 +1,4 @@
-package com.swarm.zuul;
+package com.swarm.web;
 
 import java.util.ArrayList;
 import java.util.List;

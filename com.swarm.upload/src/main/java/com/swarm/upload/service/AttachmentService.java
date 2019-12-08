@@ -24,11 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.swarm.base.dao.AttachmentDao;
 import com.swarm.base.dao.UserDao;
 import com.swarm.base.entity.Attachment;
-import com.swarm.base.entity.User;
+import com.swarm.base.entity.BaseEntity;
+import com.swarm.base.entity.BusUser;
 import com.swarm.base.service.ServiceException;
 import com.swarm.upload.dao.UploadConfigDao;
 import com.swarm.upload.entity.UploadConfig;
 import com.swarm.upload.vo.AttachmentRes;
+
+
 
 @Service
 public class AttachmentService {
@@ -45,11 +48,11 @@ public class AttachmentService {
 	
 	@Transactional
 	public List<AttachmentRes> upload(Integer userId , String label , MultipartFile[] files) {
-		Optional<User> userOptional = userDao.findById(userId);
+		Optional<BusUser> userOptional = userDao.findById(userId);
 		if(!userOptional.isPresent()) {
 			throw new ServiceException("用户不存在！");
 		}
-		User user = userOptional.get();
+		BusUser user = userOptional.get();
 		if(!user.isEnable()) {
 			throw new ServiceException("用户被禁用！");
 		}
@@ -87,8 +90,8 @@ public class AttachmentService {
 						}
 					}
 				}
-				String path = user.getId() + "/";
-				path += Base64Utils.encodeToString((Runtime.getRuntime().hashCode() + "-" + System.currentTimeMillis() + "-" + Thread.currentThread().getId() + "-" + i).getBytes());
+				String path = "/" + user.getId() + "/";
+				String newFileName = Base64Utils.encodeToString((Integer.toHexString(BaseEntity.getIPAddress().hashCode()) + System.currentTimeMillis() + "-" + Thread.currentThread().getId() + "-" + i).getBytes()); 
 				String filetype = multipartFile.getContentType();
 				Attachment attachment = new Attachment();
 				attachment.setUpdateDate(new Date());
@@ -139,7 +142,7 @@ public class AttachmentService {
 					Graphics g = outputImage.getGraphics();  
 		            g.drawImage(image, 0, 0, null);  
 		            g.dispose();  
-		            ImageIO.write(outputImage, ext, new File(path+ "." + ext));
+		            ImageIO.write(outputImage, ext, new File(path + "/image/" + newFileName + "." + ext));
 		            
 		            
 		            int snewWidth = width , snewHeight = height;
@@ -166,13 +169,13 @@ public class AttachmentService {
 					g = outputImage.getGraphics();  
 		            g.drawImage(image, 0, 0, null);  
 		            g.dispose();  
-		            ImageIO.write(outputImage, ext, new File(path  + "_s." + ext));
-		            attachment.setPath("/upload/image/" + path + "." + ext);
+		            ImageIO.write(outputImage, ext, new File(path + "/image/" + newFileName + "_s." + ext));
+		            attachment.setPath(path + "/image/" + newFileName + "." + ext);
 				}else {
 					Attachment attachment2 = attachmentDao.findFirstByMd5(md5);
 					if(attachment2==null) {
-						multipartFile.transferTo(new File(path + "." + ext));
-						attachment.setPath(path + "." + ext);
+						multipartFile.transferTo(new File(path + newFileName + "." + ext));
+						attachment.setPath(path + newFileName + "." + ext);
 					}else {
 						attachment.setFilesize(attachment2.getFilesize());
 						attachment.setPath(attachment2.getPath());

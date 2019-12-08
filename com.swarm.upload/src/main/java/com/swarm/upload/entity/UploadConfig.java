@@ -2,16 +2,20 @@ package com.swarm.upload.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.swarm.base.entity.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
+@Entity
+@Table(name = UploadConfig.TABLE_NAME)
 public class UploadConfig extends BaseEntity{
+	
+	public static final String TABLE_NAME = "sys_upload_config";
 	
 	public static final String DEFAULT_LABEL = "default";
 	

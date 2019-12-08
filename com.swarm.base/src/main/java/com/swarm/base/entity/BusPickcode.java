@@ -71,21 +71,18 @@ public class BusPickcode extends BaseEntity {
 	 */
 	public static String generateCode(Integer orderId) {
 		String ostr = String.valueOf(orderId);
-		if(ostr.length()>5) {
-			ostr = ostr.substring(ostr.length()-5) + (ostr.length()-5);
-		}if(ostr.length()==5){
-			ostr = ostr.length()+ostr;
-		}else {
-			ostr = ostr.length()+ostr;
-			char[] chars = new char[6];
-			for (int i = 0; i < chars.length; i++) {
-				int r = RandomUtils.nextInt(48, 58);
-				chars[i] = (char)r;
+		if(ostr.length()>=7) {
+			ostr = Integer.toHexString(orderId).toUpperCase();
+			if(ostr.length()<6) {
+				ostr += "XXXXXX".substring(0,6-ostr.length());
 			}
-			ostr = ostr + String.valueOf(chars).substring(ostr.length());
+		}else if(ostr.length()<6){
+			ostr = ostr.length()+ostr;
+			while(ostr.length()<6) {
+				ostr += RandomUtils.nextInt(0, 10);
+			}
 		}
 		return ostr;
 	}
 	
-
 }

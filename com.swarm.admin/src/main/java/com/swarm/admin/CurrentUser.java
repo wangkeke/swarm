@@ -1,4 +1,4 @@
-package com.swarm.zuul;
+package com.swarm.admin;
 
 import java.util.Collection;
 

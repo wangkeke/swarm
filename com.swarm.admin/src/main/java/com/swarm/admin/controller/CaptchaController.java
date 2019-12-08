@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.swarm.base.controller.BaseController;
 import com.wf.captcha.utils.CaptchaUtil;
 
 /**
@@ -15,7 +14,7 @@ import com.wf.captcha.utils.CaptchaUtil;
  *
  */
 @RestController
-public class CaptchaController extends BaseController{
+public class CaptchaController{
 	
 	@RequestMapping("/captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {

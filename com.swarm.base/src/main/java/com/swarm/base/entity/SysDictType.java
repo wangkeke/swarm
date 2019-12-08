@@ -7,7 +7,9 @@ package com.swarm.base.entity;
  */
 public enum SysDictType {
 	
-	BANK_TYPE("银行类型"),SHOP_TYPE("商城类型"),REGION_TYPE("地域类型");
+	BANK_TYPE("银行类型"),SHOP_TYPE("商城类型"),REGION_TYPE("地域类型"),
+	WITHDRAWAL_SET("提现设置"),ORDER_SET("订单设置"),CASHBACK_SET("返现配置"),
+	POSTER_SET("海报设置");
 	
 	private String name;
 	
