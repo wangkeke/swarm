@@ -27,6 +27,11 @@ public class BusCoupon extends BaseEntity {
 	private static final long serialVersionUID = 7179891931243365684L;
 	
 	/**
+	 * 优惠券类型
+	 */
+	private CouponType couponType;
+	
+	/**
 	 * 是否启用
 	 */
 	private boolean enable;

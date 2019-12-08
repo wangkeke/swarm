@@ -1,9 +1,5 @@
 package com.swarm.base.entity;
 
-import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +13,9 @@ import javax.persistence.ManyToOne;
 
 import com.swarm.base.service.ActivityNode;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 订单
  * @author Administrator
@@ -25,7 +24,6 @@ import com.swarm.base.service.ActivityNode;
 @Entity
 @Getter
 @Setter
-@Log4j2
 public class BusOrder extends BaseEntity {
 	
 	/**
@@ -46,11 +44,18 @@ public class BusOrder extends BaseEntity {
 	private BusWechatUser busWechatUser;
 	
 	/**
-	 * 总金额
+	 * 应收总金额
 	 */
 	@Column(scale = 2)
 	private BigDecimal amount;
 		
+	
+	/**
+	 * 实收总金额
+	 */
+	@Column(scale = 2)
+	private BigDecimal realAmount;
+	
 	/**
 	 * 当前订单所在流程节点
 	 */
