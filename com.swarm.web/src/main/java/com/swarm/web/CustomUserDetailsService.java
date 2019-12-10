@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private boolean enableAuthorities = true;
 	
 	@Autowired
-	private com.swarm.base.dao.UserDao userDao;
+	private com.swarm.base.dao.BusUserDao userDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -3,6 +3,7 @@ package com.swarm.base.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -10,11 +11,17 @@ import javax.persistence.ManyToOne;
 
 import com.swarm.base.service.ActivityNode;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 商家微信用户提现/出金
  * @author Administrator
  *
  */
+@Getter
+@Setter
+@Entity
 public class BusWeWithdrawal extends BaseEntity {
 
 	/**

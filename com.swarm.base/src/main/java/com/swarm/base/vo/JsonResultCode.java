@@ -20,12 +20,12 @@ public class JsonResultCode {
 	public static int INTERNAL_SERVER_ERROR = HttpStatus.INTERNAL_SERVER_ERROR.value();
 	
 	/**
-	 * 用户未登录的异常码
+	 * 用户未登录的异常码 unauthorized_code
 	 */
 	public static int UNAUTHORIZED_CODE   = HttpStatus.UNAUTHORIZED.value();
 	
 	/**
-	 * 重定向码
+	 * 重定向码 redirect
 	 */
 	public static int REDIRECT_CODE = HttpStatus.TEMPORARY_REDIRECT.value();
 	

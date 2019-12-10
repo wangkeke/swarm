@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 发货地址
+ * 发货地址/自提点地址
  * @author Administrator
  *
  */

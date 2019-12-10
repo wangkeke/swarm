@@ -26,11 +26,6 @@ public class BusDict extends BaseEntity {
 	private static final long serialVersionUID = 5211693433116247116L;
 	
 	/**
-	 * 字典名称
-	 */
-	private String name;
-	
-	/**
 	 * 字典类型，如：bank_type(银行类型:中国银行，建设银行，工商银行等),shop_type(商城类型：建材，家居，电器)，
 	 * region_type(地区类型：河南省，郑州市，洛阳市，开封市)，
 	 * Withdrawal_set(提现设置：开启微信提现，开启支付宝提现，开启银行卡提现,提现最低金额，提现手续费率百分比)，

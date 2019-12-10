@@ -1,22 +1,29 @@
 package com.swarm.base.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 系统字典表
  * @author Administrator
  *
  */
+@Getter
+@Setter
+@Entity
 public class SysDict extends BaseEntity {
 	
 	/**
-	 * 字典名称
+	 * 
 	 */
-	private String name;
+	private static final long serialVersionUID = 1535424531919019904L;
 	
 	/**
 	 * 字典类型，如：bank_type(银行类型:中国银行，建设银行，工商银行等),shop_type(商城类型：建材，家居，电器)，

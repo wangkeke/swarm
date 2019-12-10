@@ -22,7 +22,7 @@ import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.swarm.base.dao.AttachmentDao;
-import com.swarm.base.dao.UserDao;
+import com.swarm.base.dao.BusUserDao;
 import com.swarm.base.entity.Attachment;
 import com.swarm.base.entity.BaseEntity;
 import com.swarm.base.entity.BusUser;
@@ -40,7 +40,7 @@ public class AttachmentService {
 	private AttachmentDao attachmentDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private BusUserDao userDao;
 	
 	@Autowired
 	private UploadConfigDao uploadConfigDao;

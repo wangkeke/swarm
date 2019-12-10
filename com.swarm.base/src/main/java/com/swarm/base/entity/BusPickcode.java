@@ -1,7 +1,5 @@
 package com.swarm.base.entity;
 
-import java.util.Random;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

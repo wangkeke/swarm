@@ -64,10 +64,6 @@ public class JsonResult implements VO{
 		return new JsonResult(JsonResultCode.INTERNAL_SERVER_ERROR);
 	}
 	
-	public static JsonResult systemFail(String reason) {
-		return new JsonResult(JsonResultCode.INTERNAL_SERVER_ERROR, reason);
-	}
-	
 	public static JsonResult redirect(String url) {
 		return new JsonResult(JsonResultCode.REDIRECT_CODE, null, url);
 	}
