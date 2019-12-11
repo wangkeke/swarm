@@ -1,4 +1,4 @@
-package com.swarm.admin.vo;
+package com.swarm.base.vo;
 
 import java.util.Collection;
 

@@ -17,13 +17,13 @@ public class CurrentUser extends User {
 	 */
 	private static final long serialVersionUID = -5624016053561316553L;
 	
-	private SysUser currentUser;
+	private SysUser sysUser;
 	
-	public CurrentUser(SysUser currentUser , String username, String password, boolean enabled, boolean accountNonExpired,
+	public CurrentUser(SysUser sysUser , String username, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		this.currentUser = currentUser;
+		this.sysUser = sysUser;
 	}
 
 }

@@ -8,8 +8,10 @@ import com.swarm.base.entity.SysUser;
 
 public interface SysUserDao extends JpaRepository<SysUser, Integer> {
 	
-	Page<SysUser> findByUsername(String username , Pageable pageable);
+	Page<SysUser> findByUsernameLike(String username , Pageable pageable);
 	
 	SysUser findFirstByUsername(String username);
+	
+	long countByUsername(String username);
 	
 }

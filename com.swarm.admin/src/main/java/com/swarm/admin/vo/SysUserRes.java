@@ -52,10 +52,7 @@ public class SysUserRes extends Res<SysUser> {
 	public VO apply(SysUser t) {
 		this.id = t.getId();
 		this.username = t.getUsername();
-		RoleIdentity roleIdentity = RoleIdentity.getRoleIdentity(t.getRoles());
-		if(roleIdentity!=null) {			
-			this.role = roleIdentity.getName();
-		}
+		this.role = t.getRoleIdentity().getName();
 		this.enable = t.isEnable();
 		this.updateDate = t.getUpdateDate();
 		this.createDate = t.getCreateDate();

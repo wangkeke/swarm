@@ -2,6 +2,8 @@ package com.swarm.base.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +36,8 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 身份
 	 */
-	private int roles;
+	@Enumerated(EnumType.ORDINAL)
+	private RoleIdentity roleIdentity;
 	
 	/**
 	 * 是否启用

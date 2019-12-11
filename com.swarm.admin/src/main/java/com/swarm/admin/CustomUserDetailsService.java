@@ -31,13 +31,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 //		JdbcDaoImpl
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		if(enableAuthorities) {
-			if((sysUser.getRoles() & RoleIdentity.USER_ROLE.getRole()) > 0) {				
+			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.USER_ROLE.getRole()) > 0) {				
 				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.USER_ROLE.getName()));
 			}
-			if((sysUser.getRoles() & RoleIdentity.ADMIN_ROLE.getRole()) > 0) {				
+			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.ADMIN_ROLE.getRole()) > 0) {				
 				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.ADMIN_ROLE.getName()));
 			}
-			if((sysUser.getRoles() & RoleIdentity.SYSTEM_ROLE.getRole()) > 0) {				
+			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.SYSTEM_ROLE.getRole()) > 0) {				
 				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.SYSTEM_ROLE.getName()));
 			}
 		}
