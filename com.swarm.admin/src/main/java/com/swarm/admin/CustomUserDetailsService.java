@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.swarm.base.dao.SysUserDao;
-import com.swarm.base.entity.RoleIdentity;
+import com.swarm.base.entity.Identity;
 import com.swarm.base.entity.SysUser;
 
 @Component
@@ -31,14 +31,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 //		JdbcDaoImpl
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		if(enableAuthorities) {
-			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.USER_ROLE.getRole()) > 0) {				
-				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.USER_ROLE.getName()));
+			if((sysUser.getIdentity().getId() & Identity.USER_ID.getId()) > 0) {				
+				grantedAuthorities.add(new SimpleGrantedAuthority(Identity.USER_ID.getName()));
 			}
-			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.ADMIN_ROLE.getRole()) > 0) {				
-				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.ADMIN_ROLE.getName()));
+			if((sysUser.getIdentity().getId() & Identity.ADMIN_ID.getId()) > 0) {				
+				grantedAuthorities.add(new SimpleGrantedAuthority(Identity.ADMIN_ID.getName()));
 			}
-			if((sysUser.getRoleIdentity().getRole() & RoleIdentity.SYSTEM_ROLE.getRole()) > 0) {				
-				grantedAuthorities.add(new SimpleGrantedAuthority(RoleIdentity.SYSTEM_ROLE.getName()));
+			if((sysUser.getIdentity().getId() & Identity.SYSTEM_ID.getId()) > 0) {				
+				grantedAuthorities.add(new SimpleGrantedAuthority(Identity.SYSTEM_ID.getName()));
 			}
 		}
 		return new CurrentUser(sysUser, sysUser.getUsername(), sysUser.getPassword(),

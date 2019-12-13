@@ -12,6 +12,6 @@ public interface SysUserDao extends JpaRepository<SysUser, Integer> {
 	
 	SysUser findFirstByUsername(String username);
 	
-	long countByUsername(String username);
+	int countByUsername(String username);
 	
 }

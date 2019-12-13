@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter
 public class SysUser extends BaseEntity {
 	
+	public static final String DEFAULT_PASSWORD = "123456";
 	
 	/**
 	 * 
@@ -37,7 +38,7 @@ public class SysUser extends BaseEntity {
 	 * 身份
 	 */
 	@Enumerated(EnumType.ORDINAL)
-	private RoleIdentity roleIdentity;
+	private Identity identity;
 	
 	/**
 	 * 是否启用

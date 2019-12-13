@@ -65,12 +65,6 @@ public class BusWechatUser extends BaseEntity {
 	 */
 	private String avatarUrl;
 	
-	/**
-	 * 账户余额
-	 */
-	@Column(scale = 2)
-	private BigDecimal balance;
-	
 	
 	/**
 	 * 父级用户，即：老用户分享拉入的用户

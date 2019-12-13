@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.swarm.base.entity.RoleIdentity;
+import com.swarm.base.entity.Identity;
 import com.swarm.base.entity.SysUser;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
@@ -29,7 +29,7 @@ public class SysUserRes extends Res<SysUser> {
 	/**
 	 * 身份
 	 */
-	private String role;
+	private Identity identity;
 	
 	/**
 	 * 是否启用
@@ -52,7 +52,7 @@ public class SysUserRes extends Res<SysUser> {
 	public VO apply(SysUser t) {
 		this.id = t.getId();
 		this.username = t.getUsername();
-		this.role = t.getRoleIdentity().getName();
+		this.identity = t.getIdentity();
 		this.enable = t.isEnable();
 		this.updateDate = t.getUpdateDate();
 		this.createDate = t.getCreateDate();
