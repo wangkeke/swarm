@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,8 @@ import com.swarm.base.vo.VO;
 @Transactional(readOnly = true)
 public class SysUserService {
 	
-	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private SysUserDao sysUserDao;
@@ -59,6 +61,7 @@ public class SysUserService {
 			throw new ServiceException("用户名已存在！");
 		}
 		SysUser sysUser = req.create();
+		sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
 		sysUserDao.save(sysUser);
 		return sysUser.getId();
 	}

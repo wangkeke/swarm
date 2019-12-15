@@ -31,7 +31,7 @@ public class SysUser extends BaseEntity {
 	@Column(length = 20,unique = true,nullable = false)
 	private String username;
 	
-	@Column(length = 20,nullable = false)
+	@Column(length = 60,nullable = false)
 	private String password;
 	
 	/**

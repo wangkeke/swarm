@@ -8,8 +8,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +30,6 @@ public class SysUserController {
 	
 	@Autowired
 	private SysUserService sysUserService;
-	
-	
 	
 	@GetMapping("page")
 	public JsonResult page(Paging paging , String username) {
@@ -68,7 +68,7 @@ public class SysUserController {
 		return JsonResult.ok(sysUserService.saveSysUser(req));
 	}
 	
-	@PostMapping("update")
+	@PutMapping("update")
 	public JsonResult update(@Valid UpdateSysUserReq req , BindingResult result) {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
@@ -77,13 +77,13 @@ public class SysUserController {
 		return JsonResult.ok();
 	}
 	
-	@PostMapping("resetpwd")
+	@PutMapping("resetpwd")
 	public JsonResult resetpwd(Integer id) {
 		sysUserService.resetPassword(id);
 		return JsonResult.ok();
 	}
 	
-	@PostMapping("updateEnable")
+	@PutMapping("updateEnable")
 	public JsonResult updateEnable(Integer id , Boolean enable) {
 		if(enable==null) {
 			return JsonResult.fail("是否启用不能为空！");
@@ -92,7 +92,7 @@ public class SysUserController {
 		return JsonResult.ok();
 	}
 	
-	@PostMapping("delete")
+	@DeleteMapping("delete")
 	public JsonResult delete(Integer id) {
 		sysUserService.delete(id);
 		return JsonResult.ok();
