@@ -6,8 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.swarm.base.entity.Identity;
-import com.swarm.base.entity.SysUser;
+import com.swarm.base.entity.BusUser;
 import com.swarm.base.vo.CreateReq;
 
 import lombok.Getter;
@@ -15,10 +14,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SysUserReq extends CreateReq<SysUser> {
+public class BusUserReq extends CreateReq<BusUser> {
 	
-	private Integer id;
-	
+	/**
+	 * 用户名，默认手机号
+	 */
 	@NotBlank(message = "用户名不能为空！")
 	private String username;
 	
@@ -26,22 +26,27 @@ public class SysUserReq extends CreateReq<SysUser> {
 	@Size(min = 6,max = 20,message = "请确认密码长度在6~20位之间！")
 	private String password;
 	
-	@NotNull(message = "角色身份不能为空！")
-	private Identity identity;
+	/**
+	 * 商家描述
+	 */
+	private String desc;
 	
+	/**
+	 * 是否启用
+	 */
 	@NotNull(message = "请选择启用状态！")
 	private Boolean enable;
-
-	@Override
-	public SysUser create() {
-		SysUser sysUser = new SysUser();
-		sysUser.setCreateDate(new Date());
-		sysUser.setUpdateDate(new Date());
-		sysUser.setEnable(this.enable==null?true:this.enable);
-		sysUser.setPassword(this.password);
-		sysUser.setIdentity(identity);
-		sysUser.setUsername(this.username);
-		return sysUser;
-	}
 	
+	@Override
+	public BusUser create() {
+		BusUser busUser = new BusUser();
+		busUser.setCreateDate(new Date());
+		busUser.setUpdateDate(new Date());
+		busUser.setUsername(this.username);
+		busUser.setPassword(this.password);
+		busUser.setDesc(this.desc);
+		busUser.setEnable(this.enable);
+		return busUser;
+	}
+
 }

@@ -56,7 +56,7 @@ public class SysUserService {
 	}
 	
 	@Transactional
-	public Integer saveSysUser(SysUserReq req) {
+	public Integer save(SysUserReq req) {
 		if(!validUsername(req.getUsername())) {
 			throw new ServiceException("用户名已存在！");
 		}
@@ -66,9 +66,9 @@ public class SysUserService {
 		return sysUser.getId();
 	}
 	
-	public SysUser getSysUser(Integer id) {
+	private SysUser getSysUser(Integer id) {
 		if(id==null) {
-			throw new ServiceException("不存在的ID！");
+			throw new ServiceException("ID不能为空！");
 		}
 		Optional<SysUser> optional = sysUserDao.findById(id);
 		if(!optional.isPresent()) {
@@ -77,8 +77,12 @@ public class SysUserService {
 		return optional.get();
 	}
 	
+	public VO get(Integer id) {
+		return new SysUserRes().apply(getSysUser(id));
+	}
+	
 	@Transactional
-	public void updateSysUser(UpdateSysUserReq req) {
+	public void update(UpdateSysUserReq req) {
 		SysUser sysUser = getSysUser(req.getId());
 		if(!sysUser.getUsername().equals(req.getUsername())) {
 			if(!validUsername(req.getUsername())) {
@@ -90,25 +94,27 @@ public class SysUserService {
 	}
 	
 	@Transactional
-	public void resetPassword(Integer id) {
+	public String resetPwd(Integer id) {
 		SysUser sysUser = getSysUser(id);
-		String md5pwd = BaseEntity.generateMD5(SysUser.DEFAULT_PASSWORD);
-		sysUser.setPassword(md5pwd);
+		sysUser.setPassword(passwordEncoder.encode(SysUser.DEFAULT_PASSWORD));
 		sysUser.setUpdateDate(new Date());
 		sysUserDao.save(sysUser);
+		return SysUser.DEFAULT_PASSWORD;
 	}
 	
 	@Transactional
-	public void updateEnable(Integer id , boolean enable) {
+	public void enable(Integer id , boolean enable) {
 		SysUser sysUser = getSysUser(id);
-		sysUser.setEnable(enable);
-		sysUserDao.save(sysUser);
+		if(sysUser.isEnable() != enable) {			
+			sysUser.setEnable(enable);
+			sysUserDao.save(sysUser);
+		}
 	}
 	
 	@Transactional
 	public void delete(Integer id) {
-	 	SysUser sysUser = getSysUser(id);
-	 	sysUserDao.delete(sysUser);
+		if(id != null)
+			sysUserDao.deleteById(id);
 	}
 	
 }

@@ -4,67 +4,64 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.swarm.admin.service.SysMenuService;
-import com.swarm.admin.vo.SysMenuReq;
-import com.swarm.admin.vo.UpdateSysMenuReq;
+import com.swarm.admin.service.SysSalesRuleService;
+import com.swarm.admin.vo.SysSalesRuleReq;
+import com.swarm.admin.vo.UpdateSysSalesRuleReq;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
 /**
- * 系统菜单
- * @author Administrator
- *
+ * 产品促销规则
+ * @param id
+ * @return
  */
 @RestController
-@RequestMapping("/sysmenu/")
-public class SysMenuController {
+@RequestMapping("/syssalesrule/")
+public class SysSalesRuleController {
 	
 	@Autowired
-	private SysMenuService sysMenuService;
-	
+	private SysSalesRuleService service;
 	
 	@GetMapping("page")
 	public JsonResult page(String name , Paging paging) {
-		return JsonResult.ok(sysMenuService.page(name, paging));
-	}
-	
-	@GetMapping("get")
-	public JsonResult get(Integer id) {
-		return JsonResult.ok(sysMenuService.get(id));
+		return JsonResult.ok(service.page(name, paging));
 	}
 	
 	@GetMapping("validKey")
 	public JsonResult validKey(String key) {
-		return JsonResult.ok(sysMenuService.validKey(key));
+		return JsonResult.ok(service.validKey(key));
 	}
 	
 	@PostMapping("save")
-	public JsonResult save(@Valid SysMenuReq req , BindingResult result) {
+	public JsonResult save(@Valid SysSalesRuleReq req , BindingResult result) {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		return JsonResult.ok(sysMenuService.save(req));
+		return JsonResult.ok(service.save(req));
+	}
+	
+	@GetMapping("id")
+	public JsonResult get(Integer id) {
+		return JsonResult.ok(service.get(id));
 	}
 	
 	@PostMapping("update")
-	public JsonResult update(@Valid UpdateSysMenuReq req , BindingResult result) {
+	public JsonResult update(@Valid UpdateSysSalesRuleReq req , BindingResult result) {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		sysMenuService.update(req);
+		service.update(req);
 		return JsonResult.ok();
 	}
 	
-	@RequestMapping("delete")
-	public JsonResult delete(Integer id) {
-		sysMenuService.delete(id);
+	@RequestMapping("enable")
+	public JsonResult enable(Integer id , Boolean enable) {
+		service.enable(id, enable);
 		return JsonResult.ok();
 	}
 	

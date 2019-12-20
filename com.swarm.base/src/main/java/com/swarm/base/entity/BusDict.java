@@ -65,7 +65,7 @@ public class BusDict extends BaseEntity {
 	 */
 	@ManyToOne
 	@JoinColumn
-	private SysDict parent;
+	private BusDict parent;
 	
 	/**
 	 * 商家用户ID，分表分库字段

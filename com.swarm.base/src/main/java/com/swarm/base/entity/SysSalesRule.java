@@ -25,6 +25,11 @@ public class SysSalesRule extends BaseEntity {
 	private static final long serialVersionUID = -7033620187013334061L;
 	
 	/**
+	 * 规则名称
+	 */
+	private String name;
+	
+	/**
 	 * 图标路径，(345px*180px)
 	 */
 	private String icon;
@@ -39,12 +44,7 @@ public class SysSalesRule extends BaseEntity {
 	 * 该规则配置页url
 	 */
 	private String configUrl;
-	
-	/**
-	 * 该规则的详情说明页url
-	 */
-	private String detailUrl;
-	
+		
 	/**
 	 * 详情页内容，商家用户自行编辑
 	 */

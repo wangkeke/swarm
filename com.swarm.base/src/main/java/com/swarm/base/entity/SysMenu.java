@@ -54,7 +54,7 @@ public class SysMenu extends BaseEntity {
 	private int sort;
 	
 	/**
-	 * 标识，-1表示禁用/删除，0表示正常
+	 * 标识，-1删除，0表示正常
 	 */
 	private int flag;
 	

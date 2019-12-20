@@ -27,8 +27,13 @@ public class BusUser extends BaseEntity{
 	@Column(length = 20,unique = true,nullable = false)
 	private String username;
 	
-	@Column(length = 20,unique = true,nullable = false)
+	@Column(length = 20,nullable = false)
 	private String password;
+	
+	/**
+	 * 商家描述
+	 */
+	private String desc;
 	
 	/**
 	 * 是否启用

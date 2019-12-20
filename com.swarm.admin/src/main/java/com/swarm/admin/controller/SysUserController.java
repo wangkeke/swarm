@@ -11,14 +11,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.admin.CurrentUser;
 import com.swarm.admin.service.SysUserService;
 import com.swarm.admin.vo.SysUserReq;
-import com.swarm.admin.vo.SysUserRes;
 import com.swarm.admin.vo.UpdateSysUserReq;
 import com.swarm.base.entity.Identity;
 import com.swarm.base.vo.JsonResult;
@@ -38,8 +36,7 @@ public class SysUserController {
 	
 	@GetMapping("get")
 	public JsonResult get(Integer id) {
-		SysUserRes res = new SysUserRes();
-		return JsonResult.ok(res.apply(sysUserService.getSysUser(id)));
+		return JsonResult.ok(sysUserService.get(id));
 	}
 	
 	@GetMapping("getIdentity")
@@ -65,34 +62,33 @@ public class SysUserController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		return JsonResult.ok(sysUserService.saveSysUser(req));
+		return JsonResult.ok(sysUserService.save(req));
 	}
 	
-	@PutMapping("update")
+	@PostMapping("update")
 	public JsonResult update(@Valid UpdateSysUserReq req , BindingResult result) {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		sysUserService.updateSysUser(req);
+		sysUserService.update(req);
 		return JsonResult.ok();
 	}
 	
-	@PutMapping("resetpwd")
-	public JsonResult resetpwd(Integer id) {
-		sysUserService.resetPassword(id);
-		return JsonResult.ok();
+	@PostMapping("resetpwd")
+	public JsonResult resetPwd(Integer id) {
+		return JsonResult.ok(sysUserService.resetPwd(id));
 	}
 	
-	@PutMapping("updateEnable")
-	public JsonResult updateEnable(Integer id , Boolean enable) {
+	@PostMapping("enable")
+	public JsonResult enable(Integer id , Boolean enable) {
 		if(enable==null) {
 			return JsonResult.fail("是否启用不能为空！");
 		}
-		sysUserService.updateEnable(id, enable);
+		sysUserService.enable(id, enable);
 		return JsonResult.ok();
 	}
 	
-	@DeleteMapping("delete")
+	@RequestMapping("delete")
 	public JsonResult delete(Integer id) {
 		sysUserService.delete(id);
 		return JsonResult.ok();
