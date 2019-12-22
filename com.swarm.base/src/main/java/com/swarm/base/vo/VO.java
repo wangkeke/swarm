@@ -6,5 +6,9 @@ package com.swarm.base.vo;
  *
  */
 public interface VO {
-
+	
+	public static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	
+	public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+	
 }

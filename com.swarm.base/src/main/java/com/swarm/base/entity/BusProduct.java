@@ -22,7 +22,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class BusGoods extends BaseEntity {
+public class BusProduct extends BaseEntity {
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public class BusGoods extends BaseEntity {
 	/**
 	 * 是否上架
 	 */
-	private boolean show = true;
+	private boolean show;
 	
 	/**
 	 * 排序
@@ -95,6 +95,11 @@ public class BusGoods extends BaseEntity {
 	@ManyToOne
 	@JoinColumn
 	private BusLabel label;
+	
+	/**
+	 * 删除标识，-1标识删除
+	 */
+	private int flag;
 	
 	/**
 	 * 商户用户ID，分表分库字段

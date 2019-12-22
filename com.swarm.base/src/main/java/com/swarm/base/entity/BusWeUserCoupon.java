@@ -38,9 +38,9 @@ public class BusWeUserCoupon extends BaseEntity {
 	private BusCoupon busCoupon;
 	
 	/**
-	 * 是否有效
+	 * 是否已使用
 	 */
-	private boolean valid;
+	private boolean used;
 	
 	
 	/**

@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,6 +31,7 @@ public class BusCoupon extends BaseEntity {
 	/**
 	 * 优惠券类型
 	 */
+	@Enumerated(EnumType.ORDINAL)
 	private CouponType couponType;
 	
 	/**

@@ -22,12 +22,17 @@ public class BusLabel extends BaseEntity {
 	private static final long serialVersionUID = 6649107255854138744L;
 	
 	@Column(length = 4)
-	private String labelName;
+	private String label;
 	
 	/**
 	 * 优先级，从小到大
 	 */
 	@Column(name = "`sort`")
 	private int sort;
+	
+	/**
+	 * 商户用户ID，分表分库字段
+	 */
+	private Integer busUserId;
 	
 }

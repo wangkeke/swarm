@@ -1,7 +1,11 @@
 package com.swarm.base.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -51,16 +55,6 @@ public class BusMnprogram extends BaseEntity{
 	 * 上传证书(apiclient_key.pem)
 	 */
 	private String apiclientkeyPath;
-	
-	/**
-	 * 访问微信API token
-	 */
-	private String access_token;
-	
-	/**
-	 * access_token的过期时长
-	 */
-	private int expires_in;
 	
 	/**
 	 * 商家用户ID，分库分表字段

@@ -1,4 +1,4 @@
-package com.swarm.admin.controller;
+package com.swarm.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.swarm.admin.vo.LoginReq;
 import com.swarm.base.vo.JsonResult;
+import com.swarm.web.vo.LoginReq;
 import com.wf.captcha.utils.CaptchaUtil;
 
 @RestController
