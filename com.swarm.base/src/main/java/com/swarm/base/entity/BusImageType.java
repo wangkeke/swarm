@@ -16,7 +16,7 @@ public enum BusImageType {
 	/**
 	 * 商城商品主图(100*100)
 	 */
-	SHOP_GOODS_TITLE("商城商品主图");
+	SHOP_PRODUCT_TITLE("商城商品主图");
 	
 	private String name;
 	

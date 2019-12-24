@@ -1,10 +1,5 @@
 package com.swarm.web.vo;
 
-import java.util.List;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.swarm.base.entity.BusCategory;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;

@@ -15,6 +15,8 @@ public interface BusCategoryDao extends JpaRepository<BusCategory, Integer> {
 	
 	int countByParentAndBusUserId(BusCategory parent , Integer busUserId);
 	
+	List<BusCategory> findByParentInAndBusUserId(List<BusCategory> parents , Integer busUserId);
+	
 	List<BusCategory> findByIdInAndBusUserId(Collection<Integer> id , Integer busUserId);
 	
 }

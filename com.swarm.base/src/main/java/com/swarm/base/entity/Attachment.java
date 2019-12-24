@@ -35,6 +35,16 @@ public class Attachment extends BaseEntity {
 	private String filesize;
 	
 	/**
+	 * 图片宽，仅限图片类型
+	 */
+	private Integer width;
+	
+	/**
+	 * 图片高，仅限图片类型
+	 */
+	private Integer height;
+	
+	/**
 	 * 文件扩展名
 	 */
 	private String ext;

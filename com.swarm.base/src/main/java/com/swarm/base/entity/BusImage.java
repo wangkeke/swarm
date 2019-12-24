@@ -45,6 +45,6 @@ public class BusImage extends BaseEntity {
 	 */
 	@ManyToOne
 	@JoinColumn
-	private BusProduct busGoods;
+	private BusProduct product;
 	
 }

@@ -1,7 +1,6 @@
 package com.swarm.base.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -51,7 +50,7 @@ public class BusProduct extends BaseEntity {
 	/**
 	 * 总数/库存数
 	 */
-	private int amount;
+	private int stocks;
 	
 	/**
 	 * 销量
@@ -59,16 +58,14 @@ public class BusProduct extends BaseEntity {
 	private int sales;
 	
 	/**
-	 * 首图
+	 * 首图路径
 	 */
-	@ManyToOne
-	@JoinColumn
-	private BusImage image;
+	private String image;
 	
 	/**
 	 * 商品相册
 	 */
-	private transient List<BusImage> images;
+	private String images;
 	
 	/**
 	 * 商品内容
@@ -82,12 +79,6 @@ public class BusProduct extends BaseEntity {
 	 * 是否上架
 	 */
 	private boolean show;
-	
-	/**
-	 * 排序
-	 */
-	@Column(name = "`sort`")
-	private int sort;
 	
 	/**
 	 * 标签，如热销，折扣，爆款等
