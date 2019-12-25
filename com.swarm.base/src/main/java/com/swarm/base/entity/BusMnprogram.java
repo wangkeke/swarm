@@ -1,11 +1,7 @@
 package com.swarm.base.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;

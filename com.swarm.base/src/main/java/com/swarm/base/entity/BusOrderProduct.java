@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class BusOrderGoods extends BaseEntity {
+public class BusOrderProduct extends BaseEntity {
 
 	/**
 	 * 

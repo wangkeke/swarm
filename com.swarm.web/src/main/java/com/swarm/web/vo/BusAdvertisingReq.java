@@ -7,8 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.swarm.base.entity.BusAdvertising;
 import com.swarm.base.vo.CreateReq;
 import com.swarm.web.CurrentUser;

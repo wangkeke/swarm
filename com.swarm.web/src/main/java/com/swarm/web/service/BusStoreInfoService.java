@@ -1,0 +1,63 @@
+package com.swarm.web.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.swarm.base.dao.BusStoreInfoDao;
+import com.swarm.base.dao.SysDictDao;
+import com.swarm.base.entity.BusStoreInfo;
+import com.swarm.base.entity.SysDict;
+import com.swarm.base.entity.SysDictType;
+import com.swarm.base.vo.VO;
+import com.swarm.web.CurrentUser;
+import com.swarm.web.vo.BusStoreInfoRes;
+import com.swarm.web.vo.SysDictRes;
+import com.swarm.web.vo.UpdateBusStoreInfoReq;
+
+@Service
+@Transactional(readOnly = true)
+public class BusStoreInfoService {
+	
+	@Autowired
+	private BusStoreInfoDao dao;
+	
+	@Autowired
+	private SysDictDao sysDictDao;
+	
+	
+	public List<VO> getType() {
+		List<SysDict> list = sysDictDao.findByType(SysDictType.SHOP_TYPE);
+		List<VO> ress = new ArrayList<VO>();
+		for (SysDict sysDict : list) {
+			ress.add(new SysDictRes().apply(sysDict));
+		}
+		return ress;
+	}
+	
+	public VO get() {
+		Integer busUserId = CurrentUser.getBusUserId();
+		BusStoreInfo busStoreInfo = dao.findFirstByBusUserId(busUserId);
+		if(busStoreInfo==null)
+			return null;
+		return new BusStoreInfoRes().apply(busStoreInfo);
+	}
+	
+	
+	@Transactional
+	public void update(UpdateBusStoreInfoReq req) {
+		Integer busUserId = CurrentUser.getBusUserId();
+		BusStoreInfo busStoreInfo = dao.findFirstByBusUserId(busUserId);
+		if(busStoreInfo==null) {
+			busStoreInfo = new BusStoreInfo();
+			busStoreInfo.setCreateDate(new Date());
+		}
+		req.update(busStoreInfo);
+		dao.save(busStoreInfo);
+	}
+	
+}

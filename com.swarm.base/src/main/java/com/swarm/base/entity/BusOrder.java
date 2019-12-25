@@ -72,6 +72,7 @@ public class BusOrder extends BaseEntity {
 	 */
 	private Integer busUserId;
 	
+	
 	public static String generateOrderCode(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String dateStr = sdf.format(new Date());

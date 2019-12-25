@@ -114,6 +114,7 @@ public class BusUserService {
 			busMenu.setName(sysMenu.getName());
 			busMenu.setShow(true);
 			busMenu.setSort(sysMenu.getSort());
+			busMenu.setUrl(sysMenu.getUrl());
 			busMenus.add(busMenu);
 		}
 		busMenuDao.saveAll(busMenus);

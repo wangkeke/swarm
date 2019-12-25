@@ -2,9 +2,6 @@ package com.swarm.web.vo;
 
 import java.util.Date;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.swarm.base.entity.BusAdvertising;

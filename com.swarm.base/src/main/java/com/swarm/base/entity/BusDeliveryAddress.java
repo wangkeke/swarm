@@ -1,6 +1,5 @@
 package com.swarm.base.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import lombok.Getter;
@@ -37,10 +36,14 @@ public class BusDeliveryAddress extends BaseEntity {
 	private String address;
 	
 	/**
-	 * 排序
+	 * 是否启用
 	 */
-	@Column(name = "`sort`")
-	private int sort;
+	private boolean enable;
+	
+	/**
+	 * 删除标识，-1表示删除
+	 */
+	private int flag;
 	
 	/**
 	 * 商户用户ID，分表分库字段

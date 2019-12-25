@@ -1,8 +1,5 @@
 package com.swarm.base.entity;
 
-import java.math.BigDecimal;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -63,7 +60,7 @@ public class BusWechatUser extends BaseEntity {
 	/**
 	 * 微信用户头像地址
 	 */
-	private String avatarUrl;
+	private String portrait;
 	
 	
 	/**
@@ -83,7 +80,7 @@ public class BusWechatUser extends BaseEntity {
 	 * @return
 	 */
 	public static String randomNickname() {
-		return generateRandom();
+		return "用户_" + generateRandom();
 	}
 	
 }

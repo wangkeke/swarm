@@ -27,7 +27,7 @@ public class BusStoreInfo extends BaseEntity {
 	 */
 	@ManyToOne(optional = false)
 	@JoinColumn
-	private SysDict storeType;
+	private SysDict type;
 	
 	/**
 	 * 商铺名称
@@ -42,7 +42,7 @@ public class BusStoreInfo extends BaseEntity {
 	/**
 	 * 联系人称呼
 	 */
-	private String contactName;
+	private String contact;
 	
 	/**
 	 * 联系人电话
@@ -56,9 +56,19 @@ public class BusStoreInfo extends BaseEntity {
 	
 	
 	/**
-	 * 提供的服务
+	 * 提供的服务/业务
 	 */
-	private String services;
+	private String business;
+	
+	/**
+	 * 商家店铺实拍轮播图片
+	 */
+	private String carousel;
+	
+	/**
+	 * 商家店铺内景图片
+	 */
+	private String scene;
 	
 	/**
 	 * 商家地址
