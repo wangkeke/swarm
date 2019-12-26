@@ -93,7 +93,7 @@ public class BusWeWithdrawal extends BaseEntity {
 	/**
 	 * 原因，主要针对失败的流程节点需要阐述的原因
 	 */
-	private String reason;
+	private String comment;
 	
 	/**
 	 * 手续费

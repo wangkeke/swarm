@@ -5,14 +5,13 @@ import java.util.function.Function;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.swarm.base.entity.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Res<T extends BaseEntity> implements VO,Function<T, VO> {
+public abstract class Res<T> implements VO,Function<T, VO> {
 	
 	protected Integer id;
 	

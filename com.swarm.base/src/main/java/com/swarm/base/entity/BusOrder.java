@@ -44,6 +44,11 @@ public class BusOrder extends BaseEntity {
 	private BusWechatUser busWechatUser;
 	
 	/**
+	 * 是否自取
+	 */
+	private boolean selfpick;
+	
+	/**
 	 * 应收总金额
 	 */
 	@Column(scale = 2)
@@ -63,9 +68,9 @@ public class BusOrder extends BaseEntity {
 	private ActivityNode activityNode;
 	
 	/**
-	 * 原因，主要针对失败的流程节点需要阐述的原因
+	 * 备注说明/原因，主要针对失败的流程节点需要阐述的原因
 	 */
-	private String reason;
+	private String comment;
 	
 	/**
 	 * 商户用户ID，分表分库字段

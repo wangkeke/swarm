@@ -37,9 +37,9 @@ public class BusRecord extends BaseEntity{
 	private ActivityNode activityNode;
 	
 	/**
-	 * 原因，主要针对失败的流程节点需要阐述的原因
+	 * 备注说明/原因，主要针对失败的流程节点需要阐述的原因
 	 */
-	private String reason;
+	private String comment;
 	
 	/**
 	 * 商家操作执行该节点（与属性busWechatUser二者择一，不可能同时出现）

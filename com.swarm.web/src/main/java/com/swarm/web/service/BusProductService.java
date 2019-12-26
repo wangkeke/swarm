@@ -1,7 +1,6 @@
 package com.swarm.web.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.swarm.base.dao.BusCategoryDao;
-import com.swarm.base.dao.BusImageDao;
 import com.swarm.base.dao.BusLabelDao;
 import com.swarm.base.dao.BusProductDao;
 import com.swarm.base.entity.BusCategory;
-import com.swarm.base.entity.BusImage;
 import com.swarm.base.entity.BusLabel;
 import com.swarm.base.entity.BusProduct;
 import com.swarm.base.service.ServiceException;

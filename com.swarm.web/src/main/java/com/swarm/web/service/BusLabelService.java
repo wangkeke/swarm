@@ -28,7 +28,7 @@ public class BusLabelService {
 	private BusProductDao busProductDao;
 	
 	
-	public List list() {
+	public List<BusLabelRes> list() {
 		List<BusLabel> list = dao.findByBusUserId(CurrentUser.getBusUserId());
 		List<BusLabelRes> ress = new ArrayList<BusLabelRes>();
 		for (BusLabel label : list) {
@@ -36,7 +36,7 @@ public class BusLabelService {
 			res.apply(label);
 			ress.add(res);
 		}
-		return list;
+		return ress;
 	}
 	
 	

@@ -37,7 +37,7 @@ public class BusOrderProduct extends BaseEntity {
 	 */
 	@ManyToOne
 	@JoinColumn
-	private BusProduct busGoods;
+	private BusProduct busProduct;
 	
 	/**
 	 * 购买数量

@@ -29,7 +29,7 @@ public class BusCategoryService {
 	@Autowired
 	private BusProductDao busProductDao;
 	
-	public List list(){
+	public List<BusCategoryRes> list(){
 		List<BusCategory> list = dao.findByBusUserId(CurrentUser.getBusUser().getId());
 		List<BusCategoryRes> ress = new ArrayList<BusCategoryRes>(list.size());
 		Map<Integer, BusCategory> map = new HashMap<Integer, BusCategory>();
