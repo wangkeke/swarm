@@ -12,7 +12,7 @@ import com.swarm.base.dao.BusStoreInfoDao;
 import com.swarm.base.dao.SysDictDao;
 import com.swarm.base.entity.BusStoreInfo;
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.BusStoreInfoRes;
@@ -31,7 +31,7 @@ public class BusStoreInfoService {
 	
 	
 	public List<VO> getType() {
-		List<SysDict> list = sysDictDao.findByType(SysDictType.SHOP_TYPE);
+		List<SysDict> list = sysDictDao.findByType(DictType.SHOP_TYPE);
 		List<VO> ress = new ArrayList<VO>();
 		for (SysDict sysDict : list) {
 			ress.add(new SysDictRes().apply(sysDict));

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.vo.UpdateReq;
 
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class UpdateSysDictReq extends UpdateReq<SysDict> {
 	 * poster_set(海报配置，保存海报的背景图)
 	 */
 	@NotNull(message = "类型不能为空！")
-	private SysDictType type;
+	private DictType type;
 	
 	/**
 	 * 同一类型下key唯一

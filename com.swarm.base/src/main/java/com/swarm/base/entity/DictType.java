@@ -5,11 +5,11 @@ package com.swarm.base.entity;
  * @author Administrator
  *
  */
-public enum SysDictType {
+public enum DictType {
 	
-	BANK_TYPE(SysDictType.PUBLIC,"银行类型"),SHOP_TYPE(SysDictType.PUBLIC,"商城类型"),REGION_TYPE(SysDictType.PUBLIC,"地域类型"),
-	WITHDRAWAL_SET(SysDictType.PRIVATE,"提现设置"),ORDER_SET(SysDictType.PRIVATE,"订单设置"),CASHBACK_SET(SysDictType.PRIVATE,"返现配置"),
-	POSTER_SET(SysDictType.PRIVATE,"海报设置");
+	BANK_TYPE(DictType.PUBLIC,"银行类型"),SHOP_TYPE(DictType.PUBLIC,"商城类型"),REGION_TYPE(DictType.PUBLIC,"地域类型"),
+	WITHDRAWAL_SET(DictType.PRIVATE,"提现设置"),ORDER_SET(DictType.PRIVATE,"订单设置"),CASHBACK_SET(DictType.PRIVATE,"返现配置"),
+	POSTER_SET(DictType.PRIVATE,"海报设置");
 	
 	/**
 	 * 公共类型
@@ -25,7 +25,7 @@ public enum SysDictType {
 	
 	private String name;
 	
-	SysDictType(int id , String name){
+	DictType(int id , String name){
 		this.id = id;
 		this.name = name;
 	}

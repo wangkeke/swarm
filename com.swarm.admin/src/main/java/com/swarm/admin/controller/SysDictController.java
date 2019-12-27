@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swarm.admin.service.SysDictService;
 import com.swarm.admin.vo.SysDictReq;
 import com.swarm.admin.vo.UpdateSysDictReq;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
@@ -30,13 +30,13 @@ public class SysDictController {
 	private SysDictService sysDictService;
 	
 	@GetMapping("page")
-	public JsonResult page(SysDictType type , Paging paging) {
+	public JsonResult page(DictType type , Paging paging) {
 		return JsonResult.ok(sysDictService.page(type, paging));
 	}
 	
 	@GetMapping("getType")
 	public JsonResult getType() {
-		return JsonResult.ok(SysDictType.values());
+		return JsonResult.ok(DictType.values());
 	}
 	
 	@GetMapping("getDictsByParent")
@@ -45,7 +45,7 @@ public class SysDictController {
 	}
 	
 	@GetMapping("getDictsByType")
-	private JsonResult getDictsByType(SysDictType type) {
+	private JsonResult getDictsByType(DictType type) {
 		return JsonResult.ok(sysDictService.getDictsByType(type));
 	}
 	

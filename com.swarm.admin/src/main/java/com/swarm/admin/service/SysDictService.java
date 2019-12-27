@@ -18,7 +18,7 @@ import com.swarm.admin.vo.SysDictRes;
 import com.swarm.admin.vo.UpdateSysDictReq;
 import com.swarm.base.dao.SysDictDao;
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.service.ServiceException;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
@@ -29,7 +29,7 @@ public class SysDictService {
 	
 	private SysDictDao sysDictDao;
 	
-	public Page<VO> page(SysDictType type , Paging paging){
+	public Page<VO> page(DictType type , Paging paging){
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("createDate")));
 		Page<SysDict> page = null;
 		if(type!=null) {
@@ -68,7 +68,7 @@ public class SysDictService {
 		return list;
 	}
 	
-	public List<VO> getDictsByType(SysDictType type){
+	public List<VO> getDictsByType(DictType type){
 		List<VO> list = new ArrayList<VO>();
 		if(type==null)
 			return list;

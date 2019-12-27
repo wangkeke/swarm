@@ -8,13 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 
 public interface SysDictDao extends JpaRepository<SysDict, Integer> {
 	
-	Page<SysDict> findByType(SysDictType type , Pageable pageable);
+	Page<SysDict> findByType(DictType type , Pageable pageable);
 	
-	List<SysDict> findByType(SysDictType type);
+	List<SysDict> findByType(DictType type);
 	
 	List<SysDict> findByParent(SysDict parent);
 	
@@ -22,7 +22,7 @@ public interface SysDictDao extends JpaRepository<SysDict, Integer> {
 	
 	int countByKey(String key);
 	
-	List<SysDict> findByTypeInAndParent(Collection<SysDictType> types , SysDict parent);
+	List<SysDict> findByTypeInAndParent(Collection<DictType> types , SysDict parent);
 	
-	List<SysDict> findByTypeInAndParentIn(Collection<SysDictType> types , Collection<SysDict> parents);
+	List<SysDict> findByTypeInAndParentIn(Collection<DictType> types , Collection<SysDict> parents);
 }

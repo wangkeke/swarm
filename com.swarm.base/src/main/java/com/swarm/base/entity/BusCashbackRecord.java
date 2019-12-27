@@ -25,6 +25,10 @@ public class BusCashbackRecord extends BaseEntity {
 	 */
 	private static final long serialVersionUID = -5601504752006870762L;
 	
+	@ManyToOne
+	@JoinColumn
+	private BusCashback busCashback;
+	
 	/**
 	 * 返现来源的订单号
 	 */

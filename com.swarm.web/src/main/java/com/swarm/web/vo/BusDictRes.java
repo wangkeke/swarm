@@ -1,7 +1,7 @@
 package com.swarm.web.vo;
 
 import com.swarm.base.entity.BusDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
@@ -18,7 +18,7 @@ public class BusDictRes extends Res<BusDict> {
 	 * Withdrawal_set(提现设置：开启微信提现，开启支付宝提现，开启银行卡提现,提现最低金额，提现手续费率百分比)，
 	 * order_set(订单配置：快递配送，到店自提，运费)
 	 */
-	private SysDictType type;
+	private DictType type;
 	
 	/**
 	 * 同一类型下key唯一

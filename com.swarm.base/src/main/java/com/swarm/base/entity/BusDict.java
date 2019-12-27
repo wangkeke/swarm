@@ -32,7 +32,7 @@ public class BusDict extends BaseEntity {
 	 * order_set(订单配置：快递配送，到店自提，运费)
 	 */
 	@Enumerated(EnumType.ORDINAL)
-	private SysDictType type;
+	private DictType type;
 	
 	/**
 	 * 同一类型下key唯一

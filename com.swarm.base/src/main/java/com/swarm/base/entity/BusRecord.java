@@ -45,7 +45,7 @@ public class BusRecord extends BaseEntity{
 	 * 商家操作执行该节点（与属性busWechatUser二者择一，不可能同时出现）
 	 */
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "bususer_id")
 	private BusUser busUser;
 	
 	

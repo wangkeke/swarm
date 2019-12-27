@@ -2,19 +2,12 @@ package com.swarm.web.vo;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.swarm.base.entity.BusOrder;
 import com.swarm.base.entity.BusOrderProduct;
-import com.swarm.base.entity.BusProduct;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

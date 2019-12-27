@@ -33,7 +33,7 @@ import com.swarm.base.entity.BusMenu;
 import com.swarm.base.entity.BusSalesRule;
 import com.swarm.base.entity.BusUser;
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.entity.SysMenu;
 import com.swarm.base.entity.SysSalesRule;
 import com.swarm.base.entity.SysUser;
@@ -136,9 +136,9 @@ public class BusUserService {
 		}
 		busSalesRuleDao.saveAll(busSalesRules);
 		//复制业务字典信息
-		List<SysDictType> types = new ArrayList<SysDictType>(SysDictType.values().length);
-		for (SysDictType t : SysDictType.values()) {
-			if(t.getId()==SysDictType.PRIVATE) {
+		List<DictType> types = new ArrayList<DictType>(DictType.values().length);
+		for (DictType t : DictType.values()) {
+			if(t.getId()==DictType.PRIVATE) {
 				types.add(t);
 			}
 		}

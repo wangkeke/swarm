@@ -1,7 +1,7 @@
 package com.swarm.admin.vo;
 
 import com.swarm.base.entity.SysDict;
-import com.swarm.base.entity.SysDictType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
@@ -20,7 +20,7 @@ public class SysDictRes extends Res<SysDict> {
 	 * cashback_set(返现配置：返现开启等)，
 	 * poster_set(海报配置，保存海报的背景图)
 	 */
-	private SysDictType type;
+	private DictType type;
 	
 	/**
 	 * 同一类型下key唯一

@@ -14,8 +14,9 @@ public class CashbackProcess extends Process {
 	public void buildProcess() {
 		Activity confirmed = new Activity(Activity.BUS_USER,ActivityNode.CONFIRMED, ActivityStatus.CONFIRMED);
 		Activity cancelled = new Activity(Activity.BUS_USER,ActivityNode.CANCELLED,"取消返现", ActivityStatus.CANCELLED);
-		Activity cashbacking = new Activity(Activity.WECHAT_USER,ActivityNode.CASHBACKING, ActivityStatus.CASHBACKING,cancelled,confirmed);
-				
+		Activity cashbacking = new Activity(ActivityNode.CASHBACKING, ActivityStatus.CASHBACKING,cancelled,confirmed);
+		cancelled.addNext(cancelled);
+		
 		this
 			.add(confirmed)
 			.add(cancelled)

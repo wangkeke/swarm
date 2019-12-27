@@ -14,36 +14,43 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.swarm.base.dao.BusWeWithdrawalDao;
-import com.swarm.base.entity.BusWeWithdrawal;
+import com.swarm.base.dao.BusCashbackDao;
+import com.swarm.base.dao.BusCashbackRecordDao;
+import com.swarm.base.entity.BusCashback;
+import com.swarm.base.entity.BusCashbackRecord;
 import com.swarm.base.service.Activity;
 import com.swarm.base.service.ActivityNode;
+import com.swarm.base.service.CashbackProcess;
 import com.swarm.base.service.ServiceException;
-import com.swarm.base.service.WithdrawalProcess;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.ActivityRes;
-import com.swarm.web.vo.BusWeWithdrawalRes;
+import com.swarm.web.vo.BusCashbackRecordRes;
+import com.swarm.web.vo.BusCashbackRes;
 
 @Transactional(readOnly = true)
 @Service
-public class BusWeWithdrawalService {
+public class BusCashbackService {
 	
 	@Autowired
-	private BusWeWithdrawalDao dao;
+	private BusCashbackDao dao;
 	
 	@Autowired
-	private WithdrawalProcess process;
+	private BusCashbackRecordDao busCashbackRecordDao;
+	
+	@Autowired
+	private CashbackProcess process;
+	
 	
 	
 	public Page<VO> page(Paging paging) {
 		Integer busUserId = CurrentUser.getBusUserId();
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("id")));
-		Page<BusWeWithdrawal> page = dao.findByBusUserId(busUserId, pageable);
-		Page<VO> mapPage = page.map(new BusWeWithdrawalRes());
+		Page<BusCashback> page = dao.findByBusUserId(busUserId, pageable);
+		Page<VO> mapPage = page.map(new BusCashbackRes());
 		for (VO vo : mapPage.getContent()) {
-			BusWeWithdrawalRes res = (BusWeWithdrawalRes)vo;
+			BusCashbackRes res = (BusCashbackRes)vo;
 			Activity activity = process.get(res.getActivityNode());
 			List<VO> nexts = null;
 			for (Activity a : activity.getNexts()) {
@@ -62,20 +69,20 @@ public class BusWeWithdrawalService {
 	}
 	
 	@Transactional
-	public void process(Integer id , String comment , ActivityNode node) {
+	public void process(Integer id , ActivityNode node) {
 		if(id==null || node==null) {
 			throw new ServiceException("参数不正确！");
 		}
 		Integer busUserId = CurrentUser.getBusUserId();
-		Optional<BusWeWithdrawal> optional = dao.findById(id);
+		Optional<BusCashback> optional = dao.findById(id);
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
-		BusWeWithdrawal busWeWithdrawal = optional.get();
-		if(busWeWithdrawal.getBusUserId()!=busUserId) {
+		BusCashback busCashback = optional.get();
+		if(busCashback.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
 		}
-		Activity activity = process.get(busWeWithdrawal.getActivityNode());
+		Activity activity = process.get(busCashback.getActivityNode());
 		List<Activity> nexts = activity.getNexts();
 		Activity activity2 = null;
 		for (Activity a : nexts) {
@@ -87,10 +94,27 @@ public class BusWeWithdrawalService {
 		if(activity2==null) {
 			throw new ServiceException("不存在的流程操作！");
 		}
-		busWeWithdrawal.setComment(comment);
-		busWeWithdrawal.setUpdateDate(new Date());
-		busWeWithdrawal.setActivityNode(node);
-		dao.save(busWeWithdrawal);
+		busCashback.setUpdateDate(new Date());
+		busCashback.setActivityNode(node);
+		dao.save(busCashback);
+	}
+	
+	public Page<VO> details(Integer id , Paging paging){
+		if(id==null) {
+			throw new ServiceException("ID不能为空！");
+		}
+		Integer busUserId = CurrentUser.getBusUserId();
+		Optional<BusCashback> optional = dao.findById(id);
+		if(!optional.isPresent()) {
+			throw new ServiceException("ID不存在！");
+		}
+		BusCashback busCashback = optional.get();
+		if(busCashback.getBusUserId()!=busUserId) {
+			throw new ServiceException("ID不存在！");
+		}
+		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("id")));
+		Page<BusCashbackRecord> page = busCashbackRecordDao.findByBusCashbackAndBusUserId(busCashback, busUserId, pageable);
+		return page.map(new BusCashbackRecordRes());
 	}
 	
 }

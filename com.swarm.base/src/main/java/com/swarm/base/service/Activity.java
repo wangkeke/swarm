@@ -104,4 +104,11 @@ public class Activity {
 		}
 	}
 	
+	public void addNext(Activity next) {
+		if(this.nexts == null) {
+			this.nexts = new ArrayList<Activity>();
+		}
+		this.nexts.add(next);
+	}
+	
 }

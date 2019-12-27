@@ -73,7 +73,7 @@ public class BusOrderService {
 			Activity activity = process.get(res.getActivityNode());
 			List<VO> nexts = null;
 			for (Activity a : activity.getNexts()) {
-				if(a.getOperator() == Activity.BUS_USER) {
+				if(a.getOperator()==null || a.getOperator()==Activity.BUS_USER) {
 					if(nexts==null) {
 						nexts = new ArrayList<VO>();
 					}
@@ -105,7 +105,7 @@ public class BusOrderService {
 		List<Activity> nexts = activity.getNexts();
 		Activity activity2 = null;
 		for (Activity a : nexts) {
-			if(a.getNode()==node && a.getOperator()==Activity.BUS_USER) {
+			if(a.getNode()==node && (a.getOperator()==null || a.getOperator()==Activity.BUS_USER)) {
 				activity2 = a;
 				break;
 			}

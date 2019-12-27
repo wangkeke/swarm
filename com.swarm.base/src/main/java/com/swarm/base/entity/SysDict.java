@@ -34,7 +34,7 @@ public class SysDict extends BaseEntity {
 	 * poster_set(海报配置，保存海报的背景图)
 	 */
 	@Enumerated(EnumType.ORDINAL)
-	private SysDictType type;
+	private DictType type;
 	
 	/**
 	 * 同一类型下key唯一
