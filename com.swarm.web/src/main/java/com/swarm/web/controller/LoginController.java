@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
+import com.swarm.web.CurrentUser;
+import com.swarm.web.vo.BusUserRes;
 import com.wf.captcha.utils.CaptchaUtil;
 
 @RestController
@@ -33,7 +35,7 @@ public class LoginController {
 	
 	@RequestMapping("/success")
 	public JsonResult login() {
-		return JsonResult.ok();
+		return JsonResult.ok(new BusUserRes().apply(CurrentUser.getBusUser()));
 	}
 	
 	@RequestMapping("/failure")
