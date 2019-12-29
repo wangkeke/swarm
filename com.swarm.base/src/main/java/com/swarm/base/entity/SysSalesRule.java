@@ -37,12 +37,13 @@ public class SysSalesRule extends BaseEntity {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
-	@Column(unique = true)
+	@Column(name = "`key`",length = 20,unique = true)
 	private String key;
 	
 	/**
 	 * 该规则配置页url
 	 */
+	@Column(length = 100)
 	private String configUrl;
 		
 	/**

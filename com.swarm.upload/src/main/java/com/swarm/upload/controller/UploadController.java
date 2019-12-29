@@ -29,7 +29,7 @@ import lombok.extern.log4j.Log4j2;
  * @author Administrator
  *
  */
-@RestController("/{busUserId}")
+@RestController("/{busUserId}/")
 @Log4j2
 public class UploadController{
 	
@@ -44,11 +44,11 @@ public class UploadController{
 		rootDir += (rootDir.endsWith("/")?"":"/");
 	}
 	
-	@PostMapping("/upload")
+	@PostMapping("upload")
 	public JsonResult upload(HttpServletRequest request , @PathVariable Integer busUserId, String label , @RequestParam MultipartFile[] file) {
 		try {
-			if(busUserId==null || busUserId<0) {
-				return JsonResult.unauthorized();
+			if(busUserId==null) {
+				return JsonResult.fail("非法的url！");
 			}
 			List<AttachmentRes> list = attachmentService.upload(busUserId, label, file);
 			return JsonResult.ok(list);			
@@ -60,11 +60,14 @@ public class UploadController{
 		}
 	}
 	
-	@GetMapping(value = "/image/**/*.", produces = {"image/*"})
+	@GetMapping(value = "image/**/*.", produces = {"image/*"})
 	public void image(HttpServletRequest request , HttpServletResponse response , @PathVariable Integer busUserId) {
 		try {
 			String servletPath = request.getServletPath();
 			String imagePath = rootDir+servletPath;
+			if(request.getParameterMap().containsKey("small")) {				
+				imagePath = rootDir + servletPath.substring(0, servletPath.lastIndexOf(".")) + "_s" + servletPath.substring(servletPath.lastIndexOf("."));
+			}
 			Files.copy(Paths.get(imagePath), response.getOutputStream());
 		} catch (Exception e) {
 			log.warn(e);

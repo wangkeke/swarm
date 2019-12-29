@@ -1,6 +1,8 @@
 package com.swarm.base.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -34,6 +36,7 @@ public class BusRecord extends BaseEntity{
 	/**
 	 * 记录的订单流程节点
 	 */
+	@Enumerated(EnumType.ORDINAL)
 	private ActivityNode activityNode;
 	
 	/**

@@ -1,5 +1,6 @@
 package com.swarm.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,6 +36,7 @@ public class BusCategory extends BaseEntity {
 	/**
 	 * 是否显示，默认为true
 	 */
+	@Column(name = "`show`")
 	private boolean show;
 	
 	/**

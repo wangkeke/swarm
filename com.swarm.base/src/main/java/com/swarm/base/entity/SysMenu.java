@@ -34,7 +34,7 @@ public class SysMenu extends BaseEntity {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
-	@Column(unique = true)
+	@Column(name = "menu_key" ,length = 20, unique = true)
 	private String key;
 	
 	/**
@@ -45,12 +45,12 @@ public class SysMenu extends BaseEntity {
 	/**
 	 * 菜单描述
 	 */
+	@Column(name = "`desc`",length = 20)
 	private String desc;
 	
 	/**
 	 * 排序，从小到大
 	 */
-	@Column(name = "`sort`")
 	private int sort;
 	
 	/**

@@ -60,11 +60,13 @@ public class BusProduct extends BaseEntity {
 	/**
 	 * 首图路径
 	 */
+	@Column(length = 100)
 	private String image;
 	
 	/**
 	 * 商品相册
 	 */
+	@Column(length = 500)
 	private String images;
 	
 	/**
@@ -78,6 +80,7 @@ public class BusProduct extends BaseEntity {
 	/**
 	 * 是否上架
 	 */
+	@Column(name = "`show`")
 	private boolean show;
 	
 	/**

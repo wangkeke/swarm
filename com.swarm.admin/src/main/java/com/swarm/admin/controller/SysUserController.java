@@ -6,9 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +39,7 @@ public class SysUserController {
 	
 	@GetMapping("getIdentity")
 	public JsonResult getIdentity() {
-		CurrentUser currentUser = (CurrentUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Identity identity = currentUser.getSysUser().getIdentity();
+		Identity identity = CurrentUser.getSysUser().getIdentity();
 		List<Identity> list = new ArrayList<Identity>();
 		for (Identity identity2 : Identity.values()) {
 			if((identity.getId() & identity2.getId())>0 && identity!=identity2) {

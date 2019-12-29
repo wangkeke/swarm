@@ -45,11 +45,13 @@ public class BusMnprogram extends BaseEntity{
 	/**
 	 * 上传证书上传路径(apiclient_cert.pem)
 	 */
+	@Column(length = 100)
 	private String apiclientcertPath;
 	
 	/**
 	 * 上传证书(apiclient_key.pem)
 	 */
+	@Column(length = 100)
 	private String apiclientkeyPath;
 	
 	/**

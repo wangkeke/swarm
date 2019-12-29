@@ -48,11 +48,11 @@ public class AttachmentService {
 	
 	@Transactional
 	public List<AttachmentRes> upload(Integer userId , String label , MultipartFile[] files) {
-		Optional<BusUser> userOptional = userDao.findById(userId);
-		if(!userOptional.isPresent()) {
+		Optional<BusUser> optional = userDao.findById(userId);
+		if(!optional.isPresent()) {
 			throw new ServiceException("用户不存在！");
 		}
-		BusUser user = userOptional.get();
+		BusUser user = optional.get();
 		if(!user.isEnable()) {
 			throw new ServiceException("用户被禁用！");
 		}

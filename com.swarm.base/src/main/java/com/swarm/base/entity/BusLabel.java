@@ -27,7 +27,6 @@ public class BusLabel extends BaseEntity {
 	/**
 	 * 优先级，从小到大
 	 */
-	@Column(name = "`sort`")
 	private int sort;
 	
 	/**

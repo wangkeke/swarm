@@ -55,6 +55,11 @@ spring:
   mvc: 
     servlet: 
       path: /
+  redis: 
+    host: 192.168.59.128
+    port: 6379
   session: 
+    store-type: redis
+    timeout: 30m
     redis: 
       namespace: web:session

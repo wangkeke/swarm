@@ -8,7 +8,7 @@ import com.swarm.base.entity.BusUser;
 
 public interface BusUserDao extends JpaRepository<com.swarm.base.entity.BusUser, Integer>{
 	
-	BusUser findFirstByUsername(String username);
+	BusUser findByUsername(String username);
 	
 	Page<BusUser> findByUsernameLikeOrDescLike(String username , String desc , Pageable pageable);
 	

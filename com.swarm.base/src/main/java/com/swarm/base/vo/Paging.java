@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class Paging implements VO {
 	
-	public static final int DEFAULT_PAGE = 1;
+	public static final int DEFAULT_PAGE = 0;
 	public static final int DEFAULT_SIZE = 20;
 	
 	/**
@@ -57,10 +57,10 @@ public class Paging implements VO {
 	
 	
 	public Integer getPage() {
-		if(this.page==null || this.page<=0) {
+		if(this.page==null || this.page<0) {
 			this.page = DEFAULT_PAGE;
 		}
-		return this.page;
+		return this.page-1;
 	}
 	
 	public Integer getSize(){

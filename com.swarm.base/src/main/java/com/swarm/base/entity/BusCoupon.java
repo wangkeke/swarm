@@ -37,6 +37,7 @@ public class BusCoupon extends BaseEntity {
 	/**
 	 * 是否启用
 	 */
+	@Column(name = "`enable`")
 	private boolean enable;
 	
 	/**

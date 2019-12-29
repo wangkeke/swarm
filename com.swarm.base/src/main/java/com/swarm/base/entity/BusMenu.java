@@ -34,27 +34,30 @@ public class BusMenu extends BaseEntity {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
+	@Column(name = "menu_key",length = 20)
 	private String key;
 	
 	/**
 	 * 请求URL
 	 */
+	@Column(length = 100)
 	private String url;
 	
 	/**
 	 * 菜单描述
 	 */
+	@Column(name = "`desc`",length = 20)
 	private String desc;
 	
 	/**
 	 * 是否展示
 	 */
+	@Column(name = "`show`")
 	private boolean show;
 	
 	/**
 	 * 排序，从小到大
 	 */
-	@Column(name = "`sort`")
 	private int sort;
 	
 	/**

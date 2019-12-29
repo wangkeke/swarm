@@ -10,7 +10,7 @@ public interface SysUserDao extends JpaRepository<SysUser, Integer> {
 	
 	Page<SysUser> findByUsernameLike(String username , Pageable pageable);
 	
-	SysUser findFirstByUsername(String username);
+	SysUser findByUsername(String username);
 	
 	int countByUsername(String username);
 	

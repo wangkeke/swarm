@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -50,6 +52,7 @@ public class BusCashback extends BaseEntity {
 	/**
 	 * 当前返现流程状态节点
 	 */
+	@Enumerated(EnumType.ORDINAL)
 	private ActivityNode activityNode;
 	
 	/**

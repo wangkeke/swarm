@@ -68,7 +68,7 @@ public class BusWechatUser extends BaseEntity {
 	 */
 	@ManyToOne
 	@JoinColumn
-	private BusWechatUser parentUser;
+	private BusWechatUser parent;
 	
 	/**
 	 * 商家用户ID，分表分库字段

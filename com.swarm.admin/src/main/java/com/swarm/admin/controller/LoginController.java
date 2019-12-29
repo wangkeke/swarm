@@ -2,15 +2,14 @@ package com.swarm.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
-import org.springframework.validation.BindingResult;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.swarm.admin.vo.LoginReq;
+import com.swarm.admin.CurrentUser;
+import com.swarm.admin.vo.SysUserRes;
 import com.swarm.base.vo.JsonResult;
 import com.wf.captcha.utils.CaptchaUtil;
 
@@ -21,25 +20,31 @@ public class LoginController {
 	@GetMapping("/captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 设置位数
-        CaptchaUtil.out(6, request, response);
+        CaptchaUtil.out(5, request, response);
     }
 	
-	@GetMapping("/unauthorized")
-	public JsonResult unauthorized() {
-		return JsonResult.unauthorized();
+	@RequestMapping("/unauthorized")
+	public JsonResult unauthorized(HttpServletRequest request) {
+		AuthenticationException SPRING_SECURITY_LAST_EXCEPTION = (AuthenticationException)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+		String reason = null;
+		if(SPRING_SECURITY_LAST_EXCEPTION!=null) {
+			reason = SPRING_SECURITY_LAST_EXCEPTION.getMessage();
+		}
+		return JsonResult.unauthorized(reason);
 	}
 	
-	@PostMapping
-	public JsonResult login(@Valid LoginReq req , BindingResult result) {
-		return null;
+	@RequestMapping("/success")
+	public JsonResult login() {
+		return JsonResult.ok(new SysUserRes().apply(CurrentUser.getSysUser()));
 	}
 	
-	@GetMapping("/failure")
-	public JsonResult failure() {
-		return JsonResult.fail("用户名或密码错误！");
+	@RequestMapping("/failure")
+	public JsonResult failure(HttpServletRequest request) {
+		AuthenticationException SPRING_SECURITY_LAST_EXCEPTION = (AuthenticationException)request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+		return JsonResult.fail(SPRING_SECURITY_LAST_EXCEPTION.getMessage());
 	}
 	
-	@GetMapping("/logout")
+	@RequestMapping("/logout")
 	public JsonResult logout() {
 		return JsonResult.ok();
 	}

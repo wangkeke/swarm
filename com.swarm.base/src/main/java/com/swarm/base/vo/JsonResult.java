@@ -60,6 +60,10 @@ public class JsonResult implements VO{
 		return new JsonResult(JsonResultCode.UNAUTHORIZED_CODE);
 	}
 	
+	public static JsonResult unauthorized(String reason) {
+		return new JsonResult(JsonResultCode.UNAUTHORIZED_CODE,reason);
+	}
+	
 	public static JsonResult systemFail() {
 		return new JsonResult(JsonResultCode.INTERNAL_SERVER_ERROR);
 	}

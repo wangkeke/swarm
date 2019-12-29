@@ -39,12 +39,13 @@ public class SysDict extends BaseEntity {
 	/**
 	 * 同一类型下key唯一
 	 */
-	@Column(unique = true)
+	@Column(name = "dict_key" ,length = 20, unique = true)
 	private String key;
 	
 	/**
 	 * 值
 	 */
+	@Column(name = "`value`")
 	private String value;
 	
 	/**
@@ -55,6 +56,7 @@ public class SysDict extends BaseEntity {
 	/**
 	 * 描述说明
 	 */
+	@Column(name = "`desc`",length = 20)
 	private String desc;
 	
 	/**

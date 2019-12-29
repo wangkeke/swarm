@@ -82,7 +82,7 @@ public class BusDeliveryAddressService {
 		if(id==null) {
 			throw new ServiceException("ID不能为空！");
 		}
-		dao.deleteById(id, CurrentUser.getBusUserId());
+		dao.removeById(id, CurrentUser.getBusUserId(),new Date());
 	}
 	
 }

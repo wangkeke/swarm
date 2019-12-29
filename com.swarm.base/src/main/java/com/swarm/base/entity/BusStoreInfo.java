@@ -1,5 +1,6 @@
 package com.swarm.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -63,11 +64,13 @@ public class BusStoreInfo extends BaseEntity {
 	/**
 	 * 商家店铺实拍轮播图片
 	 */
+	@Column(length = 500)
 	private String carousel;
 	
 	/**
 	 * 商家店铺内景图片
 	 */
+	@Column(length = 500)
 	private String scene;
 	
 	/**

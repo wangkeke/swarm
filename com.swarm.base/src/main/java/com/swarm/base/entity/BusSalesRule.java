@@ -37,7 +37,7 @@ public class BusSalesRule extends BaseEntity {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
-	@Column(unique = true)
+	@Column(name = "`key`",length = 20)
 	private String key;
 	
 	/**

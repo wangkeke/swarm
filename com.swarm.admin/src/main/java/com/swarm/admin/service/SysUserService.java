@@ -18,7 +18,6 @@ import com.swarm.admin.vo.SysUserReq;
 import com.swarm.admin.vo.SysUserRes;
 import com.swarm.admin.vo.UpdateSysUserReq;
 import com.swarm.base.dao.SysUserDao;
-import com.swarm.base.entity.BaseEntity;
 import com.swarm.base.entity.SysUser;
 import com.swarm.base.service.ServiceException;
 import com.swarm.base.vo.Paging;

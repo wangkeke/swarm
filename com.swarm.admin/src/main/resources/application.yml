@@ -10,11 +10,11 @@ spring:
   profiles: 
     active: default
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     open-in-view: true
     show-sql: true
     hibernate: 
-      ddl-auto: update
+      ddl-auto: none
       naming: 
         physical-strategy: com.swarm.base.CustomPhysicalNamingStrategy
   datasource:
@@ -55,6 +55,11 @@ spring:
   mvc: 
     servlet: 
       path: /
+  redis: 
+    host: 192.168.59.128
+    port: 6379
   session: 
+    store-type: redis
+    timeout: 30m
     redis: 
       namespace: admin:session

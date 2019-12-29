@@ -2,12 +2,9 @@ package com.swarm.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
-
-import com.wf.captcha.servlet.CaptchaServlet;
 
 @SpringBootApplication
 public class WebApplication {
@@ -28,11 +25,5 @@ public class WebApplication {
 		messageSource.setBasenames("exception","message");
 		return messageSource;
 	}  
-	
-	@Bean
-	public ServletRegistrationBean<CaptchaServlet> captchaServlet(){
-		ServletRegistrationBean<CaptchaServlet> servletRegistrationBean = new ServletRegistrationBean<CaptchaServlet>(new CaptchaServlet(), "/captcha");
-		return servletRegistrationBean;
-	}
 	
 }

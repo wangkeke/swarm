@@ -2,6 +2,7 @@ package com.swarm.base.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +28,7 @@ public class BusAdvertising extends BaseEntity {
 	/**
 	 * 广告图片上传路径
 	 */
+	@Column(length = 100)
 	private String adPath;
 	
 	/**
@@ -44,6 +46,7 @@ public class BusAdvertising extends BaseEntity {
 	/**
 	 * 是否启用，
 	 */
+	@Column(name = "`enable`")
 	private boolean enable;
 	
 	/**

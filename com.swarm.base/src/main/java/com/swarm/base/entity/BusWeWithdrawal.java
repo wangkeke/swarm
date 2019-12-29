@@ -45,6 +45,7 @@ public class BusWeWithdrawal extends BaseEntity {
 	/**
 	 * 提现方式
 	 */
+	@Enumerated(EnumType.ORDINAL)
 	private PaymentType paymentType;
 	
 	/**

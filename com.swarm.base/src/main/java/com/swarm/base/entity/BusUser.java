@@ -33,6 +33,7 @@ public class BusUser extends BaseEntity{
 	/**
 	 * 商家描述
 	 */
+	@Column(name = "`desc`")
 	private String desc;
 	
 	/**
