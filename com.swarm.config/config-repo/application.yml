@@ -1,0 +1,69 @@
+server: 
+  servlet: 
+    session: 
+      timeout: 30m
+logging: 
+  group:
+    sql: org.springframework.jdbc.core, org.hibernate.SQL
+  level:  
+    root: info
+    org.springframework.web: info
+    org.springframework.boot.autoconfigure.security: info
+    org.hibernate: info
+    sql: info
+ribbon: 
+  EnableZoneAffinity: true
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true
+  retryableStatusCodes: 404,502
+spring: 
+  servlet: 
+    multipart: 
+      max-file-size: 5MB
+  security: 
+    user:
+      name: admin 
+      password: 123456
+      roles: USER
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    preferSameZoneEureka: true
+  instance: 
+    preferIpAddress: false
+    metadataMap: 
+      zone: defaultZone
+    instanceId:  ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+management: 
+  info: 
+    defaults: 
+      enabled: true
+  env: 
+    enabled: true
+  trace: 
+    http: 
+      enabled: true
+  health: 
+    defaults: 
+      enabled: true
+  endpoint: 
+    health: 
+      enabled: true
+    info: 
+      enabled: true
+    loggers: 
+      enabled: true
+    mappings: 
+      enabled: true
+    metrics: 
+      enabled: true
+    sessions: 
+      enabled: true
+    shutdown: 
+      enabled: true
+  endpoints: 
+    web: 
+      exposure: 
+        include: "*"

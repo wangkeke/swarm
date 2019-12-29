@@ -16,7 +16,7 @@ public class CustomWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeRequests()
-			.antMatchers("/login/captcha").permitAll()
+			.antMatchers("/favicon.ico","/login/captcha","/actuator","/actuator/**","/static/**").permitAll()
 			.anyRequest().fullyAuthenticated()
 //			.hasAnyAuthority(Identity.ADMIN_ID.getName(),
 //			Identity.SYSTEM_ID.getName(),Identity.USER_ID.getName())
