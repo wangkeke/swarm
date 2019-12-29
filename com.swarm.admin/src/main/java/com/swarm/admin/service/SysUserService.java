@@ -38,7 +38,7 @@ public class SysUserService {
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("createDate")));
 		Page<SysUser> page = null;
 		if(StringUtils.isNotBlank(username)) {
-			page = sysUserDao.findByUsernameLike(username, pageable);
+			page = sysUserDao.findByUsernameLike("%"+username+"%", pageable);
 		}else {
 			page = sysUserDao.findAll(pageable);
 		}

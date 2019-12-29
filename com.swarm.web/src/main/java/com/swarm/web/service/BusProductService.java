@@ -64,11 +64,11 @@ public class BusProductService {
 		Page<BusProduct> page = null;
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("id")));
 		if(list!=null && StringUtils.isNotBlank(title)) {
-			page = dao.findByCategoryInAndTitleLikeAndBusUserIdAndFlagNot(list, title, CurrentUser.getBusUserId(), -1, pageable);
+			page = dao.findByCategoryInAndTitleLikeAndBusUserIdAndFlagNot(list, "%"+title+"%", CurrentUser.getBusUserId(), -1, pageable);
 		}else if(list!=null && StringUtils.isBlank(title)) {
 			page = dao.findByCategoryInAndBusUserIdAndFlagNot(list, CurrentUser.getBusUserId(), -1, pageable);
 		}else if (list==null && StringUtils.isNotBlank(title)) {
-			page = dao.findByTitleLikeAndBusUserIdAndFlagNot(title, CurrentUser.getBusUserId(), -1, pageable);
+			page = dao.findByTitleLikeAndBusUserIdAndFlagNot("%"+title+"%", CurrentUser.getBusUserId(), -1, pageable);
 		}else {
 			page = dao.findByBusUserIdAndFlagNot(CurrentUser.getBusUserId(), -1, pageable);
 		}

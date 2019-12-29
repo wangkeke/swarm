@@ -31,7 +31,7 @@ public class BusWechatUserService {
 		if(StringUtils.isBlank(nicename)) {
 			page = dao.findByBusUserId(busUserId, pageable);
 		}else {
-			page = dao.findByNicknameLikeAndBusUserId(nicename, busUserId, pageable);
+			page = dao.findByNicknameLikeAndBusUserId("%"+nicename+"%", busUserId, pageable);
 		}
 		return page.map(new BusWechatUserRes());
 	}

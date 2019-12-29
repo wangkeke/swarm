@@ -29,7 +29,7 @@ public class BusWeDepositRecordService {
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("updateDate")));
 		Page<BusWeDepositRecord> page = null;
 		if(StringUtils.isNotBlank(nicename)) {
-			page = dao.queryByNicenameLike(nicename, CurrentUser.getBusUserId() , pageable);
+			page = dao.queryByNicenameLike("%"+nicename+"%", CurrentUser.getBusUserId() , pageable);
 		}else {
 			page = dao.findByBusUserId(CurrentUser.getBusUserId(), pageable);
 		}

@@ -2,9 +2,7 @@ package com.swarm.upload.controller;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,29 +28,20 @@ import lombok.extern.log4j.Log4j2;
  * @author Administrator
  *
  */
-@RestController("/{busUserId}/")
 @Log4j2
+@RestController
 public class UploadController{
 	
-	@Value("${file.upload.dir:./upload/}")
+	@Value("${file.upload.dir}")
 	private String rootDir;
 	
 	@Autowired
 	private AttachmentService attachmentService;
 	
-	@PostConstruct
-	public void init() {
-		rootDir += (rootDir.endsWith("/")?"":"/");
-	}
-	
-	@PostMapping("upload")
-	public JsonResult upload(HttpServletRequest request , @PathVariable Integer busUserId, String label , @RequestParam MultipartFile[] file) {
+	@PostMapping("/commonUpload")
+	public JsonResult commonUpload(HttpServletRequest request , String label , @RequestParam MultipartFile[] file) {
 		try {
-			if(busUserId==null) {
-				return JsonResult.fail("非法的url！");
-			}
-			List<AttachmentRes> list = attachmentService.upload(busUserId, label, file);
-			return JsonResult.ok(list);			
+			return JsonResult.ok(attachmentService.commonUpload(label, file));			
 		} catch (ServiceException e) {
 			return JsonResult.fail(e.getMessage());
 		}catch (Exception e) {
@@ -60,8 +50,26 @@ public class UploadController{
 		}
 	}
 	
-	@GetMapping(value = "image/**/*.", produces = {"image/*"})
-	public void image(HttpServletRequest request , HttpServletResponse response , @PathVariable Integer busUserId) {
+	@PostMapping("/{busUserId}/upload")
+	public JsonResult upload(HttpServletRequest request , @PathVariable Integer busUserId, String label , @RequestParam MultipartFile[] file) {
+		try {
+			if(busUserId==null) {
+				return JsonResult.fail("非法的url！");
+			}
+			return JsonResult.ok(attachmentService.upload(busUserId, label, file));			
+		} catch (ServiceException e) {
+			return JsonResult.fail(e.getMessage());
+		}catch (Exception e) {
+			log.warn(e);
+			return JsonResult.systemFail();
+		}
+	}
+	
+	/**
+	 * support image type : .gif,.jpg,.jpeg,.png
+	 */
+	@GetMapping(value = {"/{busUserId}/image/**","/image/**"})
+	public void image(HttpServletRequest request , HttpServletResponse response) {
 		try {
 			String servletPath = request.getServletPath();
 			String imagePath = rootDir+servletPath;
@@ -74,13 +82,26 @@ public class UploadController{
 		}
 	}
 	
+	/**
+	 * support image type : .gif,.jpg,.jpeg,.png
+	 */
+	@GetMapping(value = {"/{busUserId}/allFiles","/allFiles"})
+	public JsonResult allFiles(HttpServletRequest request , HttpServletResponse response , String type , @PathVariable(required = false) Integer busUserId) {
+		try {
+			return JsonResult.ok(attachmentService.allFiles(type, busUserId));
+		} catch (Exception e) {
+			log.warn(e);
+			return JsonResult.systemFail();
+		}
+	}
+	
 	@GetMapping("/download/{attachmentId}")
 	public void download(HttpServletResponse response ,@PathVariable Integer attachmentId) {
 		try {
 			AttachmentRes res = attachmentService.download(attachmentId);
 			String path = rootDir + res.getPath();
 			String filename = res.getFilename();
-			response.addHeader("Content-disposition", "attachment; filename=" + filename);
+			response.addHeader("Content-disposition", "attachment; filename=" + new String(filename.getBytes("gb2312"), "ISO-8859-1"));
 			response.addHeader("Content-Type", "application/octet-stream");
 			Files.copy(Paths.get(path), response.getOutputStream());
 		} catch (Exception e) {

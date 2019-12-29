@@ -34,7 +34,7 @@ public class SysSalesRuleService {
 		if(StringUtils.isBlank(name)) {
 			page = salesRuleDao.findAll(pageable);
 		}else {
-			page = salesRuleDao.findByNameLike(name, pageable);
+			page = salesRuleDao.findByNameLike("%"+name+"%", pageable);
 		}
 		return page.map(new SysSalesRuleRes());
 	}

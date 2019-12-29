@@ -27,7 +27,7 @@ public class BusUser extends BaseEntity{
 	@Column(length = 20,unique = true,nullable = false)
 	private String username;
 	
-	@Column(length = 20,nullable = false)
+	@Column(nullable = false)
 	private String password;
 	
 	/**
@@ -40,5 +40,5 @@ public class BusUser extends BaseEntity{
 	 * 是否启用
 	 */
 	private boolean enable = true;
-
+	
 }

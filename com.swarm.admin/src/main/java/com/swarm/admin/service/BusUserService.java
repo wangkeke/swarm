@@ -76,7 +76,7 @@ public class BusUserService {
 		if(StringUtils.isBlank(keyword)) {
 			page = dao.findAll(pageable);
 		}else {
-			page = dao.findByUsernameLikeOrDescLike(keyword,keyword,pageable);
+			page = dao.findByUsernameLikeOrDescLike("%" + keyword + "%","%"+keyword+"%",pageable);
 		}
 		return page.map(new BusUserRes());
 	}

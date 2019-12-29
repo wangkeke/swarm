@@ -34,7 +34,7 @@ public class SysMenuService {
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("createDate")));
 		Page<SysMenu> page = null;
 		if(StringUtils.isNotBlank(name)) {
-			page = sysMenuDao.findByNameLikeAndFlagNot(name, -1, pageable);
+			page = sysMenuDao.findByNameLikeAndFlagNot("%"+name+"%", -1, pageable);
 		}else {
 			page = sysMenuDao.findByFlagNot(-1, pageable);
 		}

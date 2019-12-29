@@ -10,11 +10,11 @@ spring:
   profiles: 
     active: default
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     open-in-view: true
     show-sql: true
     hibernate: 
-      ddl-auto: update
+      ddl-auto: none
       naming: 
         physical-strategy: com.swarm.base.CustomPhysicalNamingStrategy  
   datasource:
@@ -53,8 +53,14 @@ spring:
       path: /
     contentnegotiation: 
       favor-path-extension: true
+      media-types: 
+        gif: image/gif
+        jpg: image/jpeg
+        jpeg: image/jpeg
+        png: image/png
     pathmatch: 
-      use-suffix-pattern: true
+#      use-suffix-pattern: true
+      use-registered-suffix-pattern: true
   jackson: 
     serialization: 
       indent_output: true
@@ -62,4 +68,4 @@ spring:
     
 file: 
   upload: 
-    dir: ./upload/
+    dir: /swarm/upload
