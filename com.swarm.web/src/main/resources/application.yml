@@ -63,3 +63,20 @@ spring:
     timeout: 30m
     redis: 
       namespace: web:session
+
+file: 
+  upload: 
+    dir: /swarm/upload
+# 微信小程序测试号信息
+wechat: 
+  AppID: wx0f24634c36349a31
+  AppSecret: 54e9400ac28780a2dafdd0f9ca58ac6f
+  material: 
+    qrcode: 
+      width: 570
+    path:
+      qrcodebg: /image/qrcode_bg.png
+      paybg: /image/qrcode_bg.png
+  mnprogram: 
+    url: 
+      payment: pages/index/payment

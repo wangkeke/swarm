@@ -144,7 +144,7 @@ public class AttachmentService {
 //				String md5 = DigestUtils.md5DigestAsHex(multipartFile.getBytes());
 //				attachment.setMd5(md5);
 				
-				if(filetype.toLowerCase().contains("image/")) {  //上传文件为图片
+				if(filetype.toLowerCase().startsWith("image")) {  //上传文件为图片
 					path += "/image";
 					String newFileName = Base64Utils.encodeToString((Integer.toHexString(BaseEntity.getIPAddress().hashCode()) + System.currentTimeMillis() + "-" + Thread.currentThread().getId() + "-" + i).getBytes());
 					BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
@@ -311,7 +311,7 @@ public class AttachmentService {
 //				String md5 = DigestUtils.md5DigestAsHex(multipartFile.getBytes());
 //				attachment.setMd5(md5);
 				
-				if(filetype.toLowerCase().contains("image/")) {  //上传文件为图片
+				if(filetype.toLowerCase().startsWith("image")) {  //上传文件为图片
 					path += "/image";
 					String newFileName = Base64Utils.encodeToString((Integer.toHexString(BaseEntity.getIPAddress().hashCode()) + System.currentTimeMillis() + "-" + Thread.currentThread().getId() + "-" + i).getBytes());
 					BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());

@@ -65,7 +65,7 @@ public class BusWechatUserRes extends Res<BusWechatUser> {
 		this.openId = t.getOpenId();
 		this.nickname = t.getNickname();
 		this.unionId = t.getUnionId();
-		this.sessionKey = t.getSessionKey();
+//		this.sessionKey = t.getSessionKey();
 		this.gender = t.getGender();
 		this.province = t.getProvince();
 		this.city = t.getCity();

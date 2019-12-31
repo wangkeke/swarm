@@ -12,4 +12,8 @@ public interface BusWechatUserDao extends JpaRepository<BusWechatUser, Integer> 
 	
 	Page<BusWechatUser> findByBusUserId(Integer busUserId , Pageable pageable);
 	
+	BusWechatUser findByOpenIdAndBusUserId(String openId , Integer busUserId);
+	
+	BusWechatUser findByIdAndBusUserId(Integer id , Integer busUserId);
+	
 }

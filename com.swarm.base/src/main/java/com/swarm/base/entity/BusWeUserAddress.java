@@ -56,6 +56,11 @@ public class BusWeUserAddress extends BaseEntity {
 	private String phone;
 	
 	/**
+	 * 删除标识
+	 */
+	private int flag;
+	
+	/**
 	 * 商家用户ID，分库分表字段
 	 */
 	private Integer busUserId;

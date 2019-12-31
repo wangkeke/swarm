@@ -37,6 +37,7 @@ import com.swarm.web.vo.BusOrderProductRes;
 import com.swarm.web.vo.BusOrderRes;
 import com.swarm.web.vo.BusPickcodeRes;
 import com.swarm.web.vo.BusRecordRes;
+import com.swarm.web.vo.BusWeUserAddressRes;
 
 @Transactional(readOnly = true)
 @Service
@@ -183,10 +184,12 @@ public class BusOrderService {
 		}
 		busOrderRes.setRecords(recordVos);
 		
-		//查询自提信息
+		//查询收货信息
 		if(order.isSelfpick()) {
 			BusPickcode pickcode = busPickcodeDao.findByBusOrder(order);
 			busOrderRes.setPickcode(new BusPickcodeRes().apply(pickcode));
+		}else {
+			busOrderRes.setWeuseraddress(new BusWeUserAddressRes().apply(order.getBusWeUserAddress()));
 		}
 		return busOrderRes;
 	}

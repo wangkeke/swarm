@@ -1,5 +1,8 @@
 package com.swarm.web;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -25,5 +28,10 @@ public class WebApplication {
 		messageSource.setBasenames("exception","message");
 		return messageSource;
 	}  
+	
+	@Bean
+	public ScheduledExecutorService scheduledExecutorService() {
+		return Executors.newScheduledThreadPool(0);
+	}
 	
 }

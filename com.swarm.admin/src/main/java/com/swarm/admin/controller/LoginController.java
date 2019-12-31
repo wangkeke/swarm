@@ -1,5 +1,6 @@
 package com.swarm.admin.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.admin.CurrentUser;
 import com.swarm.admin.vo.SysUserRes;
+import com.swarm.base.entity.SysUser;
 import com.swarm.base.vo.JsonResult;
 import com.wf.captcha.utils.CaptchaUtil;
 
@@ -34,7 +36,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/success")
-	public JsonResult login() {
+	public JsonResult login(HttpServletResponse response) {
+		SysUser sysUser = CurrentUser.getSysUser();
+		response.setHeader("userId", sysUser.getId()+"");
+		response.setHeader("username", sysUser.getUsername());
+		Cookie cookie = new Cookie("userId", sysUser.getId()+"");
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		Cookie cookie1 = new Cookie("username", sysUser.getUsername()+"");
+		cookie1.setPath("/");
+		response.addCookie(cookie1);
 		return JsonResult.ok(new SysUserRes().apply(CurrentUser.getSysUser()));
 	}
 	

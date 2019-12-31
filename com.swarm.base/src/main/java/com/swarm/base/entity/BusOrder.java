@@ -49,6 +49,13 @@ public class BusOrder extends BaseEntity {
 	private boolean selfpick;
 	
 	/**
+	 * 收货地址
+	 */
+	@ManyToOne
+	@JoinColumn
+	private BusWeUserAddress BusWeUserAddress;
+	
+	/**
 	 * 应收总金额
 	 */
 	@Column(scale = 2)

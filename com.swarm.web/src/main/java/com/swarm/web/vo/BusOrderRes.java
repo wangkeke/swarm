@@ -76,6 +76,11 @@ public class BusOrderRes extends Res<BusOrder> {
 	 */
 	private VO pickcode;
 	
+	/**
+	 * 收货地址
+	 */
+	private VO weuseraddress;
+	
 	
 	@Override
 	public VO apply(BusOrder t) {

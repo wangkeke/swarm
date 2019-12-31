@@ -1,5 +1,6 @@
 package com.swarm.web.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.swarm.base.entity.BusUser;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.BusUserRes;
@@ -34,7 +36,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/success")
-	public JsonResult login() {
+	public JsonResult login(HttpServletRequest request , HttpServletResponse response) {
+		BusUser busUser = CurrentUser.getBusUser();
+		response.setHeader("userId", busUser.getId()+"");
+		response.setHeader("username", busUser.getUsername());
+		Cookie cookie = new Cookie("userId", busUser.getId()+"");
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		Cookie cookie1 = new Cookie("username", busUser.getUsername()+"");
+		cookie1.setPath("/");
+		response.addCookie(cookie1);
 		return JsonResult.ok(new BusUserRes().apply(CurrentUser.getBusUser()));
 	}
 	
