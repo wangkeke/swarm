@@ -58,6 +58,11 @@ public class BusProduct extends BaseEntity {
 	private int sales;
 	
 	/**
+	 * 人气收藏
+	 */
+	private int favorite;
+	
+	/**
 	 * 首图路径
 	 */
 	@Column(length = 100)
@@ -66,8 +71,19 @@ public class BusProduct extends BaseEntity {
 	/**
 	 * 商品相册
 	 */
+	@Basic(fetch = FetchType.LAZY)
 	@Column(length = 500)
 	private String images;
+	
+	/**
+	 * 商品颜色
+	 */
+	private String colors;
+	
+	/**
+	 * 商品尺寸
+	 */
+	private String sizes;
 	
 	/**
 	 * 商品内容
@@ -99,4 +115,5 @@ public class BusProduct extends BaseEntity {
 	 * 商户用户ID，分表分库字段
 	 */
 	private Integer busUserId;
+	
 }

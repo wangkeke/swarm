@@ -24,4 +24,12 @@ public interface BusProductDao extends JpaRepository<BusProduct, Integer> {
 	
 	Page<BusProduct> findByTitleLikeAndBusUserIdAndFlagNot(String title , Integer busUserId , int notflag , Pageable pageable);
 	
+	Page<BusProduct> findByTitleLikeAndShowAndBusUserIdAndFlagNot(String title , boolean show , Integer busUserId , int notflag , Pageable pageable);
+	
+	Page<BusProduct> findByShowAndBusUserIdAndFlagNot(boolean show , Integer busUserId , int notflag , Pageable pageable);
+	
+	Page<BusProduct> findByCategoryAndShowAndBusUserIdAndFlagNot(BusCategory category , boolean show , Integer busUserId , int notflag , Pageable pageable);
+	
+	BusProduct findByBusUserIdAndIdAndShowAndFlagNot(Integer busUserId , Integer id , boolean show , int notflag);
+	
 }

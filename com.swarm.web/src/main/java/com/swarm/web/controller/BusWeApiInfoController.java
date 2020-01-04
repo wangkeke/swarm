@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
+import com.swarm.base.vo.Paging;
 import com.swarm.web.service.BusWeApiInfoService;
 
 @RequestMapping("/weapiinfo/")
@@ -14,6 +15,11 @@ public class BusWeApiInfoController {
 	
 	@Autowired
 	private BusWeApiInfoService service;
+	
+	@GetMapping("stat")
+	public JsonResult stat(Paging paging) {
+		return JsonResult.ok(service.stat(paging));
+	}
 	
 	@GetMapping("getWxaCode")
 	public JsonResult getWxaCode() {

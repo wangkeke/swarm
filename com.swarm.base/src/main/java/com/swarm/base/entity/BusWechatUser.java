@@ -62,6 +62,10 @@ public class BusWechatUser extends BaseEntity {
 	 */
 	private String portrait;
 	
+	/**
+	 * 该用户自己分享的小程序二维码路径
+	 */
+	private String usermnqrcode;
 	
 	/**
 	 * 父级用户，即：老用户分享拉入的用户

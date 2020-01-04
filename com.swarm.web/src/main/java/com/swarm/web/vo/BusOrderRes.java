@@ -79,7 +79,7 @@ public class BusOrderRes extends Res<BusOrder> {
 	/**
 	 * 收货地址
 	 */
-	private VO weuseraddress;
+	private VO orderAddress;
 	
 	
 	@Override

@@ -1,4 +1,4 @@
-package com.swarm.web.controller;
+package com.swarm.app.controller;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,7 +11,7 @@ import com.swarm.base.vo.JsonResult;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@RestControllerAdvice(basePackages = "com.swarm.web.controller")
+@RestControllerAdvice(basePackages = "com.swarm.app.controller")
 public class WebRestExceptionAdvice {
 	
 	

@@ -18,6 +18,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +39,12 @@ import com.swarm.base.entity.BusMnprogramStat;
 import com.swarm.base.entity.BusWeApiInfo;
 import com.swarm.base.entity.BusWechatUser;
 import com.swarm.base.service.ServiceException;
+import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.BusWeApiInfoRes;
 import com.swarm.web.vo.BusWechatUserRes;
+import com.swarm.web.vo.busMnprogramStatRes;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -153,6 +160,15 @@ public class BusWeApiInfoService{
 		BusWeApiInfo busWeApiInfo = dao.findByBusMnprogramAndBusUserId(busMnprogram, busUserId);
 		return refreshAccessToken(busUserId, busMnprogram, busWeApiInfo);
 	}
+	
+	
+	@Transactional(readOnly = true)
+	public Page<VO> stat(Paging paging){
+		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("id")));
+		Page<BusMnprogramStat> page = busMnprogramStatDao.findAll(pageable);
+		return page.map(new busMnprogramStatRes());
+	}
+	
 	
 	//appid=APPID&secret=SECRET&js_code=JSCODE&
 	public VO authCode2Session(Integer busUserId , String js_code , Integer busWechatUserId) {

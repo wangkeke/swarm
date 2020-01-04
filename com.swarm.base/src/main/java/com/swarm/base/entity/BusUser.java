@@ -41,4 +41,9 @@ public class BusUser extends BaseEntity{
 	 */
 	private boolean enable = true;
 	
+	/**
+	 * 密钥key值
+	 */
+	private String key;
+	
 }

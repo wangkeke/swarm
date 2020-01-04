@@ -1,14 +1,11 @@
 package com.swarm.web.vo;
 
-import javax.persistence.Column;
-
 import com.swarm.base.entity.BusMnprogramStat;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

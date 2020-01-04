@@ -40,9 +40,19 @@ public class BusOrderProduct extends BaseEntity {
 	private BusProduct busProduct;
 	
 	/**
+	 * 商品颜色
+	 */
+	private String color;
+	
+	/**
+	 * 商品尺寸
+	 */
+	private String size;
+	
+	/**
 	 * 购买数量
 	 */
-	private int number;
+	private Integer number;
 	
 	/**
 	 * 商品对应的单价

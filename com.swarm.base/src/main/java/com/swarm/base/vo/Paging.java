@@ -2,8 +2,6 @@ package com.swarm.base.vo;
 
 import java.util.Collection;
 
-import com.swarm.base.vo.VO;
-
 import lombok.Getter;
 import lombok.Setter;
 

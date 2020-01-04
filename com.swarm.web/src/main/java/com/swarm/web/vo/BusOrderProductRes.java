@@ -28,7 +28,17 @@ public class BusOrderProductRes extends Res<BusOrderProduct> {
 	 * 商品对应的单价
 	 */
 	private BigDecimal price;
-
+	
+	/**
+	 * 商品颜色
+	 */
+	private String color;
+	
+	/**
+	 * 商品尺寸
+	 */
+	private String size;
+	
 	
 	@Override
 	public VO apply(BusOrderProduct t) {
@@ -41,6 +51,8 @@ public class BusOrderProductRes extends Res<BusOrderProduct> {
 		this.busProduct.setTitle(t.getBusProduct().getTitle());
 		this.number = t.getNumber();
 		this.price = t.getPrice();
+		this.color = t.getColor();
+		this.size = t.getSize();
 		return this;
 	}
 	

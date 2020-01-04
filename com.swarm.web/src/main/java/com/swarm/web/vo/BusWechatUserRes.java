@@ -52,6 +52,11 @@ public class BusWechatUserRes extends Res<BusWechatUser> {
 	private String portrait;
 	
 	/**
+	 * 该用户自己分享的小程序二维码路径
+	 */
+	private String usermnqrcode;
+	
+	/**
 	 * 父级用户
 	 */
 	private BusWechatUserRes parent;
@@ -71,6 +76,7 @@ public class BusWechatUserRes extends Res<BusWechatUser> {
 		this.city = t.getCity();
 		this.country = t.getCountry();
 		this.portrait = t.getPortrait();
+		this.usermnqrcode = t.getUsermnqrcode();
 		return this;
 	}
 

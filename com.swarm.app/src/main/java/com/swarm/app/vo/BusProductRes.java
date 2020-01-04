@@ -1,4 +1,4 @@
-package com.swarm.web.vo;
+package com.swarm.app.vo;
 
 import java.math.BigDecimal;
 
@@ -71,22 +71,20 @@ public class BusProductRes extends Res<BusProduct> {
 	@Override
 	public VO apply(BusProduct t) {
 		this.id = t.getId();
-		this.updateDate = t.getUpdateDate();
-		this.createDate = t.getCreateDate();
 		this.title = t.getTitle();
 		this.price = t.getPrice();
 		this.stocks = t.getStocks();
 		this.sales = t.getSales();
-		this.content = t.getContent();
-		this.show = t.isShow();
+		this.favorite = t.getFavorite();
+//		this.content = t.getContent();
+//		this.show = t.isShow();
 		if(t.getLabel()!=null) {
 			this.label = new BusLabelRes();
 			this.label.apply(t.getLabel());
 		}
-		this.favorite = t.getFavorite();
-		this.category = new BusCategoryRes().apply(t.getCategory());
+//		this.category = new BusCategoryRes().apply(t.getCategory());
 		this.image =  t.getImage();
-		this.images = t.getImages();
+//		this.images = t.getImages();
 		return this;
 	}
 

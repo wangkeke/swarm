@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,15 +36,13 @@ public class BusImage extends BaseEntity {
 	private String path;
 	
 	/**
+	 * 排序
+	 */
+	private int sort;
+	
+	/**
 	 * 商家用户ID，业务分表分库字段
 	 */
 	private Integer busUserId;
-	
-	/**
-	 * 商品ID
-	 */
-	@ManyToOne
-	@JoinColumn
-	private BusProduct product;
 	
 }

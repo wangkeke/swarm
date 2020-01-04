@@ -14,12 +14,14 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.swarm.base.dao.BusOrderAddressDao;
 import com.swarm.base.dao.BusOrderCouponDao;
 import com.swarm.base.dao.BusOrderDao;
 import com.swarm.base.dao.BusOrderProductDao;
 import com.swarm.base.dao.BusPickcodeDao;
 import com.swarm.base.dao.BusRecordDao;
 import com.swarm.base.entity.BusOrder;
+import com.swarm.base.entity.BusOrderAddress;
 import com.swarm.base.entity.BusOrderCoupon;
 import com.swarm.base.entity.BusOrderProduct;
 import com.swarm.base.entity.BusPickcode;
@@ -32,12 +34,12 @@ import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.ActivityRes;
+import com.swarm.web.vo.BusOrderAddressRes;
 import com.swarm.web.vo.BusOrderCouponRes;
 import com.swarm.web.vo.BusOrderProductRes;
 import com.swarm.web.vo.BusOrderRes;
 import com.swarm.web.vo.BusPickcodeRes;
 import com.swarm.web.vo.BusRecordRes;
-import com.swarm.web.vo.BusWeUserAddressRes;
 
 @Transactional(readOnly = true)
 @Service
@@ -57,6 +59,9 @@ public class BusOrderService {
 	
 	@Autowired
 	private BusPickcodeDao busPickcodeDao;
+	
+	@Autowired
+	private BusOrderAddressDao busOrderAddressDao;
 	
 	@Autowired
 	private OrderProcess process;
@@ -189,7 +194,8 @@ public class BusOrderService {
 			BusPickcode pickcode = busPickcodeDao.findByBusOrder(order);
 			busOrderRes.setPickcode(new BusPickcodeRes().apply(pickcode));
 		}else {
-			busOrderRes.setWeuseraddress(new BusWeUserAddressRes().apply(order.getBusWeUserAddress()));
+			BusOrderAddress busOrderAddress = busOrderAddressDao.findByBusOrderAndBusUserId(order, busUserId);
+			busOrderRes.setOrderAddress(new BusOrderAddressRes().apply(busOrderAddress));
 		}
 		return busOrderRes;
 	}
