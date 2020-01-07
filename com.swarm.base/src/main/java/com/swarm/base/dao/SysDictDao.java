@@ -16,6 +16,8 @@ public interface SysDictDao extends JpaRepository<SysDict, Integer> {
 	
 	List<SysDict> findByType(DictType type);
 	
+	List<SysDict> findByTypeOrderBySortAsc(DictType type);
+	
 	List<SysDict> findByParent(SysDict parent);
 	
 	int countByParent(SysDict parent);

@@ -1,5 +1,7 @@
 package com.swarm.web.vo;
 
+import javax.validation.constraints.NotBlank;
+
 import com.swarm.base.entity.BusMnprogram;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
@@ -27,6 +29,11 @@ public class BusMnprogramRes extends Res<BusMnprogram> {
 	private String AppSecret;
 	
 	/**
+	 * 支付商户号
+	 */
+	private String payBusNumber;
+	
+	/**
 	 * 支付密钥
 	 */
 	private String paySecretKey;
@@ -46,6 +53,7 @@ public class BusMnprogramRes extends Res<BusMnprogram> {
 		this.mpname = t.getMpname();
 		this.AppID = t.getAppID();
 		this.AppSecret = t.getAppSecret();
+		this.payBusNumber = t.getPayBusNumber();
 		this.paySecretKey = t.getPaySecretKey();
 		this.apiclientcertPath = t.getApiclientcertPath();
 		this.apiclientkeyPath = t.getApiclientkeyPath();

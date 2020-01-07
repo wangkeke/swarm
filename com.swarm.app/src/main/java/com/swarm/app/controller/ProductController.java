@@ -32,18 +32,6 @@ public class ProductController extends BaseController {
 	}
 	
 	/**
-	 * 更新收藏,存在则删除，不存在则添加
-	 * @param busUserId
-	 * @param productId
-	 * @return
-	 */
-	@RequestMapping("favorite")
-	public JsonResult favorite(@PathVariable Integer busUserId , Integer id , Integer userId) {
-		service.favorite(busUserId, id, userId);
-		return JsonResult.ok();
-	}
-	
-	/**
 	 * 商品评论
 	 * @param busUserId
 	 * @param id

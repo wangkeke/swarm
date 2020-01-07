@@ -1,6 +1,9 @@
 package com.swarm.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.app.service.AddressService;
+import com.swarm.app.vo.BusWeUserAddressReq;
+import com.swarm.app.vo.UpdateBusWeUserAddressReq;
 import com.swarm.base.vo.JsonResult;
 
-@RequestMapping("/address/")
+@RequestMapping("/user/{userId}/address/")
 @RestController
 public class AddressController extends BaseController {
 	
@@ -22,8 +27,8 @@ public class AddressController extends BaseController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public JsonResult list(@PathVariable Integer busUserId , Integer userId) {
-		
+	public JsonResult list(@PathVariable Integer busUserId , @PathVariable Integer userId) {
+		return JsonResult.ok(service.list(busUserId, userId));
 	}
 	
 	/**
@@ -31,8 +36,11 @@ public class AddressController extends BaseController {
 	 * @return
 	 */
 	@PostMapping("save")
-	public JsonResult save(@PathVariable Integer busUserId , Integer userId) {
-		
+	public JsonResult save(@PathVariable Integer busUserId , @PathVariable Integer userId , @Valid BusWeUserAddressReq req , BindingResult result) {
+		if(result.hasErrors()) {
+			return JsonResult.fail(result.getAllErrors());
+		}
+		return JsonResult.ok(service.save(busUserId, userId, req));
 	}
 	
 	/**
@@ -40,8 +48,12 @@ public class AddressController extends BaseController {
 	 * @return
 	 */
 	@PostMapping("update")
-	public JsonResult update(@PathVariable Integer busUserId , Integer userId) {
-		
+	public JsonResult update(@PathVariable Integer busUserId , @PathVariable Integer userId , @Valid UpdateBusWeUserAddressReq req , BindingResult result) {
+		if(result.hasErrors()) {
+			return JsonResult.fail(result.getAllErrors());
+		}
+		service.update(busUserId, userId, req);
+		return JsonResult.ok();
 	}
 	
 	/**
@@ -49,8 +61,9 @@ public class AddressController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("first")
-	public JsonResult first(@PathVariable Integer busUserId , Integer userId) {
-		
+	public JsonResult first(@PathVariable Integer busUserId , @PathVariable Integer userId , Integer id) {
+		service.first(busUserId, userId, id);
+		return JsonResult.ok();
 	}
 	
 	/**
@@ -58,8 +71,9 @@ public class AddressController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("delete")
-	public JsonResult delete(@PathVariable Integer busUserId , Integer userId) {
-		
+	public JsonResult delete(@PathVariable Integer busUserId , @PathVariable Integer userId , Integer id) {
+		service.delete(busUserId, userId, id);
+		return JsonResult.ok();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.swarm.web.vo;
+package com.swarm.app.vo;
 
 import com.swarm.base.entity.BusWeUserAddress;
 import com.swarm.base.vo.Res;
@@ -40,8 +40,8 @@ public class BusWeUserAddressRes extends Res<BusWeUserAddress> {
 	@Override
 	public VO apply(BusWeUserAddress t) {
 		this.id = t.getId();
-		this.updateDate = t.getUpdateDate();
-		this.createDate = t.getCreateDate();
+//		this.updateDate = t.getUpdateDate();
+//		this.createDate = t.getCreateDate();
 		this.address = t.getAddress();
 		this.location = t.getLocation();
 		this.first = t.isFirst();

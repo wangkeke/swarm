@@ -37,6 +37,12 @@ public class BusMnprogram extends BaseEntity{
 	 */
 	private String AppSecret;
 	
+	
+	/**
+	 * 支付商户号
+	 */
+	private String payBusNumber;
+	
 	/**
 	 * 支付密钥
 	 */

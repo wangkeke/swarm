@@ -83,7 +83,15 @@ public class BusOrder extends BaseEntity {
 		String dateStr = sdf.format(new Date());
 		String ipStr = getIPAddress();
 		ipStr = ipStr.substring(ipStr.lastIndexOf(".")+1);
-		return dateStr+(Integer.parseInt(ipStr)+100) + (1000 + Thread.currentThread().getId());
+		return dateStr+(Integer.parseInt(ipStr)+100) + (1000 + Thread.currentThread().getId()%1000);
+	}
+	
+	public static String generateOrderCode(Integer busUserId){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dateStr = sdf.format(new Date());
+		String ipStr = getIPAddress();
+		ipStr = ipStr.substring(ipStr.lastIndexOf(".")+1);
+		return dateStr+(Integer.parseInt(ipStr)+100) + (busUserId!=null?busUserId:"") + (1000 + Thread.currentThread().getId()%1000);
 	}
 	
 }

@@ -14,6 +14,11 @@ import lombok.Setter;
 public class BusWeDepositRecordRes extends Res<BusWeDepositRecord> {
 	
 	
+	/**
+	 * 订单号
+	 */
+	private String orderCode;
+	
 	private VO busWechatUser;
 	
 	/**
@@ -26,6 +31,7 @@ public class BusWeDepositRecordRes extends Res<BusWeDepositRecord> {
 		this.busWechatUser = new BusWechatUserRes().apply(t.getBusWechatUser());
 		this.money = t.getMoney();
 		this.id = t.getId();
+		this.orderCode = t.getOrderCode();
 		this.updateDate = t.getUpdateDate();
 		this.createDate = t.getCreateDate();
 		return this;

@@ -37,6 +37,12 @@ public class UpdateBusMnprogramReq extends UpdateReq<BusMnprogram> {
 	private String AppSecret;
 	
 	/**
+	 * 支付商户号
+	 */
+	@NotBlank(message = "支付商户号不能为空！")
+	private String payBusNumber;
+	
+	/**
 	 * 支付密钥
 	 */
 	@NotBlank(message = "支付密钥不能为空！")
@@ -62,6 +68,7 @@ public class UpdateBusMnprogramReq extends UpdateReq<BusMnprogram> {
 		m.setApiclientkeyPath(this.apiclientkeyPath);
 		m.setAppID(this.AppID);
 		m.setAppSecret(this.AppSecret);
+		m.setPayBusNumber(this.payBusNumber);
 		m.setPaySecretKey(this.paySecretKey);
 	}
 	

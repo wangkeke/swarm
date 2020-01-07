@@ -34,6 +34,12 @@ public class BusMnprogramReq extends CreateReq<BusMnprogram> {
 	private String AppSecret;
 	
 	/**
+	 * 支付商户号
+	 */
+	@NotBlank(message = "支付商户号不能为空！")
+	private String payBusNumber;
+	
+	/**
 	 * 支付密钥
 	 */
 	@NotBlank(message = "支付密钥不能为空！")
@@ -59,6 +65,7 @@ public class BusMnprogramReq extends CreateReq<BusMnprogram> {
 		mnprogram.setMpname(this.mpname);
 		mnprogram.setAppID(this.AppID);
 		mnprogram.setAppSecret(this.AppSecret);
+		mnprogram.setPayBusNumber(this.payBusNumber);
 		mnprogram.setPaySecretKey(this.paySecretKey);
 		mnprogram.setApiclientcertPath(this.apiclientcertPath);
 		mnprogram.setApiclientkeyPath(this.apiclientkeyPath);

@@ -11,4 +11,6 @@ public interface BusDictDao extends JpaRepository<BusDict, Integer> {
 	
 	List<BusDict> findByTypeAndBusUserId(DictType type , Integer busUserId);
 	
+	BusDict findByTypeAndKeyAndBusUserId(DictType type ,String key, Integer busUserId);
+	
 }
