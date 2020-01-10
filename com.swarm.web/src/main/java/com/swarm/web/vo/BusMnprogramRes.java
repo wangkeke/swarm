@@ -1,7 +1,5 @@
 package com.swarm.web.vo;
 
-import javax.validation.constraints.NotBlank;
-
 import com.swarm.base.entity.BusMnprogram;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;

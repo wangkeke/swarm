@@ -2,6 +2,7 @@ package com.swarm.web.vo;
 
 import com.swarm.base.entity.BusSalesRule;
 import com.swarm.base.vo.Res;
+import com.swarm.base.vo.SalesRuleTypeRes;
 import com.swarm.base.vo.VO;
 
 import lombok.Getter;
@@ -20,6 +21,11 @@ public class BusSalesRuleRes extends Res<BusSalesRule> {
 	 * 图标路径，(345px*180px)
 	 */
 	private String icon;
+	
+	/**
+	 * 类型
+	 */
+	private SalesRuleTypeRes type;
 	
 	/**
 	 * 该规则配置页url
@@ -43,6 +49,8 @@ public class BusSalesRuleRes extends Res<BusSalesRule> {
 		this.createDate = t.getCreateDate();
 		this.name = t.getName();
 		this.icon = t.getIcon();
+		this.type = new SalesRuleTypeRes();
+		this.type.apply(t.getType());
 		this.configUrl = t.getConfigUrl();
 		this.enable = t.isEnable();
 		return this;

@@ -22,10 +22,10 @@ import com.swarm.base.service.Activity;
 import com.swarm.base.service.ActivityNode;
 import com.swarm.base.service.CashbackProcess;
 import com.swarm.base.service.ServiceException;
+import com.swarm.base.vo.ActivityRes;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
-import com.swarm.web.vo.ActivityRes;
 import com.swarm.web.vo.BusCashbackRecordRes;
 import com.swarm.web.vo.BusCashbackRes;
 

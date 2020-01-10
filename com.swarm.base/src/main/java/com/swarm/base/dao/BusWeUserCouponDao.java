@@ -18,4 +18,8 @@ public interface BusWeUserCouponDao extends JpaRepository<BusWeUserCoupon, Integ
 	
 	int countByBusWechatUserAndBusCouponAndBusUserId(BusWechatUser busWechatUser , BusCoupon busCoupon , Integer busUserId);
 	
+	BusWeUserCoupon findByBusWechatUserAndBusCouponAndBusUserId(BusWechatUser busWechatUser , BusCoupon busCoupon , Integer busUserId);
+	
+	BusWeUserCoupon findByBusWechatUserAndIdAndBusUserId(BusWechatUser busWechatUser , Integer id , Integer busUserId);
+	
 }

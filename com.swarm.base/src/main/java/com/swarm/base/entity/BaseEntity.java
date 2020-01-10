@@ -13,7 +13,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.DigestUtils;
 

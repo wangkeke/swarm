@@ -1,8 +1,9 @@
 package com.swarm.base.entity;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 
@@ -34,11 +35,9 @@ public class BusSalesRule extends BaseEntity {
 	 */
 	private String icon;
 	
-	/**
-	 * 菜单key唯一标识例如：menu_shop_rule_1
-	 */
-	@Column(name = "`key`",length = 20)
-	private String key;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private SalesRuleType type;
 	
 	/**
 	 * 该规则配置页url

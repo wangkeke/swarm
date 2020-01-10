@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.swarm.app.service.UserService;
 import com.swarm.app.vo.BusWeWithdrawalReq;
+import com.swarm.app.vo.SysBusApplyReq;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
@@ -180,16 +181,15 @@ public class UserController extends BaseController {
 		return JsonResult.ok(service.withdrawSave(busUserId, userId, req));
 	}
 	
-	
-	private String getServerUrl(HttpServletRequest request) {
-		String protocol = request.getProtocol();
-		if(protocol.toLowerCase().indexOf("https")>-1) {
-			return request.getProtocol()+"://" + request.getServerName()+
-					(request.getServerPort()==443?"":(":"+request.getServerPort()))+request.getContextPath();
-		}else {
-			return request.getProtocol()+"://" + request.getServerName()+
-					(request.getServerPort()==80?"":(":"+request.getServerPort()))+request.getContextPath();
-		}
+	/**
+	 * 商业申请
+	 * @return
+	 */
+	public JsonResult busApply(@PathVariable Integer busUserId , @Valid SysBusApplyReq req , BindingResult result) {
+		if(result.hasErrors()) {
+			return JsonResult.fail(result.getAllErrors());
+		}		
+		return JsonResult.ok(service.busApply(busUserId, req));
 	}
 	
 }

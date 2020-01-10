@@ -2,6 +2,7 @@ package com.swarm.admin.vo;
 
 import com.swarm.base.entity.SysSalesRule;
 import com.swarm.base.vo.Res;
+import com.swarm.base.vo.SalesRuleTypeRes;
 import com.swarm.base.vo.VO;
 
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class SysSalesRuleRes extends Res<SysSalesRule> {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
-	private String key;
+	private SalesRuleTypeRes type;
 	
 	/**
 	 * 该规则配置页url
@@ -47,7 +48,8 @@ public class SysSalesRuleRes extends Res<SysSalesRule> {
 		this.id = t.getId();
 		this.name = t.getName();
 		this.icon = t.getIcon();
-		this.key = t.getKey();
+		this.type = new SalesRuleTypeRes();
+		this.type.apply(t.getType());
 		this.configUrl = t.getConfigUrl();
 		this.content = t.getContent();
 		this.enable = t.isEnable();

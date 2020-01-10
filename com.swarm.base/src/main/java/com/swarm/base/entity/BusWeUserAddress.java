@@ -1,12 +1,11 @@
 package com.swarm.base.entity;
 
-import lombok.Setter;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 商家小程序微信用户收货地址管理

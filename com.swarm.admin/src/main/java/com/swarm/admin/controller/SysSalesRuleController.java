@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swarm.admin.service.SysSalesRuleService;
 import com.swarm.admin.vo.SysSalesRuleReq;
 import com.swarm.admin.vo.UpdateSysSalesRuleReq;
+import com.swarm.base.entity.SalesRuleType;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
@@ -32,9 +33,9 @@ public class SysSalesRuleController {
 		return JsonResult.ok(service.page(name, paging));
 	}
 	
-	@GetMapping("validKey")
-	public JsonResult validKey(String key) {
-		return JsonResult.ok(service.validKey(key));
+	@GetMapping("validType")
+	public JsonResult validType(SalesRuleType type) {
+		return JsonResult.ok(service.validType(type));
 	}
 	
 	@PostMapping("save")

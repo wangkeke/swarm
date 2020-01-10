@@ -23,14 +23,19 @@ public class BusOrderController {
 		return JsonResult.ok(service.page(paging));
 	}
 	
+	@GetMapping("cashbackPointcuts")
+	public JsonResult cashbackPointcuts() {
+		return JsonResult.ok(service.cashbackPointcuts());
+	}
+	
 	@PostMapping("process")
-	private JsonResult process(Integer id , String comment , ActivityNode node) {
+	public JsonResult process(Integer id , String comment , ActivityNode node) {
 	 	service.process(id, comment, node);
 		return JsonResult.ok();
 	}
 	
 	@GetMapping("details")
-	private JsonResult details(Integer id) {
+	public JsonResult details(Integer id) {
 		return JsonResult.ok(service.details(id));
 	}
 	

@@ -37,8 +37,8 @@ public class SysSalesRule extends BaseEntity {
 	/**
 	 * 菜单key唯一标识例如：menu_shop_rule_1
 	 */
-	@Column(name = "`key`",length = 20,unique = true)
-	private String key;
+	@Column(length = 20,unique = true)
+	private SalesRuleType type;
 	
 	/**
 	 * 该规则配置页url

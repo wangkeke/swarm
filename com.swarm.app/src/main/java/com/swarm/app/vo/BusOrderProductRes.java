@@ -1,4 +1,4 @@
-package com.swarm.web.vo;
+package com.swarm.app.vo;
 
 import java.math.BigDecimal;
 
@@ -40,14 +40,14 @@ public class BusOrderProductRes extends Res<BusOrderProduct> {
 	private String size;
 	
 	/**
-	 * 商品名称
-	 */
-	private String title;
-	
-	/**
 	 * 商品图片
 	 */
 	private String image;
+	
+	/**
+	 * 商品名称
+	 */
+	private String title;
 	
 	@Override
 	public VO apply(BusOrderProduct t) {
@@ -62,8 +62,8 @@ public class BusOrderProductRes extends Res<BusOrderProduct> {
 		this.price = t.getPrice();
 		this.color = t.getColor();
 		this.size = t.getSize();
-		this.title = t.getTitle();
 		this.image = t.getImage();
+		this.title = t.getTitle();
 		return this;
 	}
 	

@@ -130,7 +130,7 @@ public class BusUserService {
 			rule.setContent(sysSalesRule.getContent());
 			rule.setEnable(true);
 			rule.setIcon(sysSalesRule.getIcon());
-			rule.setKey(sysSalesRule.getKey());
+			rule.setType(sysSalesRule.getType());
 			rule.setName(sysSalesRule.getName());
 			busSalesRules.add(rule);
 		}

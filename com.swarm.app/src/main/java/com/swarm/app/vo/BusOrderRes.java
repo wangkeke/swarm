@@ -1,10 +1,10 @@
-package com.swarm.web.vo;
+package com.swarm.app.vo;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import com.swarm.base.entity.BusOrder;
-import com.swarm.base.service.ActivityNode;
+import com.swarm.base.vo.ActivityNodeRes;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
@@ -44,7 +44,7 @@ public class BusOrderRes extends Res<BusOrder> {
 	/**
 	 * 当前订单所在流程节点
 	 */
-	private ActivityNode activityNode;
+	private ActivityNodeRes activityNode;
 	
 	/**
 	 * 流程操作
@@ -81,11 +81,10 @@ public class BusOrderRes extends Res<BusOrder> {
 	 */
 	private VO orderAddress;
 	
-	/**
-	 * 只有付款的订单
-	 */
 	private Boolean onlyPay;
 	
+	
+	private List<VO> products;
 	
 	@Override
 	public VO apply(BusOrder t) {
@@ -93,13 +92,14 @@ public class BusOrderRes extends Res<BusOrder> {
 		this.updateDate = t.getUpdateDate();
 		this.createDate = t.getCreateDate();
 		this.orderCode = t.getOrderCode();
-		this.busWechatUser = new BusWechatUserRes().apply(t.getBusWechatUser());
+		this.onlyPay = t.isOnlyPay();
+//		this.busWechatUser = new BusWechatUserRes().apply(t.getBusWechatUser());
 		this.selfpick = t.isSelfpick();
 		this.amount = t.getAmount();
 		this.realAmount = t.getRealAmount();
-		this.activityNode = t.getActivityNode();
+		this.activityNode = new ActivityNodeRes();
+		this.activityNode.apply(t.getActivityNode());
 		this.comment = t.getComment();
-		this.onlyPay = t.isOnlyPay();
 		return this;
 	}
 

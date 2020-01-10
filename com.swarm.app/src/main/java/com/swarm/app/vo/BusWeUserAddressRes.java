@@ -4,9 +4,8 @@ import com.swarm.base.entity.BusWeUserAddress;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

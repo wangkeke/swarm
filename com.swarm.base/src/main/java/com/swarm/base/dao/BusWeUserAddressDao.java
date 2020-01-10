@@ -15,6 +15,8 @@ public interface BusWeUserAddressDao extends JpaRepository<BusWeUserAddress, Int
 	
 	BusWeUserAddress findByIdAndBusUserId(Integer id , Integer busUserId);
 	
+	BusWeUserAddress findByIdAndBusWechatUserAndBusUserId(Integer id , BusWechatUser busWechatUser , Integer busUserId);
+	
 	@Modifying
 	@Query("update BusWeUserAddress a set a.first = false where a.busWechatUser = ?2 and a.busUserId = ?1")
 	void clearBusWeUserAddressFirst(Integer busUserId , BusWechatUser busWechatUser);

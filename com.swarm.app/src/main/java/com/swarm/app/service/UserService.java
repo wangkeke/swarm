@@ -42,6 +42,7 @@ import com.swarm.app.vo.BusWeUserWalletRes;
 import com.swarm.app.vo.BusWeWithdrawalReq;
 import com.swarm.app.vo.BusWeWithdrawalRes;
 import com.swarm.app.vo.BusWechatUserRes;
+import com.swarm.app.vo.SysBusApplyReq;
 import com.swarm.app.vo.SysDictRes;
 import com.swarm.app.vo.UserInfo;
 import com.swarm.base.dao.BusCouponCategoryDao;
@@ -55,6 +56,7 @@ import com.swarm.base.dao.BusWeUserWalletDao;
 import com.swarm.base.dao.BusWeWithdrawalDao;
 import com.swarm.base.dao.BusWechatPayNotifyDao;
 import com.swarm.base.dao.BusWechatUserDao;
+import com.swarm.base.dao.SysBusApplyDao;
 import com.swarm.base.dao.SysDictDao;
 import com.swarm.base.entity.BaseEntity;
 import com.swarm.base.entity.BusCoupon;
@@ -71,6 +73,7 @@ import com.swarm.base.entity.BusWechatPayNotify;
 import com.swarm.base.entity.BusWechatUser;
 import com.swarm.base.entity.DictType;
 import com.swarm.base.entity.PaymentType;
+import com.swarm.base.entity.SysBusApply;
 import com.swarm.base.entity.SysDict;
 import com.swarm.base.service.ServiceException;
 import com.swarm.base.vo.Paging;
@@ -124,6 +127,9 @@ public class UserService {
 	
 	@Autowired
 	private BusWeWithdrawalDao busWeWithdrawalDao;
+	
+	@Autowired
+	private SysBusApplyDao sysBusApplyDao;
 	
 	private final RestTemplate restTemplate;
 	
@@ -295,6 +301,7 @@ public class UserService {
 			busWeUserFavorite.setBusUserId(busUserId);
 			busWeUserFavorite.setBusWechatUser(busWechatUser);
 			busWeUserFavoriteDao.save(busWeUserFavorite);
+			busProductDao.increaseFavoriteByIdAndBusUserId(busProduct.getId(), busUserId);
 		}else {
 			busWeUserFavoriteDao.deleteAll(busWeUserFavorites);
 		}
@@ -376,34 +383,33 @@ public class UserService {
 	public JSONObject recharge(Integer busUserId, Integer userId , String body) {
 		JSONObject result = new JSONObject();
 		try {
+			//查询用户
 			BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
 			if(busWechatUser==null) {
 				throw new ServiceException("用户不存在！");
 			}
+			//查询用户钱包
+			BusWeUserWallet busWeUserWallet = busWeUserWalletDao.findByBusWechatUserAndBusUserId(busWechatUser, busUserId);
 			BusMnprogram busMnprogram = busMnprogramDao.findFirstByBusUserId(busUserId);
 			Map<String, String> paramMap = parseWechatApiXMLResult(busMnprogram, body);
 			String out_trade_no = paramMap.get("out_trade_no");
 			BusWechatPayNotify busWechatPayNotify = busWechatPayNotifyDao.findByOrderCodeAndBusWechatUserAndBusUserId(out_trade_no, busWechatUser, busUserId);
-			if(busWechatPayNotify==null || busWechatPayNotify.getStatus()>0) {
+			if(busWechatPayNotify==null || busWechatPayNotify.getStatus()>0) {   //如果已支付，直接返回成功
 				result.put("return_code", "SUCCESS");
 				result.put("return_msg", "OK");
 				return result;
 			}
-			BigDecimal amount = new BigDecimal(paramMap.get("total_fee"));
-			BusWeUserWallet busWeUserWallet = busWeUserWalletDao.findByBusWechatUserAndBusUserId(busWechatUser, busUserId);
-			if(busWeUserWallet==null) {
-				busWeUserWallet = new BusWeUserWallet();
-				busWeUserWallet.setUpdateDate(new Date());
-				busWeUserWallet.setCreateDate(new Date());
-				busWeUserWallet.setBalance(new BigDecimal(0));
-				busWeUserWallet.setBusUserId(busUserId);
-				busWeUserWallet.setBusWechatUser(busWechatUser);
-				busWeUserWalletDao.save(busWeUserWallet);
+			//如果为未支付：0，则更新支付通知状态为，1：已支付
+			int updateCount = busWechatPayNotifyDao.updateStatusByIdAndStatusAndBusUserId(1, new Date(), busWechatPayNotify.getId(), busWechatPayNotify.getStatus(), busUserId);
+			if(updateCount<=0) {   //存在并发，返回失败结果
+				result.put("return_code", "FAIL");
+				result.put("return_msg", "concurrent execption！");
+				log.warn("微信支付通知---- 钱包充值---- 并发修改数据库数据！");
+				return result;
 			}
+			BigDecimal amount = new BigDecimal(paramMap.get("total_fee"));
+			//钱包充值----增加充值金额
 			busWeUserWalletDao.rechargeBusWeUserWallet(busWeUserWallet.getId(), busUserId, amount , busWeUserWallet.getBalance());
-			busWechatPayNotify.setStatus(1);
-			busWechatPayNotify.setUpdateDate(new Date());
-			busWechatPayNotifyDao.save(busWechatPayNotify);
 			result.put("return_code", "SUCCESS");
 			result.put("return_msg", "OK");
 			return result;
@@ -458,14 +464,14 @@ public class UserService {
 		List<BusDict> dicts = busDictDao.findByTypeAndBusUserId(DictType.WITHDRAWAL_SET, busUserId);
 		String _min_withdrawal_amount = (DictType.WITHDRAWAL_SET.name()+"_min_withdrawal_amount").toLowerCase();
 		BusDict minWithdrawalAmount = null;
-		String _handlingFee_rate = (DictType.WITHDRAWAL_SET.name()+"_handlingFee_rate").toLowerCase();
-		BusDict handlingFee_rate = null;
+		String _handlingFee_percent = (DictType.WITHDRAWAL_SET.name()+"_handlingFee_percent").toLowerCase();
+		BusDict handlingFee_percent = null;
 		for (BusDict busDict : dicts) {
 			if(_min_withdrawal_amount.equals(busDict.getKey())) {
 				minWithdrawalAmount = busDict;
 			}
-			if(_handlingFee_rate.equals(busDict.getKey())) {
-				handlingFee_rate = busDict;
+			if(_handlingFee_percent.equals(busDict.getKey())) {
+				handlingFee_percent = busDict;
 			}
 		}
 		if(minWithdrawalAmount!=null && Double.parseDouble(minWithdrawalAmount.getValue())>req.getMoney().doubleValue()) {
@@ -486,8 +492,8 @@ public class UserService {
 			busWeWithdrawal.setBankDict(optional.get());
 		}
 		int rate = 10;
-		if(handlingFee_rate!=null) {  //如果为空，默认为10%
-			rate = Integer.parseInt(handlingFee_rate.getValue());
+		if(handlingFee_percent!=null) {  //如果为空，默认为10%
+			rate = Integer.parseInt(handlingFee_percent.getValue());
 		}
 		BigDecimal handlingFee = new BigDecimal(busWeWithdrawal.getMoney().doubleValue()*rate/100.0);
 		handlingFee = handlingFee.setScale(2, RoundingMode.DOWN);
@@ -497,6 +503,13 @@ public class UserService {
 		return new BusWeWithdrawalRes().apply(busWeWithdrawal);
 	}
 	
+	@Transactional
+	public Integer busApply(Integer busUserId , SysBusApplyReq req) {
+		SysBusApply sysBusApply = req.create();
+		sysBusApply.setBusUserId(busUserId);
+		sysBusApplyDao.save(sysBusApply);
+		return sysBusApply.getId();
+	}
 	
 	private Map<String, String> parseWechatApiXMLResult(BusMnprogram busMnprogram , String result){
 		try {

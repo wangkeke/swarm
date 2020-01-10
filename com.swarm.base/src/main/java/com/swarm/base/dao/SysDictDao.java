@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.swarm.base.entity.SysDict;
 import com.swarm.base.entity.DictType;
+import com.swarm.base.entity.SysDict;
 
 public interface SysDictDao extends JpaRepository<SysDict, Integer> {
 	

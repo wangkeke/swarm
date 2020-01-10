@@ -54,6 +54,15 @@ public class BusOrder extends BaseEntity {
 	@Column(scale = 2)
 	private BigDecimal amount;
 		
+	/**
+	 * 只有付款的订单
+	 */
+	private boolean onlyPay;
+	
+	/**
+	 * 钱包支付，该笔订单是否是通过钱包支付的
+	 */
+	private boolean walletPay;
 	
 	/**
 	 * 实收总金额

@@ -40,6 +40,16 @@ public class BusOrderProduct extends BaseEntity {
 	private BusProduct busProduct;
 	
 	/**
+	 * 商品名称
+	 */
+	private String title;
+	
+	/**
+	 * 商品图片
+	 */
+	private String image;
+	
+	/**
 	 * 商品颜色
 	 */
 	private String color;
@@ -59,5 +69,10 @@ public class BusOrderProduct extends BaseEntity {
 	 */
 	@Column(scale = 2)
 	private BigDecimal price;
+	
+	/**
+	 * 商家ID,分表分库字段
+	 */
+	private Integer busUserId;
 	
 }

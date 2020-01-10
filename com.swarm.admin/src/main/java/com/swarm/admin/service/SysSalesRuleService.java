@@ -1,5 +1,7 @@
 package com.swarm.admin.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +19,10 @@ import com.swarm.admin.vo.SysSalesRuleReq;
 import com.swarm.admin.vo.SysSalesRuleRes;
 import com.swarm.admin.vo.UpdateSysSalesRuleReq;
 import com.swarm.base.dao.SysSalesRuleDao;
+import com.swarm.base.entity.SalesRuleType;
 import com.swarm.base.entity.SysSalesRule;
 import com.swarm.base.vo.Paging;
+import com.swarm.base.vo.SalesRuleTypeRes;
 import com.swarm.base.vo.VO;
 
 @Service
@@ -27,6 +31,15 @@ public class SysSalesRuleService {
 	
 	@Autowired
 	private SysSalesRuleDao salesRuleDao;
+	
+	
+	public List<VO> getType(){
+		List<VO> list = new ArrayList<VO>();
+		for (SalesRuleType type : SalesRuleType.values()) {
+			list.add(new SalesRuleTypeRes().apply(type));
+		}
+		return list;
+	}
 	
 	public Page<VO> page(String name , Paging paging){
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Sort.by(Order.desc("createDate")));
@@ -39,18 +52,18 @@ public class SysSalesRuleService {
 		return page.map(new SysSalesRuleRes());
 	}
 	
-	public boolean validKey(String key) {
-		if(StringUtils.isBlank(key)) {
+	public boolean validType(SalesRuleType type) {
+		if(type==null) {
 			return false;
 		}
-		return salesRuleDao.countByKey(key)>0?false:true;
+		return salesRuleDao.countByType(type)>0?false:true;
 	}
 	
 	@Transactional
 	public Integer save(SysSalesRuleReq req) {
 		SysSalesRule rule = req.create();
-		if(!validKey(rule.getKey())) {
-			throw new ServiceException("Key已存在！");
+		if(!validType(rule.getType())) {
+			throw new ServiceException("类型已存在！");
 		}
 		salesRuleDao.save(rule);
 		return rule.getId();

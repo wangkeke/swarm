@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.swarm.base.entity.SalesRuleType;
 import com.swarm.base.entity.SysSalesRule;
 import com.swarm.base.vo.CreateReq;
 
@@ -28,10 +29,10 @@ public class SysSalesRuleReq extends CreateReq<SysSalesRule> {
 	private String icon;
 	
 	/**
-	 * key唯一标识例如：menu_shop_rule_1
+	 * type唯一标识例如：menu_shop_rule_1
 	 */
-	@NotBlank(message = "key不能为空！")
-	private String key;
+	@NotBlank(message = "类型不能为空！")
+	private SalesRuleType type;
 	
 	/**
 	 * 该规则配置页url
@@ -60,7 +61,7 @@ public class SysSalesRuleReq extends CreateReq<SysSalesRule> {
 		rule.setContent(this.content);
 		rule.setEnable(this.enable);
 		rule.setIcon(this.icon);
-		rule.setKey(this.key);
+		rule.setType(this.type);
 		rule.setName(this.name);
 		return rule;
 	}

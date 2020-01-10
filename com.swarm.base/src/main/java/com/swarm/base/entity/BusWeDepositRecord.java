@@ -7,9 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 商家小程序微信用户入金记录

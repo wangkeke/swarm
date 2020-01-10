@@ -8,9 +8,8 @@ import javax.validation.constraints.NotNull;
 import com.swarm.base.entity.BusImage;
 import com.swarm.base.vo.UpdateReq;
 
-import lombok.Setter;
-
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

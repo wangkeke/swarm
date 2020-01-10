@@ -30,10 +30,11 @@ import com.swarm.base.service.Activity;
 import com.swarm.base.service.ActivityNode;
 import com.swarm.base.service.OrderProcess;
 import com.swarm.base.service.ServiceException;
+import com.swarm.base.vo.ActivityNodeRes;
+import com.swarm.base.vo.ActivityRes;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
-import com.swarm.web.vo.ActivityRes;
 import com.swarm.web.vo.BusOrderAddressRes;
 import com.swarm.web.vo.BusOrderCouponRes;
 import com.swarm.web.vo.BusOrderProductRes;
@@ -67,7 +68,13 @@ public class BusOrderService {
 	private OrderProcess process;
 	
 	
-	
+	public List<VO> cashbackPointcuts(){
+		List<VO> list = new ArrayList<VO>();
+		list.add(new ActivityNodeRes().apply(ActivityNode.CONFIRMED));
+		list.add(new ActivityNodeRes().apply(ActivityNode.PAID));
+		list.add(new ActivityNodeRes().apply(ActivityNode.SHIPPED));
+		return list;
+	}
 	
 	public Page<VO> page(Paging paging){
 		Integer busUserId = CurrentUser.getBusUserId();
@@ -166,7 +173,7 @@ public class BusOrderService {
 		
 		//查询订单中的商品列表
 		List<VO> productRess = null;
-		List<BusOrderProduct> busOrderProducts = busOrderProductDao.findByBusOrder(order);
+		List<BusOrderProduct> busOrderProducts = busOrderProductDao.findByBusOrderAndBusUserId(order , busUserId);
 		for (BusOrderProduct busOrderProduct : busOrderProducts) {
 			if(productRess==null) {
 				productRess = new ArrayList<VO>(busOrderProducts.size());

@@ -1,10 +1,8 @@
-package com.swarm.web.vo;
+package com.swarm.base.vo;
 
 import com.swarm.base.service.Activity;
 import com.swarm.base.service.ActivityNode;
 import com.swarm.base.service.ActivityStatus;
-import com.swarm.base.vo.Res;
-import com.swarm.base.vo.VO;
 
 import lombok.Getter;
 import lombok.Setter;

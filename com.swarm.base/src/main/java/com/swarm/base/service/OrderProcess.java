@@ -21,9 +21,10 @@ public class OrderProcess extends Process {
 	public void buildProcess() {
 		//结束流程节点
 		Activity cancel = new Activity(Activity.WECHAT_USER,ActivityNode.CANCELLED,"取消", ActivityStatus.CANCELLED);
-		Activity confirmed = new Activity(Activity.WECHAT_USER,ActivityNode.CONFIRMED,"确认收货", ActivityStatus.CONFIRMED);
+		Activity hasevaluation = new Activity(Activity.WECHAT_USER,ActivityNode.HASEVALUATION,"评价", ActivityStatus.HASEVALUATION);
 		Activity refunded = new Activity(Activity.BUS_USER,ActivityNode.REFUNDED,"退款", ActivityStatus.REFUNDED);
 		//其他流程节点
+		Activity confirmed = new Activity(Activity.WECHAT_USER,ActivityNode.CONFIRMED,"确认收货", ActivityStatus.CONFIRMED,hasevaluation);
 		Activity pickedup = new Activity(Activity.BUS_USER, ActivityNode.PICKEDUP, ActivityStatus.PENDING_CONFIRM,confirmed);
 		Activity shipped = new Activity(Activity.BUS_USER,ActivityNode.SHIPPED,ActivityStatus.PENDING_CONFIRM, confirmed);
 		Activity refuse_refund = new Activity(Activity.BUS_USER,ActivityNode.REFUSE_REFUND, ActivityStatus.PENDING_SHIP, shipped);
@@ -33,6 +34,7 @@ public class OrderProcess extends Process {
 		this
 			.add(pickedup)
 			.add(cancel)
+			.add(hasevaluation)
 			.add(refunded)
 			.add(confirmed)
 			.add(shipped)
