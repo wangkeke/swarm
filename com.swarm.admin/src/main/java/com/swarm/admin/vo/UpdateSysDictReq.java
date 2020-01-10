@@ -5,8 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.swarm.base.entity.SysDict;
 import com.swarm.base.entity.DictType;
+import com.swarm.base.entity.SysDict;
 import com.swarm.base.vo.UpdateReq;
 
 import lombok.Getter;

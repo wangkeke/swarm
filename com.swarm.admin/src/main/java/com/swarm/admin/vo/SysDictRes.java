@@ -1,7 +1,7 @@
 package com.swarm.admin.vo;
 
-import com.swarm.base.entity.SysDict;
 import com.swarm.base.entity.DictType;
+import com.swarm.base.entity.SysDict;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
 

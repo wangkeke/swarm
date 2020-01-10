@@ -22,8 +22,8 @@ public interface BusCashbackDao extends JpaRepository<BusCashback, Integer> {
 	
 	BusCashback findFirstByBusWechatUserAndBusUserIdAndActivityNodeOrderByIdDesc(BusWechatUser busWechatUser , Integer busUserId , ActivityNode activityNode);
 	
-	@Query("select c from BusCashback c where c.busUserId = ?1 and c.activityNode = ?2 and c.reqCashback>c.hasCashback Order by c.id ASC limit 0,1")
-	BusCashback queryFirstByBusUserIdAndActivityNode(Integer busUserId , ActivityNode activityNode);
+	@Query("select c from BusCashback c where c.busUserId = ?1 and c.activityNode = ?2 and c.reqCashback>c.hasCashback Order by c.id ASC")
+	List<BusCashback> queryFirstByBusUserIdAndActivityNode(Integer busUserId , ActivityNode activityNode);
 	
 	@Query("select c from BusCashback c inner join c.busWechatUser u where c.busUserId = ?1 and c.activityNode = ?2 and c.reqCashback>c.hasCashback and c.id < ?3 and u.parent IS NULL order by c.id ASC")
 	List<BusCashback> queryByBusUserIdAndActivityNodeAndIdLessEqualAndParentNot(Integer busUserId , ActivityNode activityNode , Integer leId);

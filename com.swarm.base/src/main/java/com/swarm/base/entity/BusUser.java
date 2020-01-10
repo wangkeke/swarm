@@ -44,6 +44,7 @@ public class BusUser extends BaseEntity{
 	/**
 	 * 密钥key值
 	 */
+	@Column(name = "`key`")
 	private String key;
 	
 }

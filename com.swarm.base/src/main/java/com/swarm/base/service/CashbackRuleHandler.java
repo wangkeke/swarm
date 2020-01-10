@@ -2,7 +2,6 @@ package com.swarm.base.service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -205,7 +204,10 @@ public class CashbackRuleHandler extends SalesRuleHandler {
 					}
 					currentCashback = list.get(weightRandom(list.size(),factor));
 				}else {
-					currentCashback = busCashbackDao.queryFirstByBusUserIdAndActivityNode(busUserId, ActivityNode.CASHBACKING);
+					List<BusCashback> prevlist = busCashbackDao.queryFirstByBusUserIdAndActivityNode(busUserId, ActivityNode.CASHBACKING);
+					if(prevlist!=null && prevlist.size()>0) {
+						currentCashback = prevlist.get(0);
+					}
 				}
 				if(queue_percent!=null && StringUtils.isNotBlank(queue_percent.getValue())) {
 					percent = Integer.parseInt(queue_percent.getValue());
@@ -283,60 +285,60 @@ public class CashbackRuleHandler extends SalesRuleHandler {
 		return index;
 	}
 	
-	public static void main(String[] args) {
-		List<String> list = new ArrayList<String>();
-		list.add("a");
-		list.add("b");
-		list.add("c");
-		list.add("d");
-		list.add("e");
-		list.add("f");
-		list.add("g");
-		list.add("h");
-		list.add("i");
-		list.add("j");
+//	public static void main(String[] args) {
+//		List<String> list = new ArrayList<String>();
 //		list.add("a");
-		double round = 0;
-		double[] ranges = new double[list.size()];
-		int j = 0;
-		for (int i = list.size(); i > 0; i-- , j++) {
-		 	double add = i/(j+0.1);
-			round += add;
-			ranges[j] = add; 
-		}
-		
-		int acount = 0 ,bcount = 0,ccount = 0 , dcount=0 , ecount = 0;
-		for (int i = 0; i < 100; i++) {			
-			double seed = RandomUtils.nextDouble(0, round);
-//			System.out.println(seed);
-			int add = 0;
-			for (int k = 0; k < ranges.length; k++) {
-				add += ranges[k];
-				if(add>=seed) {
-					if(list.get(k).equals("a")) {
-						acount++;
-					}
-					if(list.get(k).equals("b")) {
-						bcount++;
-					}
-					if(list.get(k).equals("c")) {
-						ccount++;
-					}
-					if(list.get(k).equals("d")) {
-						dcount++;
-					}
-					if(list.get(k).equals("e")) {
-						ecount++;
-					}
-					break;
-				}
-			}
-		}
-		System.out.println("a : " +acount);
-		System.out.println("b : " +bcount);
-		System.out.println("c : " +ccount);
-		System.out.println("d : " +dcount);
-		System.out.println("e : " +ecount);
-	}
+//		list.add("b");
+//		list.add("c");
+//		list.add("d");
+//		list.add("e");
+//		list.add("f");
+//		list.add("g");
+//		list.add("h");
+//		list.add("i");
+//		list.add("j");
+////		list.add("a");
+//		double round = 0;
+//		double[] ranges = new double[list.size()];
+//		int j = 0;
+//		for (int i = list.size(); i > 0; i-- , j++) {
+//		 	double add = i/(j+0.1);
+//			round += add;
+//			ranges[j] = add; 
+//		}
+//		
+//		int acount = 0 ,bcount = 0,ccount = 0 , dcount=0 , ecount = 0;
+//		for (int i = 0; i < 100; i++) {			
+//			double seed = RandomUtils.nextDouble(0, round);
+////			System.out.println(seed);
+//			int add = 0;
+//			for (int k = 0; k < ranges.length; k++) {
+//				add += ranges[k];
+//				if(add>=seed) {
+//					if(list.get(k).equals("a")) {
+//						acount++;
+//					}
+//					if(list.get(k).equals("b")) {
+//						bcount++;
+//					}
+//					if(list.get(k).equals("c")) {
+//						ccount++;
+//					}
+//					if(list.get(k).equals("d")) {
+//						dcount++;
+//					}
+//					if(list.get(k).equals("e")) {
+//						ecount++;
+//					}
+//					break;
+//				}
+//			}
+//		}
+//		System.out.println("a : " +acount);
+//		System.out.println("b : " +bcount);
+//		System.out.println("c : " +ccount);
+//		System.out.println("d : " +dcount);
+//		System.out.println("e : " +ecount);
+//	}
 	
 }

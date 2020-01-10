@@ -63,7 +63,9 @@ spring:
     timeout: 30m
     redis: 
       namespace: web:session
-
+  freemarker: 
+    cache: false
+    content-type: text/html
 file: 
   upload: 
     dir: /swarm/upload
