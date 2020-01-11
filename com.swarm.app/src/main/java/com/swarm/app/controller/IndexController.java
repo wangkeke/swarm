@@ -15,9 +15,9 @@ import com.swarm.base.vo.Paging;
  * @author Administrator
  *
  */
-@RequestMapping("/index/")
+@RequestMapping("/{busUserId}/index/")
 @RestController
-public class IndexController extends BaseController {
+public class IndexController{
 	
 	@Autowired
 	private IndexService service;

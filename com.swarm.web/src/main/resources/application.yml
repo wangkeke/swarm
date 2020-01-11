@@ -67,6 +67,8 @@ spring:
     cache: false
     content-type: text/html
 file: 
+  template: 
+    dir: /swarm/template
   upload: 
     dir: /swarm/upload
 # 微信小程序测试号信息

@@ -56,3 +56,13 @@ spring:
   mvc: 
     servlet: 
       path: /
+    contentnegotiation: 
+      favor-path-extension: true
+      media-types: 
+        data: text/html
+    pathmatch: 
+#      use-suffix-pattern: true
+      use-registered-suffix-pattern: true
+file: 
+  template: 
+    dir: /swarm/template

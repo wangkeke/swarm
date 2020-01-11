@@ -15,9 +15,9 @@ import com.swarm.base.vo.Paging;
  * @author Administrator
  *
  */
-@RequestMapping("/product/")
+@RequestMapping("/{busUserId}/product/")
 @RestController
-public class ProductController extends BaseController {
+public class ProductController{
 	
 	@Autowired
 	private ProductService service;

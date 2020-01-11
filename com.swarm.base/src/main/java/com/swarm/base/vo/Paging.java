@@ -56,7 +56,7 @@ public class Paging implements VO {
 	
 	public Integer getPage() {
 		if(this.page==null || this.page<=0) {
-			this.page = DEFAULT_PAGE;
+			return DEFAULT_PAGE;
 		}
 		return this.page-1;
 	}

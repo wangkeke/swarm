@@ -38,12 +38,18 @@ import com.swarm.base.entity.SysMenu;
 import com.swarm.base.entity.SysSalesRule;
 import com.swarm.base.entity.SysUser;
 import com.swarm.base.service.ServiceException;
+import com.swarm.base.service.TemplateResourceService;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 
 @Service
 @Transactional(readOnly = true)
 public class BusUserService {
+	
+	public static final String MENU_TEMPLATE_DIR = "menu";
+	public static final String MENU_TEMPLATE_NAME = "menu";
+	private static final String SALESRULE_TEMPLATE_DIR = "salesRule";
+	private static final String SALESRULE_TEMPLATE_NAME = "salesRule";
 	
 	@Autowired
 	private BusUserDao dao;
@@ -68,6 +74,15 @@ public class BusUserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private TemplateResourceService templateResourceService;
+	
+	
+//	public static void main(String[] args) {
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//		System.out.println(passwordEncoder.encode("123456"));
+//	}
 	
 	
 	public Page<VO> page(String keyword , Paging paging){
@@ -118,6 +133,7 @@ public class BusUserService {
 			busMenus.add(busMenu);
 		}
 		busMenuDao.saveAll(busMenus);
+		templateResourceService.updateTemplateResource(busUser.getId(), MENU_TEMPLATE_DIR, MENU_TEMPLATE_NAME, busMenus,MENU_TEMPLATE_NAME);
 		//复制促销规则
 		List<SysSalesRule> sysSalesRules = sysSalesRuleDao.findByEnable(true);
 		List<BusSalesRule> busSalesRules = new ArrayList<BusSalesRule>();
@@ -135,6 +151,7 @@ public class BusUserService {
 			busSalesRules.add(rule);
 		}
 		busSalesRuleDao.saveAll(busSalesRules);
+		templateResourceService.updateTemplateResource(busUser.getId(), SALESRULE_TEMPLATE_DIR, SALESRULE_TEMPLATE_NAME, busSalesRuleDao.findByBusUserIdAndEnable(busUser.getId(), true), SALESRULE_TEMPLATE_NAME);
 		//复制业务字典信息
 		List<DictType> types = new ArrayList<DictType>(DictType.values().length);
 		for (DictType t : DictType.values()) {

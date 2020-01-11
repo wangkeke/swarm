@@ -275,6 +275,8 @@ public class UserService {
 			busWeUserCoupon.setUpdateDate(currentDate);
 			busWeUserCoupon.setUsed(false);
 			busWeUserCouponDao.save(busWeUserCoupon);
+		}else {
+			throw new ServiceException("您已领取该优惠券！");
 		}
 	}
 	

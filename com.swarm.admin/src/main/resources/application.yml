@@ -63,3 +63,6 @@ spring:
     timeout: 30m
     redis: 
       namespace: admin:session
+file: 
+  template: 
+    dir: /swarm/template

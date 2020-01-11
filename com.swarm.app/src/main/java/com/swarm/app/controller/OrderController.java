@@ -19,9 +19,9 @@ import com.swarm.base.service.ActivityNode;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
-@RequestMapping("/user/{userId}/order")
+@RequestMapping("/{busUserId}/user/{userId}/order")
 @RestController
-public class OrderController extends BaseController {
+public class OrderController{
 	
 	@Autowired
 	private OrderService service;
@@ -37,7 +37,7 @@ public class OrderController extends BaseController {
 		if(result.hasErrors()) {
 			return JsonResult.ok(result.getAllErrors());
 		}
-		return JsonResult.ok(service.save(busUserId, userId, req , getServerUrl(request)+"/"+busUserId+"/user/"+userId+"/order/paid"));
+		return JsonResult.ok(service.save(busUserId, userId, req , BaseController.getServerUrl(request)+"/"+busUserId+"/user/"+userId+"/order/paid"));
 	}
 	
 	/**

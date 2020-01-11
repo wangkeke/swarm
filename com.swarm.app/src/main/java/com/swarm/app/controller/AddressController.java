@@ -15,9 +15,9 @@ import com.swarm.app.vo.BusWeUserAddressReq;
 import com.swarm.app.vo.UpdateBusWeUserAddressReq;
 import com.swarm.base.vo.JsonResult;
 
-@RequestMapping("/user/{userId}/address/")
+@RequestMapping("/{busUserId}/user/{userId}/address/")
 @RestController
-public class AddressController extends BaseController {
+public class AddressController{
 	
 	@Autowired
 	private AddressService service;

@@ -22,6 +22,7 @@ import com.swarm.base.entity.BusCategory;
 import com.swarm.base.entity.BusLabel;
 import com.swarm.base.entity.BusProduct;
 import com.swarm.base.service.ServiceException;
+import com.swarm.base.service.TemplateResourceService;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 import com.swarm.web.CurrentUser;
@@ -33,6 +34,9 @@ import com.swarm.web.vo.UpdateBusProductReq;
 @Transactional(readOnly = true)
 public class BusProductService {
 	
+	public static final String TEMPLATE_DIR = "product";
+	public static final String TEMPLATE_NAME = "product";
+	
 	@Autowired
 	private BusProductDao dao;
 	
@@ -41,6 +45,9 @@ public class BusProductService {
 	
 	@Autowired
 	private BusLabelDao busLabelDao;
+	
+	@Autowired
+	private TemplateResourceService templateResourceService;
 	
 	
 	public Page<VO> page(Integer categroyId , String title , Paging paging){
@@ -77,18 +84,20 @@ public class BusProductService {
 	
 	@Transactional
 	public Integer save(BusProductReq req) {
+		Integer busUserId = CurrentUser.getBusUserId();
 		BusProduct busProduct = req.create();
 		if(req.getBusLabelId()!=null) {
-			BusLabel busLabel = busLabelDao.findByIdAndBusUserId(req.getBusLabelId(), CurrentUser.getBusUserId());
+			BusLabel busLabel = busLabelDao.findByIdAndBusUserId(req.getBusLabelId(), busUserId);
 			if(busLabel==null)
 				throw new ServiceException("标签不存在！");
 			busProduct.setLabel(busLabel);
 		}
-		BusCategory busCategory = busCategoryDao.findFirstByIdAndBusUserId(req.getCategoryId(), CurrentUser.getBusUserId());
+		BusCategory busCategory = busCategoryDao.findFirstByIdAndBusUserId(req.getCategoryId(), busUserId);
 		if(busCategory==null)
 			throw new ServiceException("商品分类不存在！");
 		busProduct.setCategory(busCategory);
 		dao.save(busProduct);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"", new BusProductRes().apply(busProduct) , TEMPLATE_NAME);
 		return busProduct.getId();
 	}
 	
@@ -108,29 +117,31 @@ public class BusProductService {
 	
 	@Transactional
 	public void update(UpdateBusProductReq req) {
+		Integer busUserId = CurrentUser.getBusUserId();
 		Optional<BusProduct> optional = dao.findById(req.getId());
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
 		BusProduct product = optional.get();
-		if(product.getFlag()<0 || product.getBusUserId()!=CurrentUser.getBusUserId()) {
+		if(product.getFlag()<0 || product.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
 		}
 //		req.update(product);
 		if(req.getBusLabelId()!=null && product.getLabel()!=null && req.getBusLabelId()!=product.getLabel().getId()) {
-			BusLabel busLabel = busLabelDao.findByIdAndBusUserId(req.getBusLabelId(), CurrentUser.getBusUserId());
+			BusLabel busLabel = busLabelDao.findByIdAndBusUserId(req.getBusLabelId(), busUserId);
 			if(busLabel==null)
 				throw new ServiceException("标签不存在！");
 			product.setLabel(busLabel);
 		}
 		if(product.getCategory().getId()!=req.getCategoryId()) {			
-			BusCategory busCategory = busCategoryDao.findFirstByIdAndBusUserId(req.getCategoryId(), CurrentUser.getBusUserId());
+			BusCategory busCategory = busCategoryDao.findFirstByIdAndBusUserId(req.getCategoryId(), busUserId);
 			if(busCategory==null)
 				throw new ServiceException("商品分类不存在！");
 			product.setCategory(busCategory);
 		}
 		req.update(product);
 		dao.save(product);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, product.getId()+"", new BusProductRes().apply(product) , TEMPLATE_NAME);
 	}
 	
 	@Transactional
@@ -141,14 +152,18 @@ public class BusProductService {
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
+		Integer busUserId = CurrentUser.getBusUserId();
 		BusProduct busProduct = optional.get();
-		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=CurrentUser.getBusUserId()) {
+		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
 		}
 		if(busProduct.isShow()!=show.booleanValue()) {
 			busProduct.setShow(show);
 			busProduct.setUpdateDate(new Date());
 			dao.save(busProduct);
+			if(!busProduct.isShow()) {
+				templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
+			}
 		}
 	}
 	
@@ -160,13 +175,17 @@ public class BusProductService {
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
+		Integer busUserId = CurrentUser.getBusUserId();
 		BusProduct busProduct = optional.get();
-		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=CurrentUser.getBusUserId()) {
+		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
 		}
-		busProduct.setFlag(-1);
-		busProduct.setUpdateDate(new Date());
-		dao.save(busProduct);
+		if(busProduct.getFlag()>=0) {			
+			busProduct.setFlag(-1);
+			busProduct.setUpdateDate(new Date());
+			dao.save(busProduct);
+			templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
+		}
 	}
 	
 }

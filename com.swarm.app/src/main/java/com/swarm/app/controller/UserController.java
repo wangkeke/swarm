@@ -21,9 +21,9 @@ import com.swarm.app.vo.SysBusApplyReq;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 
-@RequestMapping("/user")
+@RequestMapping("/{busUserId}/user")
 @RestController
-public class UserController extends BaseController {
+public class UserController{
 	
 	@Autowired
 	private UserService service;
@@ -116,7 +116,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping("/{userId}/prepayRecharge")
 	public JsonResult prepayRecharge(HttpServletRequest request ,@PathVariable Integer busUserId ,@PathVariable Integer userId , String money) {
-		Map<String, Object> resultMap = service.prepayRecharge(busUserId, userId, money, "钱包充值", getServerUrl(request)+"/"+busUserId+"/user/"+userId+"/recharge");
+		Map<String, Object> resultMap = service.prepayRecharge(busUserId, userId, money, "钱包充值", BaseController.getServerUrl(request)+"/"+busUserId+"/user/"+userId+"/recharge");
 		return JsonResult.ok(resultMap);
 	}
 	

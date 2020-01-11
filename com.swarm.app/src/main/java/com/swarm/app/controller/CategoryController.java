@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swarm.app.service.CategoryService;
 import com.swarm.base.vo.JsonResult;
 
-@RequestMapping("/category/")
+@RequestMapping("/{busUserId}/category/")
 @RestController
-public class CategoryController extends BaseController {
+public class CategoryController{
 	
 	@Autowired
 	private CategoryService service;
