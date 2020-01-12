@@ -11,10 +11,10 @@ import com.swarm.base.entity.BusCouponCategory;
 
 public interface BusCouponCategoryDao extends JpaRepository<BusCouponCategory, Integer> {
 	
-	List<BusCouponCategory> findByBusCoupon(BusCoupon busCoupon);
+	List<BusCouponCategory> findByBusCouponAndBusUserId(BusCoupon busCoupon , Integer busUserId);
 	
 	@Modifying
-	@Query("delete from BusCouponCategory t where t.busCoupon = ?1")
-	void deleteByBusCoupon(BusCoupon busCoupon);
+	@Query("delete from BusCouponCategory t where t.busCoupon = ?1 and t.busUserId = ?2")
+	void deleteByBusCouponAndBusUserId(BusCoupon busCoupon , Integer busUserId);
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.swarm.base.service.TemplateResourceService;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 import com.swarm.web.service.BusCouponService;
@@ -21,6 +22,7 @@ public class BusCouponController {
 	
 	@Autowired
 	private BusCouponService service;
+	
 	
 	@GetMapping("page")
 	public JsonResult page(Paging paging) {

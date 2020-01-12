@@ -136,7 +136,7 @@ public class IndexService {
 			BusCouponRes res = new BusCouponRes();
 			res.apply(busCoupon);
 			if(res.getEnableCate()!=null && res.getEnableCate()) {
-				List<BusCouponCategory> bccs = busCouponCategoryDao.findByBusCoupon(busCoupon);
+				List<BusCouponCategory> bccs = busCouponCategoryDao.findByBusCouponAndBusUserId(busCoupon, busUserId);
 				List<VO> cvos = null;
 				for (BusCouponCategory busCouponCategory : bccs) {
 					if(cvos==null) {

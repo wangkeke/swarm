@@ -239,7 +239,7 @@ public class UserService {
 			BusCouponRes res = new BusCouponRes();
 			res.apply(busWeUserCoupon.getBusCoupon());
 			if(res.getEnableCate()!=null && res.getEnableCate()) {
-				List<BusCouponCategory> bccs = busCouponCategoryDao.findByBusCoupon(busWeUserCoupon.getBusCoupon());
+				List<BusCouponCategory> bccs = busCouponCategoryDao.findByBusCouponAndBusUserId(busWeUserCoupon.getBusCoupon(),busUserId);
 				List<VO> cvos = null;
 				for (BusCouponCategory busCouponCategory : bccs) {
 					if(cvos==null) {

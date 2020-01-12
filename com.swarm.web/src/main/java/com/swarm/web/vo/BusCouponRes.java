@@ -77,6 +77,10 @@ public class BusCouponRes extends Res<BusCoupon> {
 	 */
 	private List<Integer> category;
 	
+	/**
+	 * 商品分类
+	 */
+	private List<VO> categorys;
 	
 	@Override
 	public VO apply(BusCoupon t) {

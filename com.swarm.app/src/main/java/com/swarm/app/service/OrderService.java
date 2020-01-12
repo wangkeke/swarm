@@ -390,7 +390,7 @@ public class OrderService {
 						throw new ServiceException("优惠券最小消费限制为" + busCoupon.getMinAmount().doubleValue() + "！");
 					}
 					if(busCoupon.isEnableCate()) {
-						List<BusCouponCategory> busCouponCategories = busCouponCategoryDao.findByBusCoupon(busCoupon);
+						List<BusCouponCategory> busCouponCategories = busCouponCategoryDao.findByBusCouponAndBusUserId(busCoupon, busUserId);
 						Map<Integer, BusCouponCategory> busCouponCategoryMap = new HashMap<Integer, BusCouponCategory>();
 						for (BusCouponCategory busCouponCategory : busCouponCategories) {
 							busCouponCategoryMap.put(busCouponCategory.getBusCategory().getId(), busCouponCategory);

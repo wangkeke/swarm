@@ -36,4 +36,9 @@ public class BusCouponCategory extends BaseEntity {
 	@JoinColumn
 	private BusCategory busCategory;
 	
+	/**
+	 * 商家用户ID，分表分库字段
+	 */
+	private Integer busUserId;
+	
 }
