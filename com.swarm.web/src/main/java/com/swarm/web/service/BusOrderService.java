@@ -44,7 +44,7 @@ import com.swarm.web.vo.BusRecordRes;
 
 @Transactional(readOnly = true)
 @Service
-public class BusOrderService {
+public class BusOrderService{
 	
 	@Autowired
 	private BusOrderDao dao;

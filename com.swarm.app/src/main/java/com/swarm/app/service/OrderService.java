@@ -5,25 +5,30 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -40,6 +45,7 @@ import com.swarm.app.vo.BusOrderRes;
 import com.swarm.app.vo.BusProductCommentReq;
 import com.swarm.app.vo.BusProductRes;
 import com.swarm.base.dao.BusCouponCategoryDao;
+import com.swarm.base.dao.BusDictDao;
 import com.swarm.base.dao.BusMnprogramDao;
 import com.swarm.base.dao.BusOrderAddressDao;
 import com.swarm.base.dao.BusOrderCouponDao;
@@ -58,6 +64,7 @@ import com.swarm.base.dao.BusWechatUserDao;
 import com.swarm.base.entity.BaseEntity;
 import com.swarm.base.entity.BusCoupon;
 import com.swarm.base.entity.BusCouponCategory;
+import com.swarm.base.entity.BusDict;
 import com.swarm.base.entity.BusMnprogram;
 import com.swarm.base.entity.BusOrder;
 import com.swarm.base.entity.BusOrderAddress;
@@ -74,6 +81,7 @@ import com.swarm.base.entity.BusWeUserWallet;
 import com.swarm.base.entity.BusWechatPayNotify;
 import com.swarm.base.entity.BusWechatUser;
 import com.swarm.base.entity.CouponType;
+import com.swarm.base.entity.DictType;
 import com.swarm.base.service.Activity;
 import com.swarm.base.service.ActivityNode;
 import com.swarm.base.service.OrderProcess;
@@ -88,7 +96,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Transactional(readOnly = true)
 @Service
-public class OrderService {
+public class OrderService implements CommandLineRunner{
 	
 	@Autowired
 	private BusWechatUserDao busWechatUserDao;
@@ -139,12 +147,20 @@ public class OrderService {
 	private BusWeUserWalletDao busWeUserWalletDao;
 	
 	@Autowired
-	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
-	
-	@Autowired
 	private OrderProcess orderProcess;
 	
+	@Autowired
+	private ScheduledExecutorService scheduledExecutorService;
+	
+	@Value("${system.order.autoconfirm.daily:7}")
+	private Integer orderAutoconfirmDaily;
+	
+	@Autowired
+	private BusDictDao busDictDao;
+	
 	private final RestTemplate restTemplate;
+	
+	
 	
 	@Autowired
 	public OrderService(RestTemplateBuilder builder) {
@@ -242,6 +258,9 @@ public class OrderService {
 		busOrder.setUpdateDate(new Date());
 		busOrder.setActivityNode(node);
 		busOrderDao.save(busOrder);
+		if(busOrder.getActivityNode()==ActivityNode.CONFIRMED) {					
+			scheduledExecutorService.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busWechatUser, busUserId, busOrder.getRealAmount()));
+		}
 	}
 	
 	@Transactional
@@ -564,14 +583,14 @@ public class OrderService {
 				if(busOrder.getActivityNode()!=ActivityNode.CONFIRMED) {					
 					updateCount = busOrderDao.updateActivityByIdAndBusUserId(ActivityNode.CONFIRMED, new Date(), busOrder.getId(), busUserId, busOrder.getActivityNode());
 					if(updateCount>0) {
-						threadPoolTaskExecutor.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busWechatUser, busUserId, amount));
+						scheduledExecutorService.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busWechatUser, busUserId, amount));
 					}
 				}
 			}else {
 				if(busOrder.getActivityNode()!=ActivityNode.PAID) {					
 					updateCount = busOrderDao.updateActivityByIdAndBusUserId(ActivityNode.PAID, new Date(), busOrder.getId(), busUserId, busOrder.getActivityNode());
 					if(updateCount>0) {
-						threadPoolTaskExecutor.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busWechatUser, busUserId, amount));
+						scheduledExecutorService.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busWechatUser, busUserId, amount));
 					}
 				}
 			}
@@ -708,6 +727,84 @@ public class OrderService {
 		.append("<sign>" + BaseEntity.generateMD5(signBuilder.toString()).toUpperCase() + "</sign>")
 		.append("</xml>");
 		return builder.toString();
+	}
+	
+	
+	@Transactional
+	public void systemProcess(BusOrder busOrder ,ActivityNode node) {
+		//添加订单流程记录
+		BusRecord record = new BusRecord();
+		record.setUpdateDate(new Date());
+		record.setCreateDate(new Date());
+		record.setActivityNode(busOrder.getActivityNode());
+		record.setBusOrder(busOrder);
+		record.setBusWechatUser(busOrder.getBusWechatUser());
+		record.setBusUserId(busOrder.getBusUserId());
+		record.setComment(busOrder.getComment());
+		busRecordDao.save(record);
+		//修改订单流程状态
+		busOrder.setUpdateDate(new Date());
+		busOrder.setActivityNode(node);
+		busOrderDao.save(busOrder);
+		if(busOrder.getActivityNode()==ActivityNode.CONFIRMED) {					
+			scheduledExecutorService.execute(new SalesRuleTask(busSalesRuleDao, busOrder, busOrder.getBusWechatUser(), busOrder.getBusUserId(), busOrder.getRealAmount()));
+		}
+	}
+	
+
+	@Override
+	public void run(String... args) throws Exception {
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				int pageNumber = 0;
+				int size = 100;
+				List<ActivityNode> activityNodes = new ArrayList<ActivityNode>(3);
+				activityNodes.add(ActivityNode.PICKEDUP);
+				activityNodes.add(ActivityNode.SHIPPED);
+				Map<Integer, Integer> dailyMap = new HashMap<Integer, Integer>();
+				while(true) {
+					Pageable pageable = PageRequest.of(pageNumber, size, Direction.ASC, "id");
+					List<BusOrder> busOrders = busOrderDao.findByActivityNodeIn(activityNodes, pageable);
+					for (BusOrder busOrder : busOrders) {
+						try {
+							Date currentDate = new Date();
+							if(!dailyMap.containsKey(busOrder.getBusUserId())) {								
+								BusDict busDict = busDictDao.findByTypeAndKeyAndBusUserId(DictType.ORDER_SET, "system_order_autoconfirm_daily", busOrder.getBusUserId());
+								Integer daily = null;
+								if(busDict!=null && StringUtils.isNotBlank(busDict.getValue())) {
+									daily = Integer.parseInt(busDict.getValue());
+								}
+								dailyMap.put(busOrder.getBusUserId(), daily);
+							}
+							Integer daily = dailyMap.get(busOrder.getBusUserId());
+							if(daily==null) {
+								daily = orderAutoconfirmDaily;
+							}
+							if(currentDate.getTime()-busOrder.getUpdateDate().getTime()>daily*24*60*60*1000) {								
+								systemProcess(busOrder, ActivityNode.CONFIRMED);
+							}
+						} catch (ServiceException e) {
+							log.error("系统定时任务---订单确认处理异常：", e);
+							e.printStackTrace();
+						}
+					}
+					if(busOrders.size()<size) {				
+						break;
+					}
+					pageNumber++;
+				}
+			}
+		};
+		scheduledExecutorService.scheduleAtFixedRate(runnable, getNextDaily(), 24*60*60*1000, TimeUnit.MILLISECONDS);
+	}
+	
+	private long getNextDaily() {
+		Calendar calendar = Calendar.getInstance();
+		long currentms = calendar.getTime().getTime();
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		return calendar.getTimeInMillis()-currentms;
 	}
 	
 }

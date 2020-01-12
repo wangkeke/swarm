@@ -2,7 +2,6 @@ package com.swarm.app.controller;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

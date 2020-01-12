@@ -2,6 +2,7 @@ package com.swarm.base.dao;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ public interface BusOrderDao extends JpaRepository<BusOrder, Integer> {
 	BusOrder findFirstByOrderCodeAndBusWechatUserAndBusUserId(String orderCode ,BusWechatUser busWechatUser, Integer busUserId);
 	
 	BusOrder findByIdAndBusWechatUserAndBusUserId(Integer id , BusWechatUser busWechatUser , Integer busUserId);
+	
+	List<BusOrder> findByActivityNodeIn(Collection<ActivityNode> activityNodes , Pageable pageable);
 	
 	@Modifying
 	@Query("update BusOrder set activityNode = ?1 , updateDate = ?2 where id = ?3 and busUserId = ?4 and activityNode = ?5")
