@@ -1,5 +1,6 @@
 package com.swarm.web.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -56,8 +57,7 @@ public class BusMenuService {
 		}
 		req.update(busMenu);
 		dao.save(busMenu);
-		List<BusMenu> busMenus = dao.findByShowAndBusUserIdOrderBySortDesc(true, busUserId);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, busMenus,TEMPLATE_NAME);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, menu(busUserId),TEMPLATE_NAME);
 	} 
 	
 	@Transactional
@@ -78,9 +78,17 @@ public class BusMenuService {
 			busMenu.setUpdateDate(new Date());
 			busMenu.setShow(show);
 			dao.save(busMenu);
-			List<BusMenu> busMenus = dao.findByShowAndBusUserIdOrderBySortDesc(true, busUserId);
-			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, busMenus,TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, menu(busUserId),TEMPLATE_NAME);
 		}
+	}
+	
+	private List<VO> menu(Integer busUserId){
+		List<BusMenu> list = dao.findByShowAndBusUserIdOrderBySortDesc(true, busUserId);
+		List<VO> menus = new ArrayList<VO>();
+		for (BusMenu busMenu : list) {
+			menus.add(new BusMenuRes().apply(busMenu));
+		}
+		return menus;
 	}
 	
 }

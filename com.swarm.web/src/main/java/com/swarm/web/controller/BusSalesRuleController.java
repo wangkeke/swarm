@@ -26,17 +26,6 @@ public class BusSalesRuleController {
 		return JsonResult.ok(service.page(paging));
 	}
 	
-	@GetMapping("getContent")
-	public JsonResult getContent(Integer id) {
-		return JsonResult.ok(service.getContent(id));
-	}
-	
-	@PostMapping("updateContent")
-	public JsonResult updateContent(Integer id , String content) {
-		service.updateContent(id, content);
-		return JsonResult.ok();
-	}
-	
 	@PostMapping("update")
 	public JsonResult update(@Valid UpdateBusSalesRuleReq req , BindingResult result) {
 		if(result.hasErrors()) {

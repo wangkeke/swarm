@@ -53,6 +53,7 @@ public class BusSalesRuleRes extends Res<BusSalesRule> {
 		this.type.apply(t.getType());
 		this.configUrl = t.getConfigUrl();
 		this.enable = t.isEnable();
+		this.content = t.getContent();
 		return this;
 	}
 

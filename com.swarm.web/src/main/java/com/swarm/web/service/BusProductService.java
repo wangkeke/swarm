@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,8 @@ public class BusProductService {
 	
 	public static final String TEMPLATE_DIR = "product";
 	public static final String TEMPLATE_NAME = "product";
+	public static final String PRODUCTS_TEMPLATE_DIR = "products";
+	public static final String PRODUCTS_TEMPLATE_NAME = "products";
 	
 	@Autowired
 	private BusProductDao dao;
@@ -97,7 +100,10 @@ public class BusProductService {
 			throw new ServiceException("商品分类不存在！");
 		busProduct.setCategory(busCategory);
 		dao.save(busProduct);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"", new BusProductRes().apply(busProduct) , TEMPLATE_NAME);
+		if(busProduct.isShow()) {			
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"", new BusProductRes().apply(busProduct) , TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
+		}
 		return busProduct.getId();
 	}
 	
@@ -141,7 +147,10 @@ public class BusProductService {
 		}
 		req.update(product);
 		dao.save(product);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, product.getId()+"", new BusProductRes().apply(product) , TEMPLATE_NAME);
+		if(product.isShow()) {			
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, product.getId()+"", new BusProductRes().apply(product) , TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
+		}
 	}
 	
 	@Transactional
@@ -163,6 +172,7 @@ public class BusProductService {
 			dao.save(busProduct);
 			if(!busProduct.isShow()) {
 				templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
+				templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 			}
 		}
 	}
@@ -185,7 +195,14 @@ public class BusProductService {
 			busProduct.setUpdateDate(new Date());
 			dao.save(busProduct);
 			templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
+			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 		}
+	}
+	
+	public Page<VO> products(Integer busUserId){
+		Pageable pageable = PageRequest.of(0, 6, Direction.DESC, "label.sort","sales","favorite","id");
+		Page<BusProduct> page = dao.findByShowAndBusUserIdAndFlagNot(true, busUserId, -1, pageable);
+		return page.map(new BusProductRes());
 	}
 	
 }

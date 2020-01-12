@@ -1,5 +1,7 @@
 package com.swarm.web.vo;
 
+import java.util.List;
+
 import com.swarm.base.entity.BusCategory;
 import com.swarm.base.vo.Res;
 import com.swarm.base.vo.VO;
@@ -31,7 +33,16 @@ public class BusCategoryRes extends Res<BusCategory> {
 	 */
 	private BusCategoryRes parent;
 	
-
+	/**
+	 * 父ID
+	 */
+	private Integer parentId;
+	
+	/**
+	 * 父级分类ID
+	 */
+	private List<BusCategoryRes> sublist;
+	
 	@Override
 	public VO apply(BusCategory t) {
 		this.id = t.getId();

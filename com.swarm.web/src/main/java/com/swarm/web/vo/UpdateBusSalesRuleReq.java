@@ -37,12 +37,16 @@ public class UpdateBusSalesRuleReq extends UpdateReq<BusSalesRule> {
 	@NotNull(message = "是否启用不能为空！")
 	private Boolean enable;
 	
+	@NotBlank(message = "内容不能为空！")
+	private String content;
+	
 	@Override
 	public void update(BusSalesRule t) {
 		t.setUpdateDate(new Date());
 		t.setName(this.name);
 		t.setIcon(this.icon);
 		t.setEnable(this.enable);
+		t.setContent(this.content);
 	}
 
 }

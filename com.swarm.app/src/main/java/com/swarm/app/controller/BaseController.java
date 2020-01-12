@@ -1,5 +1,6 @@
 package com.swarm.app.controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -34,16 +35,26 @@ public class BaseController {
 		}
 	}
 	
-	@RequestMapping("/**")
+	@RequestMapping("/template/**")
 	public void templateResource(HttpServletRequest request , HttpServletResponse response , @PathVariable Integer busUserId) {
 		try {
 			String servletPath = request.getServletPath();
-			String templatePath = templateRootDir+servletPath;
-			Files.copy(Paths.get(templatePath), response.getOutputStream());
+			servletPath = servletPath.replaceFirst("/" + busUserId + "/template/", "/" + busUserId + "/");
+			String templatePath = templateRootDir + servletPath;
+			File file = new File(templatePath);
+			if(file.exists()) {				
+				Files.copy(file.toPath(), response.getOutputStream());
+			}
 		} catch (Exception e) {
 			log.error(e);
 			throw new ServiceException(e.getMessage(),e);
 		}
 	}
+	
+//	public static void main(String[] args) {
+//		String servletPath = "/template/1/menu/menu.data";
+//		servletPath = servletPath.replaceFirst("/template", "");
+//		System.out.println(servletPath);
+//	}
 	
 }

@@ -70,7 +70,7 @@ public class BusCategoryService {
 		}
 		busCategory.setBusUserId(busUserId);
 		dao.save(busCategory);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_DIR, dao.findByBusUserIdAndShow(busUserId, true), TEMPLATE_NAME);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, category(busUserId), TEMPLATE_NAME);
 		return busCategory.getId();
 	}
 	
@@ -83,7 +83,7 @@ public class BusCategoryService {
 		}
 		req.update(busCategory);
 		dao.save(busCategory);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_DIR, dao.findByBusUserIdAndShow(busUserId, true), TEMPLATE_NAME);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, category(busUserId), TEMPLATE_NAME);
 	}
 	
 	@Transactional
@@ -100,7 +100,7 @@ public class BusCategoryService {
 			busCategory.setShow(show);
 			busCategory.setUpdateDate(new Date());
 			dao.save(busCategory);
-			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_DIR, dao.findByBusUserIdAndShow(busUserId, true), TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, category(busUserId), TEMPLATE_NAME);
 		}
 	} 
 	
@@ -118,8 +118,32 @@ public class BusCategoryService {
 				throw new ServiceException("请先删除该分类下的产品！");
 			}
 			dao.delete(busCategory);
-			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_DIR, dao.findByBusUserIdAndShow(busUserId, true), TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, category(busUserId), TEMPLATE_NAME);
 		}
+	}
+	
+	public List<BusCategoryRes> category(Integer busUserId){
+		List<BusCategory> list = dao.findByBusUserIdAndShow(busUserId, true);
+		List<BusCategoryRes> ress = new ArrayList<BusCategoryRes>(list.size());
+		Map<Integer, List<BusCategoryRes>> map = new HashMap<Integer, List<BusCategoryRes>>();
+		for (BusCategory busCategory : list) {
+			BusCategoryRes res = new BusCategoryRes();
+			res.apply(busCategory);
+			if(busCategory.getParent()==null) {
+				ress.add(res);
+			}else {
+				List<BusCategoryRes> sublist = map.get(res.getParentId());
+				if(sublist==null) {
+					sublist = new ArrayList<BusCategoryRes>();
+					map.put(res.getParentId(), sublist);
+				}
+				sublist.add(res);
+			}
+		}
+		for (BusCategoryRes busCategoryRes : ress) {
+			busCategoryRes.setSublist(map.get(busCategoryRes.getParentId()));
+		}
+		return ress;
 	}
 	
 }

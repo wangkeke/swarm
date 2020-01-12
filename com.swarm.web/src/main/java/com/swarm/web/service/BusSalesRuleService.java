@@ -1,9 +1,10 @@
 package com.swarm.web.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,39 +43,6 @@ public class BusSalesRuleService {
 		return page.map(new BusSalesRuleRes());
 	}
 	
-	public String getContent(Integer id) {
-		if(id==null)
-			throw new ServiceException("ID不能为空！");
-		Optional<BusSalesRule> optional = dao.findById(id);
-		if(!optional.isPresent()) {
-			throw new ServiceException("ID不存在！");
-		}
-		BusSalesRule busSalesRule = optional.get();
-		if(busSalesRule.getBusUserId()!=CurrentUser.getBusUserId()) {
-			throw new ServiceException("ID不存在！");
-		}
-		return busSalesRule.getContent();
-	}
-	
-	@Transactional
-	public void updateContent(Integer id , String content) {
-		if(id==null || StringUtils.isBlank(content))
-			throw new ServiceException("参数不正确！");
-		Integer busUserId = CurrentUser.getBusUserId();
-		Optional<BusSalesRule> optional = dao.findById(id);
-		if(!optional.isPresent()) {
-			throw new ServiceException("ID不存在！");
-		}
-		BusSalesRule busSalesRule = optional.get();
-		if(busSalesRule.getBusUserId()!=busUserId) {
-			throw new ServiceException("ID不存在！");
-		}
-		busSalesRule.setUpdateDate(new Date());
-		busSalesRule.setContent(content);
-		dao.save(busSalesRule);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, dao.findByBusUserIdAndEnable(busUserId, true), TEMPLATE_NAME);
-	}
-	
 	@Transactional
 	public void update(UpdateBusSalesRuleReq req) {
 		Optional<BusSalesRule> optional = dao.findById(req.getId());
@@ -88,7 +56,7 @@ public class BusSalesRuleService {
 		}
 		req.update(busSalesRule);
 		dao.save(busSalesRule);
-		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, dao.findByBusUserIdAndEnable(busUserId, true), TEMPLATE_NAME);
+		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, salesRules(busUserId), TEMPLATE_NAME);
 	}
 	
 	@Transactional
@@ -109,8 +77,17 @@ public class BusSalesRuleService {
 			busSalesRule.setUpdateDate(new Date());
 			busSalesRule.setEnable(enable);
 			dao.save(busSalesRule);
-			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, dao.findByBusUserIdAndEnable(busUserId, true), TEMPLATE_NAME);
+			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, salesRules(busUserId), TEMPLATE_NAME);
 		}
+	}
+	
+	private List<VO> salesRules(Integer busUserId){
+		List<BusSalesRule> list = dao.findByBusUserIdAndEnable(busUserId, true);
+		List<VO> rules = new ArrayList<VO>(list.size());
+		for (BusSalesRule busSalesRule : list) {
+			rules.add(new BusSalesRuleRes().apply(busSalesRule));
+		}
+		return rules;
 	}
 	
 }

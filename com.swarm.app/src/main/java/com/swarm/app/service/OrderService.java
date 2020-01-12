@@ -446,19 +446,19 @@ public class OrderService {
 				if(req.getAddressId()==null) {
 					throw new ServiceException("请选择收货地址！");
 				}
-				BusWeUserAddress busWeUserAddress = busWeUserAddressDao.findByIdAndBusWechatUserAndBusUserId(req.getAddressId(), busWechatUser, busUserId);
-				if(busOrderAddress==null) {
+				BusWeUserAddress address = busWeUserAddressDao.findByIdAndBusWechatUserAndBusUserId(req.getAddressId(), busWechatUser, busUserId);
+				if(address==null) {
 					throw new ServiceException("收货地址不存在！");
 				}
 				busOrderAddress = new BusOrderAddress();
 				busOrderAddress.setUpdateDate(new Date());
 				busOrderAddress.setCreateDate(new Date());
-				busOrderAddress.setAddress(busWeUserAddress.getAddress());
+				busOrderAddress.setAddress(address.getAddress());
 				busOrderAddress.setBusOrder(busOrder);
 				busOrderAddress.setBusUserId(busUserId);
-				busOrderAddress.setContact(busWeUserAddress.getContact());
-				busOrderAddress.setLocation(busWeUserAddress.getLocation());
-				busOrderAddress.setPhone(busWeUserAddress.getPhone());
+				busOrderAddress.setContact(address.getContact());
+				busOrderAddress.setLocation(address.getLocation());
+				busOrderAddress.setPhone(address.getPhone());
 			}
 		}
 		if(Math.abs(count.doubleValue()-req.getAmount().doubleValue())>1) {
