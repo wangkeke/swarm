@@ -2,10 +2,14 @@ package com.swarm.base.vo;
 
 import java.util.Collection;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
+@ToString
+@EqualsAndHashCode
 public class Paging implements VO {
 	
 	public static final int DEFAULT_PAGE = 0;

@@ -22,6 +22,12 @@ public class IndexController{
 	@Autowired
 	private IndexService service;
 	
+	
+	@GetMapping
+	public JsonResult index(@PathVariable Integer busUserId) {
+		return JsonResult.ok(service.index(busUserId));
+	}
+	
 	/**
 	 * 首页商品搜索
 	 * @param keyword

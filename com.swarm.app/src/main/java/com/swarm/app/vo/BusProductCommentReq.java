@@ -21,5 +21,5 @@ public class BusProductCommentReq implements VO {
 	private Boolean[] hasImg;
 	
 	private String[] image;
-
+	
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import com.swarm.base.vo.VO;
 
 @Service
 @Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 public class CategoryService {
 	
 	@Autowired
@@ -30,7 +33,7 @@ public class CategoryService {
 	@Autowired
 	private BusProductDao busProductDao;
 	
-	
+	@Cacheable("category")
 	public List<BusCategoryRes> category(Integer busUserId){
 		List<BusCategory> list = busCategoryDao.findByBusUserIdAndShow(busUserId, true);
 		List<BusCategoryRes> ress = new ArrayList<BusCategoryRes>(list.size());
@@ -55,6 +58,7 @@ public class CategoryService {
 		return ress;
 	}
 	
+	@Cacheable("product")
 	public Page<VO> products(Integer busUserId , Integer categoryId , Pageable pageable){
 		Page<BusProduct> page = null;
 		if(categoryId==null) {

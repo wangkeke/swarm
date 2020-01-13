@@ -1,6 +1,8 @@
 package com.swarm.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,7 @@ import com.swarm.base.vo.VO;
 
 @Service
 @Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 public class ProductService {
 	
 	@Autowired
@@ -27,8 +30,9 @@ public class ProductService {
 	
 	@Autowired
 	private BusProductCommentDao busProductCommentDao;
+
 	
-	
+	@Cacheable("product")
 	public VO details(Integer busUserId , Integer id) {
 		if(id==null) {
 			throw new ServiceException("参数不正确！");
@@ -45,6 +49,7 @@ public class ProductService {
 		return res;
 	}
 	
+	@Cacheable(cacheNames = "comment")
 	public Page<VO> comment(Integer busUserId , Integer id , Paging paging){
 		if(id==null) {
 			throw new ServiceException("参数不正确！");

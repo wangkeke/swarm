@@ -37,8 +37,6 @@ public class BusProductService {
 	
 	public static final String TEMPLATE_DIR = "product";
 	public static final String TEMPLATE_NAME = "product";
-	public static final String PRODUCTS_TEMPLATE_DIR = "products";
-	public static final String PRODUCTS_TEMPLATE_NAME = "products";
 	
 	@Autowired
 	private BusProductDao dao;
@@ -102,7 +100,6 @@ public class BusProductService {
 		dao.save(busProduct);
 		if(busProduct.isShow()) {			
 			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"", new BusProductRes().apply(busProduct) , TEMPLATE_NAME);
-			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 		}
 		return busProduct.getId();
 	}
@@ -149,7 +146,6 @@ public class BusProductService {
 		dao.save(product);
 		if(product.isShow()) {			
 			templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, product.getId()+"", new BusProductRes().apply(product) , TEMPLATE_NAME);
-			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 		}
 	}
 	
@@ -172,7 +168,6 @@ public class BusProductService {
 			dao.save(busProduct);
 			if(!busProduct.isShow()) {
 				templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
-				templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 			}
 		}
 	}
@@ -195,7 +190,6 @@ public class BusProductService {
 			busProduct.setUpdateDate(new Date());
 			dao.save(busProduct);
 			templateResourceService.deleteBusProductResource(busUserId, TEMPLATE_DIR, busProduct.getId()+"");
-			templateResourceService.updateTemplateResource(busUserId, PRODUCTS_TEMPLATE_DIR, PRODUCTS_TEMPLATE_NAME, products(busUserId) , PRODUCTS_TEMPLATE_NAME);
 		}
 	}
 	

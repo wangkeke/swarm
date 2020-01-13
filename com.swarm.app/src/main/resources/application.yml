@@ -56,6 +56,15 @@ spring:
   mvc: 
     servlet: 
       path: /
+  redis: 
+    host: 192.168.59.128
+    port: 6379
+  cache: 
+    redis: 
+      cache-null-values: true
+      use-key-prefix: true
+      key-prefix: 'app:service:'
+      time-to-live: 600000
     contentnegotiation: 
       favor-path-extension: true
       media-types: 

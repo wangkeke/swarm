@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import com.swarm.app.vo.BusImageRes;
 import com.swarm.app.vo.BusMenuRes;
 import com.swarm.app.vo.BusProductRes;
 import com.swarm.app.vo.BusSalesRuleRes;
+import com.swarm.app.vo.IndexRes;
 import com.swarm.base.dao.BusAdvertisingDao;
 import com.swarm.base.dao.BusCouponCategoryDao;
 import com.swarm.base.dao.BusCouponDao;
@@ -41,6 +44,7 @@ import com.swarm.base.vo.VO;
 
 @Service
 @Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 public class IndexService {
 	
 	@Autowired
@@ -65,6 +69,23 @@ public class IndexService {
 	private BusCouponCategoryDao busCouponCategoryDao;
 	
 	
+	@Cacheable(cacheNames = "index")
+	public VO index(Integer busUserId) {
+		List<VO> carousel = carousel(busUserId);
+		List<VO> menu = menu(busUserId);
+		VO advertising = advertising(busUserId);
+		List<VO> salesRules = salesRules(busUserId);
+		List<BusCouponRes> coupon = coupon(busUserId);
+		IndexRes res = new IndexRes();
+		res.setAdvertising(advertising);
+		res.setCarousel(carousel);
+		res.setCoupon(coupon);
+		res.setMenu(menu);
+		res.setSalesRules(salesRules);
+		return res;
+	}
+	
+	@Cacheable(cacheNames = "product")
 	public Page<VO> search(Integer busUserId , String keyword , Paging paging) {
 		Pageable pageable = PageRequest.of(paging.getPage(), paging.getSize(), Direction.DESC, "sales","favorite","id");
 		Page<BusProduct> page = null;
@@ -76,6 +97,7 @@ public class IndexService {
 		return page.map(new BusProductRes());
 	}
 	
+	@Cacheable(cacheNames = "carousel")
 	public List<VO> carousel(Integer busUserId){
 		List<BusImage> list = busImageDao.findByBusUserIdAndBusImageTypeOrderBySortDesc(busUserId, BusImageType.SHOP_HOME_CAROUSEL);
 		List<VO> vos = new ArrayList<VO>(list.size());
@@ -85,6 +107,7 @@ public class IndexService {
 		return vos;
 	}
 	
+	@Cacheable(cacheNames = "menu")
 	public List<VO> menu(Integer busUserId){
 		List<BusMenu> list = busMenuDao.findByShowAndBusUserIdOrderBySortDesc(true, busUserId);
 		List<VO> menus = new ArrayList<VO>();
@@ -94,6 +117,7 @@ public class IndexService {
 		return menus;
 	}
 	
+	@Cacheable(cacheNames = "advertising")
 	public VO advertising(Integer busUserId) {
 		Date currentDate = new Date();
 		BusAdvertising busAdvertising = busAdvertisingDao.findFirstByBusUserIdAndEnableAndStartDateLessThanEqualAndEndDateAfterOrderByIdDesc(busUserId, true, currentDate, currentDate);
@@ -104,6 +128,7 @@ public class IndexService {
 	}
 	
 	
+	@Cacheable(cacheNames = "salesRule")
 	public List<VO> salesRules(Integer busUserId){
 		List<BusSalesRule> list = busSalesRuleDao.findByBusUserIdAndEnable(busUserId, true);
 		List<VO> rules = new ArrayList<VO>(list.size());
@@ -113,6 +138,7 @@ public class IndexService {
 		return rules;
 	}
 	
+	@Cacheable(cacheNames = "salesRule")
 	public String details(Integer busUserId , Integer ruleId) {
 		if(ruleId==null) {
 			throw new ServiceException("参数不正确！");
@@ -121,13 +147,14 @@ public class IndexService {
 		return busSalesRule.getContent();
 	}
 	
+	@Cacheable(cacheNames = "product")
 	public Page<VO> products(Integer busUserId, Paging paging){
 		Pageable pageable = PageRequest.of(0, paging.getSize(), Direction.DESC, "label.sort","sales","favorite","id");
 		Page<BusProduct> page = busProductDao.findByShowAndBusUserIdAndFlagNot(true, busUserId, -1, pageable);
 		return page.map(new BusProductRes());
 	}
 	
-	
+	@Cacheable(cacheNames = "coupon")
 	public List<BusCouponRes> coupon(Integer busUserId){
 		Date currentDate = new Date();
 		List<BusCoupon> list = busCouponDao.findByBusUserIdAndEnableAndOfferStartLessThanEqualAndOfferEndAfterOrderByParValueAsc(busUserId, true, currentDate, currentDate);

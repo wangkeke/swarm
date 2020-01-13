@@ -19,6 +19,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -81,9 +84,10 @@ import com.swarm.base.vo.VO;
 
 import lombok.extern.log4j.Log4j2;
 
-@Transactional(readOnly = true)
-@Service
 @Log4j2
+@Service
+@Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 public class UserService {
 	
 	/**
@@ -228,6 +232,7 @@ public class UserService {
 		return new BusWechatUserRes().apply(busWechatUser);
 	}
 	
+	@Cacheable(cacheNames = "usercoupon")
 	public List<BusCouponRes> list(Integer busUserId ,Integer userId){
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
 		if(busWechatUser==null) {
@@ -254,6 +259,7 @@ public class UserService {
 		return ress;
 	}
 	
+	@CacheEvict(cacheNames = "usercoupon",key = "#p0+':'+#p1")
 	@Transactional
 	public void saveCoupon(Integer busUserId , Integer userId , Integer id) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
@@ -281,6 +287,7 @@ public class UserService {
 	}
 	
 	
+	@CacheEvict(cacheNames = "favorite",key = "#p0+':'+#p2")
 	@Transactional
 	public void favorite(Integer busUserId , Integer id , Integer userId) {
 		if(id==null || userId==null) {
@@ -309,6 +316,7 @@ public class UserService {
 		}
 	}
 	
+	@Cacheable(cacheNames = "favorite")
 	public Page<VO> myfavorite(Integer busUserId , Integer userId , Paging paging){
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
 		if(busWechatUser==null) {
@@ -319,6 +327,7 @@ public class UserService {
 		return page.map(new BusWeUserFavoriteRes());
 	}
 	
+	@CacheEvict(cacheNames = "favorite",key = "#p0+':'+#p1")
 	@Transactional
 	public void delfavorite(Integer busUserId, Integer userId , Integer[] id) {
 		if(id!=null && id.length>0) {
@@ -423,6 +432,7 @@ public class UserService {
 		
 	}
 	
+	@Cacheable("dict")
 	public List<VO>  bankDicts(Integer busUserId ,Integer userId){
 		List<SysDict> list = sysDictDao.findByTypeOrderBySortAsc(DictType.BANK_TYPE);
 		List<VO> vos = new ArrayList<VO>(list.size());
@@ -435,6 +445,7 @@ public class UserService {
 		return vos;
 	}
 	
+	@Cacheable("dict")
 	public List<VO>  withdrawDicts(Integer busUserId ,Integer userId){
 		List<BusDict> list = busDictDao.findByTypeAndBusUserId(DictType.WITHDRAWAL_SET, busUserId);
 		List<VO> vos = new ArrayList<VO>(list.size());
@@ -447,6 +458,7 @@ public class UserService {
 		return vos;
 	}
 	
+	@Cacheable(cacheNames = "withdraw")
 	public Page<VO> withdraw(Integer busUserId, Integer userId , Paging paging){
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
 		if(busWechatUser==null) {
@@ -457,6 +469,7 @@ public class UserService {
 		return page.map(new BusWeWithdrawalRes());
 	}
 	
+	@CacheEvict(cacheNames = "withdraw",key = "#p0+':'+#p1")
 	@Transactional
 	public VO withdrawSave(Integer busUserId , Integer userId , BusWeWithdrawalReq req) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);

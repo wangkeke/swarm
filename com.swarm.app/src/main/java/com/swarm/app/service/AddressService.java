@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,7 @@ import com.swarm.base.vo.VO;
 
 @Service
 @Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 public class AddressService {
 	
 	@Autowired
@@ -28,6 +32,7 @@ public class AddressService {
 	private BusWechatUserDao busWechatUserDao;
 	
 	
+	@Cacheable(cacheNames = "address")
 	public List<VO> list(Integer busUserId , Integer userId){
 		if(userId==null) {
 			throw new ServiceException("参数不正确！");
@@ -44,6 +49,7 @@ public class AddressService {
 		return vos;
 	}
 	
+	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
 	@Transactional
 	public Integer save(Integer busUserId , Integer userId , BusWeUserAddressReq req) {
 		if(userId==null) {
@@ -62,6 +68,7 @@ public class AddressService {
 		return busWeUserAddress.getId();
 	}
 	
+	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
 	@Transactional
 	public void update(Integer busUserId , Integer userId , UpdateBusWeUserAddressReq req) {
 		if(userId==null) {
@@ -79,6 +86,7 @@ public class AddressService {
 		busWeUserAddressDao.save(busWeUserAddress);
 	}
 	
+	@Cacheable(cacheNames = "address")
 	@Transactional
 	public void first(Integer busUserId , Integer userId , Integer id) {
 		if(userId==null || id==null) {
@@ -95,6 +103,7 @@ public class AddressService {
 		}
 	}
 	
+	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
 	@Transactional
 	public void delete(Integer busUserId , Integer userId , Integer id){
 		if(userId==null || id==null) {
