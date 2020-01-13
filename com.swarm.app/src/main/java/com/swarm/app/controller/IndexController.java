@@ -15,7 +15,7 @@ import com.swarm.base.vo.Paging;
  * @author Administrator
  *
  */
-@RequestMapping("/{busUserId}/index/")
+@RequestMapping("/{busUserId}/index")
 @RestController
 public class IndexController{
 	
@@ -33,7 +33,7 @@ public class IndexController{
 	 * @param keyword
 	 * @return
 	 */
-	@GetMapping("search")
+	@GetMapping("/search")
 	public JsonResult search(@PathVariable Integer busUserId , String keyword , Paging paging) {
 		 return JsonResult.ok(service.search(busUserId, keyword, paging));
 	}
@@ -43,7 +43,7 @@ public class IndexController{
 	 * @param busUserId
 	 * @return
 	 */
-	@GetMapping("carousel")
+	@GetMapping("/carousel")
 	public JsonResult carousel(@PathVariable Integer busUserId) {
 		return JsonResult.ok(service.carousel(busUserId));
 	}
@@ -53,7 +53,7 @@ public class IndexController{
 	 * @param busUserId
 	 * @return
 	 */
-	@GetMapping("menu")
+	@GetMapping("/menu")
 	public JsonResult menu(@PathVariable Integer busUserId) {
 		return JsonResult.ok(service.menu(busUserId));
 	}
@@ -63,7 +63,7 @@ public class IndexController{
 	 * @param busUserId
 	 * @return
 	 */
-	@GetMapping("advertising")
+	@GetMapping("/advertising")
 	public JsonResult advertising(@PathVariable Integer busUserId) {
 		return JsonResult.ok(service.advertising(busUserId));
 	}
@@ -73,12 +73,12 @@ public class IndexController{
 	 * @param busUserId
 	 * @return
 	 */
-	@GetMapping("salesRules")
+	@GetMapping("/salesRules")
 	public JsonResult salesRules(@PathVariable Integer busUserId) {
 		return JsonResult.ok(service.salesRules(busUserId));
 	}
 	
-	@GetMapping("salesRules/details")
+	@GetMapping("/salesRules/details")
 	public JsonResult details(@PathVariable Integer busUserId , Integer ruleId) {
 		return JsonResult.ok(service.details(busUserId, ruleId));
 	}
@@ -88,7 +88,7 @@ public class IndexController{
 	 * @param paging
 	 * @return
 	 */
-	@GetMapping("products")
+	@GetMapping("/products")
 	public JsonResult products(@PathVariable Integer busUserId, Paging paging) {
 		return JsonResult.ok(service.products(busUserId, paging));
 	}
@@ -98,7 +98,7 @@ public class IndexController{
 	 * @param busUserId
 	 * @return
 	 */
-	@GetMapping("coupon")
+	@GetMapping("/coupon")
 	public JsonResult coupon(@PathVariable Integer busUserId) {
 		return JsonResult.ok(service.coupon(busUserId));
 	}
