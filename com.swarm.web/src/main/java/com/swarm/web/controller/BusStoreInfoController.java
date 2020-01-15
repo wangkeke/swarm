@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusStoreInfoService;
 import com.swarm.web.vo.UpdateBusStoreInfoReq;
 
@@ -35,7 +36,8 @@ public class BusStoreInfoController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	

@@ -16,6 +16,7 @@ import com.swarm.base.entity.BusImageType;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusImageService;
 import com.swarm.web.vo.BusImageReq;
 import com.swarm.web.vo.BusImageTypeRes;
@@ -47,7 +48,8 @@ public class BusImageController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		return JsonResult.ok(service.save(req));
+		Integer busUserId = CurrentUser.getBusUserId();
+		return JsonResult.ok(service.save(busUserId,req));
 	}
 	
 	@PostMapping("update")
@@ -55,13 +57,15 @@ public class BusImageController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("delete")
 	public JsonResult delete(Integer id) {
-		service.delete(id);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.delete(busUserId,id);
 		return JsonResult.ok();
 	}
 	

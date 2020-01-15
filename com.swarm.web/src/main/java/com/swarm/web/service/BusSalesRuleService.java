@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import com.swarm.web.CurrentUser;
 import com.swarm.web.vo.BusSalesRuleRes;
 import com.swarm.web.vo.UpdateBusSalesRuleReq;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
 @Transactional(readOnly = true)
 public class BusSalesRuleService {
@@ -43,13 +46,13 @@ public class BusSalesRuleService {
 		return page.map(new BusSalesRuleRes());
 	}
 	
+	@CacheEvict("salesRule:#p0")
 	@Transactional
-	public void update(UpdateBusSalesRuleReq req) {
+	public void update(Integer busUserId,UpdateBusSalesRuleReq req) {
 		Optional<BusSalesRule> optional = dao.findById(req.getId());
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusSalesRule busSalesRule = optional.get();
 		if(busSalesRule.getBusUserId()!=CurrentUser.getBusUserId()) {
 			throw new ServiceException("ID不存在！");
@@ -59,8 +62,9 @@ public class BusSalesRuleService {
 		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, salesRules(busUserId), TEMPLATE_NAME);
 	}
 	
+	@CacheEvict("salesRule:#p0")
 	@Transactional
-	public void enable(Integer id , Boolean enable) {
+	public void enable(Integer busUserId , Integer id , Boolean enable) {
 		if(id==null || enable==null) {
 			throw new ServiceException("参数不正确！");
 		}
@@ -69,7 +73,6 @@ public class BusSalesRuleService {
 			throw new ServiceException("ID不存在！");
 		}
 		BusSalesRule busSalesRule = optional.get();
-		Integer busUserId = CurrentUser.getBusUserId();
 		if(busSalesRule.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
 		}

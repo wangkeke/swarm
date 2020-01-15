@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +22,9 @@ import com.swarm.web.vo.BusCategoryReq;
 import com.swarm.web.vo.BusCategoryRes;
 import com.swarm.web.vo.UpdateBusCategoryReq;
 
-@Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
+@Transactional(readOnly = true)
 public class BusCategoryService {
 	
 	public static final String TEMPLATE_DIR = "category";
@@ -56,10 +59,9 @@ public class BusCategoryService {
 	}
 	
 	
-	
+	@CacheEvict("category:#p0")
 	@Transactional
-	public Integer save(BusCategoryReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public Integer save(Integer busUserId,BusCategoryReq req) {
 		BusCategory busCategory = req.create();
 		if(req.getParentId()!=null) {
 			BusCategory parent = dao.findFirstByIdAndBusUserId(req.getParentId(), busUserId);
@@ -74,9 +76,9 @@ public class BusCategoryService {
 		return busCategory.getId();
 	}
 	
+	@CacheEvict("category:#p0")
 	@Transactional
-	public void update(UpdateBusCategoryReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void update(Integer busUserId , UpdateBusCategoryReq req) {
 		BusCategory busCategory = dao.findFirstByIdAndBusUserId(req.getId(), busUserId);
 		if(busCategory==null) {
 			throw new ServiceException("分类不存在！");
@@ -86,12 +88,12 @@ public class BusCategoryService {
 		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, category(busUserId), TEMPLATE_NAME);
 	}
 	
+	@CacheEvict("category:#p0")
 	@Transactional
-	public void show(Integer id , Boolean show) {
+	public void show(Integer busUserId,Integer id , Boolean show) {
 		if(id==null || show==null) {
 			throw new ServiceException("参数不正确！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusCategory busCategory = dao.findFirstByIdAndBusUserId(id, busUserId);
 		if(busCategory==null) {
 			throw new ServiceException("该分类不存在！");
@@ -104,9 +106,9 @@ public class BusCategoryService {
 		}
 	} 
 	
+	@CacheEvict("category:#p0")
 	@Transactional
-	public void delete(Integer id) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void delete(Integer busUserId,Integer id) {
 		BusCategory busCategory = dao.findFirstByIdAndBusUserId(id, busUserId);
 		if(busCategory!=null) {
 			int count = dao.countByParentAndBusUserId(busCategory, busUserId);

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ import com.swarm.web.vo.BusProductReq;
 import com.swarm.web.vo.BusProductRes;
 import com.swarm.web.vo.UpdateBusProductReq;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
 @Transactional(readOnly = true)
 public class BusProductService {
@@ -83,9 +86,9 @@ public class BusProductService {
 	 	return page.map(new BusProductRes());
 	}
 	
+	@CacheEvict(cacheNames = "product:#p0")
 	@Transactional
-	public Integer save(BusProductReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public Integer save(Integer busUserId , BusProductReq req) {
 		BusProduct busProduct = req.create();
 		if(req.getBusLabelId()!=null) {
 			BusLabel busLabel = busLabelDao.findByIdAndBusUserId(req.getBusLabelId(), busUserId);
@@ -118,9 +121,9 @@ public class BusProductService {
 		return new BusProductRes().apply(busProduct);
 	}
 	
+	@CacheEvict(cacheNames = "product:#p0")
 	@Transactional
-	public void update(UpdateBusProductReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void update(Integer busUserId , UpdateBusProductReq req) {
 		Optional<BusProduct> optional = dao.findById(req.getId());
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
@@ -149,15 +152,15 @@ public class BusProductService {
 		}
 	}
 	
+	@CacheEvict(cacheNames = "product:#p0")
 	@Transactional
-	public void show(Integer id , Boolean show) {
+	public void show(Integer busUserId , Integer id , Boolean show) {
 		if(id == null || show==null)
 			throw new ServiceException("参数不正确！");
 		Optional<BusProduct> optional = dao.findById(id);
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusProduct busProduct = optional.get();
 		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
@@ -172,15 +175,15 @@ public class BusProductService {
 		}
 	}
 	
+	@CacheEvict(cacheNames = "product:#p0")
 	@Transactional
-	public void delete(Integer id) {
+	public void delete(Integer busUserId , Integer id) {
 		if(id == null)
 			throw new ServiceException("ID不能为空！");
 		Optional<BusProduct> optional = dao.findById(id);
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusProduct busProduct = optional.get();
 		if(busProduct.getFlag()<0 || busProduct.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");

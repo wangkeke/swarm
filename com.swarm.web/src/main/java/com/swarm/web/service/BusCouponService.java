@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ import com.swarm.web.vo.BusCouponReq;
 import com.swarm.web.vo.BusCouponRes;
 import com.swarm.web.vo.UpdateBusCouponReq;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
 @Transactional(readOnly = true)
 public class BusCouponService {
@@ -60,9 +63,9 @@ public class BusCouponService {
 		return page.map(new BusCouponRes());
 	}
 	
+	@CacheEvict("coupon:#p0")
 	@Transactional
-	public Integer save(BusCouponReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public Integer save(Integer busUserId , BusCouponReq req) {
 		BusCoupon busCoupon = req.create();
 		dao.save(busCoupon);
 		Integer[] category = req.getCategory();
@@ -129,9 +132,9 @@ public class BusCouponService {
 		return busCouponRes;
 	}
 	
+	@CacheEvict("coupon:#p0")
 	@Transactional
-	public void update(UpdateBusCouponReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void update(Integer busUserId , UpdateBusCouponReq req) {
 		BusCoupon busCoupon = dao.findByIdAndBusUserId(req.getId(), busUserId);
 		if(busCoupon==null) {
 			throw new ServiceException("ID不存在！");
@@ -158,12 +161,12 @@ public class BusCouponService {
 		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, coupon(busUserId), TEMPLATE_NAME);
 	}
 	
+	@CacheEvict("coupon:#p0")
 	@Transactional
-	public void enable(Integer id , Boolean enable) {
+	public void enable(Integer busUserId , Integer id , Boolean enable) {
 		if(id==null || enable==null) {
 			throw new ServiceException("参数不正确！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusCoupon busCoupon = dao.findByIdAndBusUserId(id, busUserId);
 		if(busCoupon==null) {
 			throw new ServiceException("ID不存在！");
@@ -176,12 +179,12 @@ public class BusCouponService {
 		}
 	}
 	
+	@CacheEvict("coupon:#p0")
 	@Transactional
-	public void delete(Integer id) {
+	public void delete(Integer busUserId,Integer id) {
 		if(id==null) {
 			throw new ServiceException("ID不能为空！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusCoupon busCoupon = dao.findByIdAndBusUserId(id, busUserId);
 		if(busCoupon==null) {
 			throw new ServiceException("ID不存在！");

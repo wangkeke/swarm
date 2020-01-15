@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import com.swarm.web.vo.BusMenuRes;
 import com.swarm.web.vo.UpdateBusMenuReq;
 
 @Service
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Transactional(readOnly = true)
 public class BusMenuService {
 	
@@ -44,9 +47,9 @@ public class BusMenuService {
 		return page.map(new BusMenuRes());
 	}
 	
+	@CacheEvict("menu:#p0")
 	@Transactional
-	public void update(UpdateBusMenuReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void update(Integer busUserId , UpdateBusMenuReq req) {
 		Optional<BusMenu> optional = dao.findById(req.getId());
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
@@ -60,8 +63,9 @@ public class BusMenuService {
 		templateResourceService.updateTemplateResource(busUserId, TEMPLATE_DIR, TEMPLATE_NAME, menu(busUserId),TEMPLATE_NAME);
 	} 
 	
+	@CacheEvict("menu:#p0")
 	@Transactional
-	public void show(Integer id , Boolean show) {
+	public void show(Integer busUserId,Integer id , Boolean show) {
 		if(id==null || show==null) {
 			throw new ServiceException("参数不正确！");
 		}
@@ -69,7 +73,6 @@ public class BusMenuService {
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		BusMenu busMenu = optional.get();
 		if(busMenu.getBusUserId()!=busUserId) {
 			throw new ServiceException("ID不存在！");
