@@ -224,7 +224,7 @@ public class OrderService implements CommandLineRunner{
 		return mapPage;
 	}
 	
-	@CacheEvict(cacheNames = "order",key = "#p0+':'+#p1")
+	@CacheEvict(cacheNames = "order:#p0:#p1")
 	@Transactional
 	public void process(Integer busUserId ,Integer userId , Integer id ,ActivityNode node) {
 		if(id==null || node==null) {
@@ -269,7 +269,7 @@ public class OrderService implements CommandLineRunner{
 		}
 	}
 	
-	@CacheEvict(cacheNames = "comment",key = "#p0+':'+#p2")
+	@CacheEvict(cacheNames = "comment:#p0:#p2")
 	@Transactional
 	public void comment(Integer busUserId , Integer userId , Integer id , BusProductCommentReq req) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
@@ -326,7 +326,7 @@ public class OrderService implements CommandLineRunner{
 		return list;
 	}
 	
-	@CacheEvict(cacheNames = "order",key = "#p0+':'+#p1")
+	@CacheEvict(cacheNames = "order:#p0:#p1")
 	@Transactional
 	public Map<String, Object> save(Integer busUserId , Integer userId , BusOrderReq req , String notify_url) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
@@ -739,7 +739,7 @@ public class OrderService implements CommandLineRunner{
 	}
 	
 	
-	@CacheEvict(cacheNames = "order",key = "#p0':'+#p1")
+	@CacheEvict(cacheNames = "order:#p0:#p1")
 	@Transactional
 	public void systemProcess(Integer busUserId , Integer userId , BusOrder busOrder ,ActivityNode node) {
 		//添加订单流程记录

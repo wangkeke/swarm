@@ -63,8 +63,8 @@ spring:
     redis: 
       cache-null-values: true
       use-key-prefix: true
-      key-prefix: 'app:service:'
-      time-to-live: 600000
+      key-prefix: 'service:'
+      time-to-live: 86400000   
     contentnegotiation: 
       favor-path-extension: true
       media-types: 

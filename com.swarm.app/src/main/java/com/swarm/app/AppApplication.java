@@ -29,5 +29,4 @@ public class AppApplication {
 	public ScheduledExecutorService scheduledExecutorService() {
 		return Executors.newScheduledThreadPool(0);
 	}
-	
 }

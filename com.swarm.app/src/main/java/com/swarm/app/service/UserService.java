@@ -259,7 +259,7 @@ public class UserService {
 		return ress;
 	}
 	
-	@CacheEvict(cacheNames = "usercoupon",key = "#p0+':'+#p1")
+	@CacheEvict(cacheNames = "usercoupon:#p0:#p1")
 	@Transactional
 	public void saveCoupon(Integer busUserId , Integer userId , Integer id) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);
@@ -287,7 +287,7 @@ public class UserService {
 	}
 	
 	
-	@CacheEvict(cacheNames = "favorite",key = "#p0+':'+#p2")
+	@CacheEvict(cacheNames = "favorite:#p0:#p2")
 	@Transactional
 	public void favorite(Integer busUserId , Integer id , Integer userId) {
 		if(id==null || userId==null) {
@@ -327,7 +327,7 @@ public class UserService {
 		return page.map(new BusWeUserFavoriteRes());
 	}
 	
-	@CacheEvict(cacheNames = "favorite",key = "#p0+':'+#p1")
+	@CacheEvict(cacheNames = "favorite:#p0:#p1")
 	@Transactional
 	public void delfavorite(Integer busUserId, Integer userId , Integer[] id) {
 		if(id!=null && id.length>0) {
@@ -469,7 +469,7 @@ public class UserService {
 		return page.map(new BusWeWithdrawalRes());
 	}
 	
-	@CacheEvict(cacheNames = "withdraw",key = "#p0+':'+#p1")
+	@CacheEvict(cacheNames = "withdraw:#p0:#p1")
 	@Transactional
 	public VO withdrawSave(Integer busUserId , Integer userId , BusWeWithdrawalReq req) {
 		BusWechatUser busWechatUser = busWechatUserDao.findByIdAndBusUserId(userId, busUserId);

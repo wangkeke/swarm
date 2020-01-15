@@ -49,7 +49,7 @@ public class AddressService {
 		return vos;
 	}
 	
-	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
+	@CacheEvict(cacheNames = "address:#p0:#p1")
 	@Transactional
 	public Integer save(Integer busUserId , Integer userId , BusWeUserAddressReq req) {
 		if(userId==null) {
@@ -68,7 +68,7 @@ public class AddressService {
 		return busWeUserAddress.getId();
 	}
 	
-	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
+	@CacheEvict(cacheNames = "address:#p0:#p1")
 	@Transactional
 	public void update(Integer busUserId , Integer userId , UpdateBusWeUserAddressReq req) {
 		if(userId==null) {
@@ -103,7 +103,7 @@ public class AddressService {
 		}
 	}
 	
-	@CacheEvict(cacheNames = "address",key = "'address:'+#p0+':'+#p1")
+	@CacheEvict(cacheNames = "address:#p0:#p1")
 	@Transactional
 	public void delete(Integer busUserId , Integer userId , Integer id){
 		if(userId==null || id==null) {
