@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import com.swarm.web.vo.BusStoreInfoRes;
 import com.swarm.web.vo.SysDictRes;
 import com.swarm.web.vo.UpdateBusStoreInfoReq;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
 @Transactional(readOnly = true)
 public class BusStoreInfoService {
@@ -54,10 +57,9 @@ public class BusStoreInfoService {
 		return new BusStoreInfoRes().apply(busStoreInfo);
 	}
 	
-	
+	@CacheEvict(cacheNames = "storeInfo:#p0")
 	@Transactional
-	public void update(UpdateBusStoreInfoReq req) {
-		Integer busUserId = CurrentUser.getBusUserId();
+	public void update(Integer busUserId, UpdateBusStoreInfoReq req) {
 		BusStoreInfo busStoreInfo = dao.findFirstByBusUserId(busUserId);
 		if(busStoreInfo==null) {
 			busStoreInfo = new BusStoreInfo();

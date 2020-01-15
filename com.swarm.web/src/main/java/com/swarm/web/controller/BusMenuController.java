@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusMenuService;
 import com.swarm.web.vo.UpdateBusMenuReq;
 
@@ -31,13 +32,15 @@ public class BusMenuController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("show")
 	public JsonResult show(Integer id , Boolean show) {
-		service.show(id, show);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.show(busUserId,id, show);
 		return JsonResult.ok();
 	}
 	

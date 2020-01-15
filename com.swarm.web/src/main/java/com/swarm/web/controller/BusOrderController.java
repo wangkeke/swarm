@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swarm.base.service.ActivityNode;
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusOrderService;
 
 @RestController
@@ -29,8 +30,9 @@ public class BusOrderController {
 	}
 	
 	@PostMapping("process")
-	public JsonResult process(Integer id , String comment , ActivityNode node) {
-	 	service.process(id, comment, node);
+	public JsonResult process(Integer id ,Integer userId, String comment , ActivityNode node) {
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.process(busUserId,userId,id, comment, node);
 		return JsonResult.ok();
 	}
 	

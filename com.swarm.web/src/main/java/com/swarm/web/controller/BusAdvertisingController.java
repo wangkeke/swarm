@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusAdvertisingService;
 import com.swarm.web.vo.BusAdvertisingReq;
 import com.swarm.web.vo.UpdateBusAdvertisingReq;
@@ -39,7 +40,8 @@ public class BusAdvertisingController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		return JsonResult.ok(service.save(req));
+		Integer busUserId = CurrentUser.getBusUserId();
+		return JsonResult.ok(service.save(busUserId,req));
 	}
 	
 	@GetMapping("get")
@@ -52,13 +54,15 @@ public class BusAdvertisingController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@PostMapping("enable")
 	public JsonResult enable(Integer id , Boolean enable) {
-		service.enable(id, enable);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.enable(busUserId,id, enable);
 		return JsonResult.ok();
 	}
 	

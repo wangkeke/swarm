@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +44,7 @@ import com.swarm.web.vo.BusOrderRes;
 import com.swarm.web.vo.BusPickcodeRes;
 import com.swarm.web.vo.BusRecordRes;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Transactional(readOnly = true)
 @Service
 public class BusOrderService{
@@ -100,12 +103,12 @@ public class BusOrderService{
 		return mapPage;
 	}
 	
+	@CacheEvict(cacheNames = "order:#p0:#p1")
 	@Transactional
-	public void process(Integer id ,String comment, ActivityNode node) {
+	public void process(Integer busUserId ,Integer userId, Integer id ,String comment, ActivityNode node) {
 		if(id==null || node==null) {
 			throw new ServiceException("参数不正确！");
 		}
-		Integer busUserId = CurrentUser.getBusUserId();
 		Optional<BusOrder> optional = dao.findById(id);
 		if(!optional.isPresent()) {
 			throw new ServiceException("ID不存在！");

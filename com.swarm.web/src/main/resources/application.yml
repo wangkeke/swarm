@@ -58,6 +58,12 @@ spring:
   redis: 
     host: 192.168.59.128
     port: 6379
+  cache: 
+    redis: 
+      cache-null-values: true
+      use-key-prefix: true
+      key-prefix: 'service:'
+#      time-to-live: 86400000   
   session: 
     store-type: redis
     timeout: 30m

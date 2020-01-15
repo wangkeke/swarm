@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusSalesRuleService;
 import com.swarm.web.vo.UpdateBusSalesRuleReq;
 
@@ -31,13 +32,15 @@ public class BusSalesRuleController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("enable")
 	public JsonResult enable(Integer id , Boolean enable) {
-		service.enable(id, enable);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.enable(busUserId,id, enable);
 		return JsonResult.ok();
 	}
 	

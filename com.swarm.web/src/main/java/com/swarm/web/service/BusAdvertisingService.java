@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +24,9 @@ import com.swarm.web.vo.BusAdvertisingReq;
 import com.swarm.web.vo.BusAdvertisingRes;
 import com.swarm.web.vo.UpdateBusAdvertisingReq;
 
-@Transactional(readOnly = true)
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
+@Transactional(readOnly = true)
 public class BusAdvertisingService {
 	
 	@Autowired
@@ -39,8 +42,9 @@ public class BusAdvertisingService {
 		return page.map(new BusAdvertisingRes());
 	}
 	
+	@CacheEvict("advertising:#p0")
 	@Transactional
-	public Integer save(BusAdvertisingReq req) {
+	public Integer save(Integer busUserId , BusAdvertisingReq req) {
 		BusAdvertising busAdvertising = req.create();
 		dao.save(busAdvertising);
 		return busAdvertising.getId();
@@ -61,8 +65,9 @@ public class BusAdvertisingService {
 		return new BusAdvertisingRes().apply(advertising);
 	}
 	
+	@CacheEvict("advertising:#p0")
 	@Transactional
-	public void update(UpdateBusAdvertisingReq req) {
+	public void update(Integer busUserId,UpdateBusAdvertisingReq req) {
 		if(req.getId() == null) {
 			throw new ServiceException("ID不能为空！");
 		}
@@ -78,8 +83,9 @@ public class BusAdvertisingService {
 		dao.save(advertising);
 	}
 	
+	@CacheEvict("advertising:#p0")
 	@Transactional
-	public void enable(Integer id , Boolean enable) {
+	public void enable(Integer busUserId,Integer id , Boolean enable) {
 		if(id == null) {
 			throw new ServiceException("ID不能为空！");
 		}

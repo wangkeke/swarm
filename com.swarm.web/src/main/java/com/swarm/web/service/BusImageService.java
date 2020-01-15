@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import com.swarm.web.vo.BusImageReq;
 import com.swarm.web.vo.BusImageRes;
 import com.swarm.web.vo.UpdateBusImageReq;
 
+@CacheConfig(keyGenerator = "redisKeyGenerator")
 @Service
 @Transactional(readOnly = true)
 public class BusImageService {
@@ -44,8 +47,9 @@ public class BusImageService {
 		return page.map(new BusImageRes());
 	}
 	
+	@CacheEvict(cacheNames = "carousel:#p0",condition = "#p1.busImageType==BusImageType.SHOP_HOME_CAROUSEL")
 	@Transactional
-	public Integer save(BusImageReq req) {
+	public Integer save(Integer busUserId , BusImageReq req) {
 		BusImage busImage = req.create();
 		dao.save(busImage);
 		if(busImage.getBusImageType()==BusImageType.SHOP_HOME_CAROUSEL) {
@@ -54,8 +58,10 @@ public class BusImageService {
 		return busImage.getId();
 	}
 	
+	
+	@CacheEvict(cacheNames = "carousel:#p0",condition = "#p1.busImageType==BusImageType.SHOP_HOME_CAROUSEL")
 	@Transactional
-	public void update(UpdateBusImageReq req) {
+	public void update(Integer busUserId , UpdateBusImageReq req) {
 		BusImage busImage = dao.findByIdAndBusUserId(req.getId(), CurrentUser.getBusUserId());
 		if(busImage==null) {
 			throw new ServiceException("ID不存在！");
@@ -67,8 +73,9 @@ public class BusImageService {
 		}
 	}
 	
+	@CacheEvict(cacheNames = "carousel:#p0",condition = "#p1.busImageType==BusImageType.SHOP_HOME_CAROUSEL")
 	@Transactional
-	public void delete(Integer id) {
+	public void delete(Integer busUserId , Integer id) {
 		if(id==null) {
 			throw new ServiceException("ID不能为空！");
 		}

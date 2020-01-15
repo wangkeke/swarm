@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
 import com.swarm.base.vo.Paging;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusCouponService;
 import com.swarm.web.vo.BusCouponReq;
 import com.swarm.web.vo.UpdateBusCouponReq;
@@ -33,7 +34,8 @@ public class BusCouponController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		return JsonResult.ok(service.save(req));
+		Integer busUserId = CurrentUser.getBusUserId();
+		return JsonResult.ok(service.save(busUserId,req));
 	}
 	
 	@GetMapping("get")
@@ -46,19 +48,22 @@ public class BusCouponController {
 		if(result.hasErrors()) {
 			return JsonResult.fail(result.getAllErrors());
 		}
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("enable")
 	public JsonResult enable(Integer id , Boolean enable) {
-		service.enable(id, enable);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.enable(busUserId,id, enable);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("delete")
 	public JsonResult delete(Integer id) {
-		service.delete(id);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.delete(busUserId,id);
 		return JsonResult.ok();
 	}
 	

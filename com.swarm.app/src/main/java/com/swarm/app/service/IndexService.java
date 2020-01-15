@@ -23,6 +23,7 @@ import com.swarm.app.vo.BusImageRes;
 import com.swarm.app.vo.BusMenuRes;
 import com.swarm.app.vo.BusProductRes;
 import com.swarm.app.vo.BusSalesRuleRes;
+import com.swarm.app.vo.BusStoreInfoRes;
 import com.swarm.app.vo.IndexRes;
 import com.swarm.base.dao.BusAdvertisingDao;
 import com.swarm.base.dao.BusCouponCategoryDao;
@@ -31,6 +32,7 @@ import com.swarm.base.dao.BusImageDao;
 import com.swarm.base.dao.BusMenuDao;
 import com.swarm.base.dao.BusProductDao;
 import com.swarm.base.dao.BusSalesRuleDao;
+import com.swarm.base.dao.BusStoreInfoDao;
 import com.swarm.base.entity.BusAdvertising;
 import com.swarm.base.entity.BusCoupon;
 import com.swarm.base.entity.BusCouponCategory;
@@ -39,6 +41,7 @@ import com.swarm.base.entity.BusImageType;
 import com.swarm.base.entity.BusMenu;
 import com.swarm.base.entity.BusProduct;
 import com.swarm.base.entity.BusSalesRule;
+import com.swarm.base.entity.BusStoreInfo;
 import com.swarm.base.vo.Paging;
 import com.swarm.base.vo.VO;
 
@@ -67,6 +70,9 @@ public class IndexService {
 	
 	@Autowired
 	private BusCouponCategoryDao busCouponCategoryDao;
+	
+	@Autowired
+	private BusStoreInfoDao busStoreInfoDao;
 	
 	
 	@Cacheable(cacheNames = "index")
@@ -176,6 +182,12 @@ public class IndexService {
 			ress.add(res);
 		}
 		return ress;
+	}
+	
+	@Cacheable(cacheNames = "storeInfo")
+	public VO storeInfo(Integer busUserId){
+		BusStoreInfo busStoreInfo = busStoreInfoDao.findFirstByBusUserId(busUserId);
+		return new BusStoreInfoRes().apply(busStoreInfo);
 	}
 	
 }

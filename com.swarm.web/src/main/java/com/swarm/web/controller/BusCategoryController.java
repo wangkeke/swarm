@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swarm.base.vo.JsonResult;
+import com.swarm.web.CurrentUser;
 import com.swarm.web.service.BusCategoryService;
 import com.swarm.web.vo.BusCategoryReq;
 import com.swarm.web.vo.UpdateBusCategoryReq;
@@ -30,26 +31,30 @@ public class BusCategoryController {
 	public JsonResult save(@Valid BusCategoryReq req , BindingResult result) {
 		if(result.hasErrors())
 			return JsonResult.fail(result.getAllErrors());
-		return JsonResult.ok(service.save(req));
+		Integer busUserId = CurrentUser.getBusUserId();
+		return JsonResult.ok(service.save(busUserId,req));
 	}
 	
 	@PostMapping("update")
 	public JsonResult update(@Valid UpdateBusCategoryReq req , BindingResult result) {
 		if(result.hasErrors())
 			return JsonResult.fail(result.getAllErrors());
-		service.update(req);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.update(busUserId,req);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("show")
 	public JsonResult show(Integer id , Boolean show) {
-		service.show(id, show);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.show(busUserId,id, show);
 		return JsonResult.ok();
 	}
 	
 	@RequestMapping("delete")
 	public JsonResult delete(Integer id) {
-		service.delete(id);
+		Integer busUserId = CurrentUser.getBusUserId();
+		service.delete(busUserId,id);
 		return JsonResult.ok();
 	}
 	

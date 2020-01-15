@@ -103,4 +103,14 @@ public class IndexController{
 		return JsonResult.ok(service.coupon(busUserId));
 	}
 	
+	/**
+	 * 实体店信息展示
+	 * @param paging
+	 * @return
+	 */
+	@GetMapping("/products")
+	public JsonResult storeInfo(@PathVariable Integer busUserId) {
+		return JsonResult.ok(service.storeInfo(busUserId));
+	}
+	
 }
